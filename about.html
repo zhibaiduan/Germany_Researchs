@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于研究 — SAP Research</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <div id="nav-mount"></div>
+
+  <div class="page-layout">
+
+    <aside class="global-sidebar" id="sidebar-mount"></aside>
+
+    <div class="page-content">
+
+      <div class="about-wrap">
+
+        <div class="breadcrumb">
+          <a href="index.html">首页</a>
+          <span class="breadcrumb-sep">›</span>
+          <span>关于研究</span>
+        </div>
+
+        <div class="about-section" style="margin-top: 36px;">
+          <div class="about-label">研究初衷</div>
+          <h2 class="about-title" id="about-subject-title"></h2>
+          <div class="about-body" id="about-motivation"></div>
+        </div>
+
+        <hr class="about-divider">
+
+        <div class="about-section">
+          <div class="about-label">核心研究问题</div>
+          <h2 class="about-title">我们试图回答什么</h2>
+          <ul id="about-core-questions" style="font-family: var(--font-serif); font-size: 16px; line-height: 1.8; color: var(--text-2); padding-left: 20px; display: flex; flex-direction: column; gap: 8px;"></ul>
+        </div>
+
+        <hr class="about-divider">
+
+        <div class="about-section" id="methodology">
+          <div class="about-label">研究方法论</div>
+          <h2 class="about-title">我们如何做研究</h2>
+          <div class="about-body" id="about-methodology"></div>
+        </div>
+
+        <hr class="about-divider">
+
+        <div class="about-section">
+          <div class="about-label">研究者</div>
+          <h2 class="about-title" id="about-researcher-name"></h2>
+          <div class="about-body" id="about-researcher-bio"></div>
+        </div>
+
+        <hr class="about-divider">
+
+        <div class="about-section">
+          <div class="about-label">免责声明</div>
+          <div class="about-body" style="font-size: 14px;" id="about-disclaimer"></div>
+        </div>
+
+      </div>
+
+      <div id="footer-mount"></div>
+
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="assets/script.js"></script>
+  <script>
+    document.getElementById('nav-mount').innerHTML = renderNavHub();
+    document.getElementById('sidebar-mount').innerHTML = renderSidebar();
+    document.getElementById('footer-mount').innerHTML = renderFooter();
+
+    const cfg = RESEARCH_CONFIG;
+    const r = cfg.researcher;
+    const s = cfg.subject;
+
+    document.getElementById('about-subject-title').textContent = `为什么研究 ${s.name}`;
+    document.getElementById('about-motivation').innerHTML = `<p>${s.motivation}</p>`;
+    document.getElementById('about-core-questions').innerHTML =
+      s.coreQuestions.map(q => `<li>${q}</li>`).join('');
+    document.getElementById('about-methodology').innerHTML =
+      r.methodology.split('\n\n').map(p => `<p>${p}</p>`).join('');
+    document.getElementById('about-researcher-name').textContent = r.name;
+    document.getElementById('about-researcher-bio').innerHTML = `<p>${r.bio}</p><p>${r.title}</p>`;
+    document.getElementById('about-disclaimer').innerHTML = `<p>${r.disclaimer}</p>`;
+  </script>
+</body>
+</html>
