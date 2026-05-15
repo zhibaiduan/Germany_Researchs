@@ -55,7 +55,7 @@ const Router = {
     const view = document.getElementById('view');
     view.innerHTML = renderHub();
     document.getElementById('sidebar-mount').innerHTML = renderSidebar();
-    document.getElementById('page-layout').classList.remove('has-article');
+    document.getElementById('page-layout').classList.remove('has-sidebar');
   },
 
   async showArticle(slug) {
@@ -111,8 +111,8 @@ const Router = {
 
     view.innerHTML = wrap.outerHTML + renderFooter();
 
-    document.getElementById('sidebar-mount').innerHTML = renderSidebar();
-    pageLayout.classList.add('has-article');
+    document.getElementById('sidebar-mount').innerHTML = '';
+    pageLayout.classList.remove('has-sidebar');
 
     requestAnimationFrame(() => {
       buildFloatingTOC(_scrollHandlers, obs => { _tocObserver = obs; });

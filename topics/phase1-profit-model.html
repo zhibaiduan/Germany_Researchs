@@ -8,37 +8,37 @@
   <style>
     /* ─── Page-scope visualization tokens ─── */
     :root {
-      --pos:        #2E7D52;
-      --pos-bg:     #EAF5F0;
-      --pos-border: #BFE0D0;
-      --neg:        #8A4A3A;
-      --neg-bg:     #FBF1EE;
-      --neg-border: #E8C5BB;
-      --pending:    #5E7FAA;
-      --pending-bg: #EFF4FB;
+      --pos:            #2E7D52;
+      --pos-bg:         #EAF5F0;
+      --pos-border:     #BFE0D0;
+      --neg:            #8A4A3A;
+      --neg-bg:         #FBF1EE;
+      --neg-border:     #E8C5BB;
+      --pending:        #5E7FAA;
+      --pending-bg:     #EFF4FB;
       --pending-border: #C2D3EC;
     }
 
-    /* ─── Stat cards ─── */
+    /* ─── Stat row → borderless number strip ─── */
     .stat-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin: 24px 0;
+      gap: 0;
+      margin: 28px 0;
+      padding: 8px 0;
     }
     .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 16px 18px;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 0 28px;
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
-    .stat-card.accent {
-      background: var(--accent-bg);
-      border-color: var(--accent-border);
-    }
+    .stat-card:first-child { padding-left: 0; }
+    .stat-card:last-child  { padding-right: 0; }
+    .stat-card.accent      { background: transparent; }
     .stat-label {
       font-size: 10.5px;
       font-weight: 600;
@@ -91,7 +91,7 @@
       font-family: var(--font-sans);
     }
     .bar-track {
-      height: 8px;
+      height: 6px;
       background: var(--border-light);
       border-radius: 4px;
       overflow: hidden;
@@ -101,9 +101,9 @@
       border-radius: 4px;
       background: var(--accent);
     }
-    .bar-fill.muted  { background: var(--accent-border); }
-    .bar-fill.faint  { background: var(--border); }
-    .bar-fill.neg    { background: var(--neg); opacity: .5; }
+    .bar-fill.muted { background: var(--accent-border); }
+    .bar-fill.faint { background: var(--border); }
+    .bar-fill.neg   { background: var(--neg); opacity: .5; }
     .bar-pct {
       font-size: 12px;
       font-weight: 600;
@@ -119,21 +119,22 @@
       font-family: var(--font-sans);
     }
 
-    /* ─── Conclusion / layer cards ─── */
+    /* ─── Conclusion list → 纯排版，无白卡片 ─── */
     .conclusion-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 0;
       margin: 20px 0;
+      border-left: 2px solid var(--accent-border);
     }
     .conclusion-item {
       display: flex;
       gap: 14px;
       align-items: baseline;
-      padding: 14px 16px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
+      padding: 11px 16px;
+      background: transparent;
+      border: none;
+      border-radius: 0;
     }
     .conclusion-num {
       font-size: 10.5px;
@@ -153,7 +154,7 @@
     }
     .conclusion-text strong { font-size: 14px; font-weight: 600; }
 
-    /* ─── Signal grid (two-column comparison) ─── */
+    /* ─── Signal grid ─── */
     .signal-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -186,12 +187,12 @@
       border-radius: 0 0 var(--radius) var(--radius);
     }
     .signal-col-body.pos {
-      background: #F5FCF8;
+      background: rgba(234,245,240,.4);
       border: 1px solid var(--pos-border);
       border-top: none;
     }
     .signal-col-body.neg {
-      background: #FDF6F4;
+      background: rgba(251,241,238,.4);
       border: 1px solid var(--neg-border);
       border-top: none;
     }
@@ -228,18 +229,19 @@
       font-weight: 700;
     }
 
-    /* ─── Control points 2×2 grid ─── */
+    /* ─── Control points 2×2 → 无框双栏 ─── */
     .control-points {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 20px 40px;
       margin: 20px 0;
     }
     .control-point {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 18px;
+      background: transparent;
+      border: none;
+      border-top: 2px solid var(--accent-border);
+      border-radius: 0;
+      padding: 14px 0 8px;
     }
     .control-point-num {
       font-size: 10px;
@@ -264,20 +266,26 @@
       font-family: var(--font-sans);
     }
 
-    /* ─── DSAG survey stats ─── */
+    /* ─── DSAG survey stats → accent 横条 ─── */
     .dsag-stats {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
+      gap: 0;
       margin: 20px 0;
+      background: var(--accent-bg);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      padding: 20px 0;
     }
     .dsag-stat {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 16px 10px;
+      background: transparent;
+      border: none;
+      border-right: 1px solid var(--accent-border);
+      border-radius: 0;
+      padding: 4px 20px;
       text-align: center;
     }
+    .dsag-stat:last-child { border-right: none; }
     .dsag-stat-value {
       font-size: 26px;
       font-weight: 700;
@@ -295,21 +303,22 @@
       font-family: var(--font-sans);
     }
 
-    /* ─── Phase assessment blocks ─── */
+    /* ─── Phase assessment → 顶部色线，透明底 ─── */
     .phase-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 20px 32px;
       margin: 20px 0;
     }
     .phase-block {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 18px;
+      background: transparent;
+      border: none;
+      border-top: 3px solid var(--border);
+      border-radius: 0;
+      padding: 16px 0 0;
     }
-    .phase-block.pos { border-top: 3px solid var(--pos); }
-    .phase-block.pending { border-top: 3px solid var(--pending); }
+    .phase-block.pos     { border-top-color: var(--pos); }
+    .phase-block.pending { border-top-color: var(--pending); }
     .phase-header {
       font-size: 10.5px;
       font-weight: 700;
@@ -357,14 +366,77 @@
       font-weight: 700;
     }
 
+    /* ─── Source links ─── */
+    .source-link {
+      color: var(--accent);
+      text-decoration: underline;
+      text-decoration-color: var(--accent-border);
+      text-underline-offset: 2px;
+      transition: color var(--transition), text-decoration-color var(--transition);
+    }
+    .source-link:hover {
+      color: var(--accent-hover);
+      text-decoration-color: var(--accent);
+    }
+
+    /* ─── Floating TOC — always visible ─── */
+    .toc-panel {
+      width: 192px;
+      flex-shrink: 0;
+      overflow: visible;
+      opacity: 1;
+      cursor: default;
+      transition: none;
+    }
+    .toc-panel:hover,
+    .toc-panel.scroll-dimmed,
+    .toc-panel.scroll-dimmed:hover {
+      width: 192px;
+      opacity: 1;
+    }
+    .toc-inner {
+      min-width: 192px;
+      padding: 0;
+    }
+    .toc-float-text {
+      max-width: 160px;
+    }
+
+    /* ─── Remove all section dividers ─── */
+    /* h2 — 去掉顶部分割线，保留间距 */
+    .article-content h2 {
+      border-top: none;
+      padding-top: 0;
+    }
+    /* article header — 去掉底部分割线 */
+    .article-header {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 28px;
+    }
+    /* article-end — 去掉顶部分割线 */
+    .article-end {
+      border-top: none;
+      padding-top: 0;
+      margin-top: 48px;
+    }
+
+    /* ─── Separator between header and body ─── */
+    .article-section-sep {
+      width: 40px;
+      height: 1px;
+      background: var(--border);
+      margin: 0 0 44px;
+    }
+
     /* ─── Responsive overrides ─── */
     @media (max-width: 700px) {
-      .stat-row         { grid-template-columns: repeat(2, 1fr); }
-      .dsag-stats       { grid-template-columns: repeat(2, 1fr); }
-      .signal-grid      { grid-template-columns: 1fr; }
-      .control-points   { grid-template-columns: 1fr; }
-      .phase-row        { grid-template-columns: 1fr; }
-      .bar-row          { grid-template-columns: 90px 1fr 44px; }
+      .stat-row       { grid-template-columns: repeat(2, 1fr); }
+      .dsag-stats     { grid-template-columns: repeat(2, 1fr); }
+      .signal-grid    { grid-template-columns: 1fr; }
+      .control-points { grid-template-columns: 1fr; gap: 0; }
+      .phase-row      { grid-template-columns: 1fr; }
+      .bar-row        { grid-template-columns: 90px 1fr 44px; }
     }
   </style>
 </head>
@@ -373,17 +445,9 @@
   <div id="nav-mount"></div>
 
   <div class="page-layout">
-    <aside class="global-sidebar" id="sidebar-mount"></aside>
 
     <div class="page-content">
       <div class="article-wrap">
-
-        <!-- Breadcrumb -->
-        <div class="breadcrumb">
-          <a href="../index.html">SAP Research</a>
-          <span class="breadcrumb-sep">›</span>
-          <span>盈利结构与战略转型</span>
-        </div>
 
         <!-- Article Header -->
         <header class="article-header">
@@ -400,12 +464,6 @@
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               18 分钟阅读
             </span>
-            <span class="article-meta-divider"></span>
-            <span class="article-meta-item">Duan</span>
-            <span class="tag" style="margin-left:4px;">财务</span>
-            <span class="tag">云转型</span>
-            <span class="tag">AI 战略</span>
-            <span class="tag">客户迁移</span>
           </div>
         </header>
 
@@ -414,11 +472,6 @@
 
           <!-- Main Content -->
           <div class="article-content">
-
-            <div class="callout">
-              <div class="callout-label">阅读建议</div>
-              <p>本文是 SAP 研究系列的盈利模式专题，聚焦于收入结构、成本与利润、地区分布、客户迁移动态和 AI/Data 战略方向。数据口径：SAP 2025 Integrated Report 及 Form 20-F（截至 2025 财年）。建议先读专题 01（公司全景）建立产品背景认知，再读本文。</p>
-            </div>
 
             <!-- ── 研究目的 ── -->
             <h2 id="purpose">研究目的</h2>
@@ -485,7 +538,7 @@
             <!-- ══════════════════════════════════════════ -->
             <h2 id="facts">一、事实层：SAP 的钱从哪里来、花到哪里去？</h2>
 
-            <p>这一部分只回答事实问题：SAP 的收入、地区、成本和利润结构长什么样。所有数据来源：SAP 2025 Integrated Report / Form 20-F。</p>
+            <p>这一部分只回答事实问题：SAP 的收入、地区、成本和利润结构长什么样。所有数据来源：<a href="https://www.sap.com/integrated-reports/2025/en/datahub/financial-data.html" target="_blank" class="source-link">SAP 2025 Integrated Report</a> / <a href="https://www.sec.gov/Archives/edgar/data/1000184/000110465926020058/sap-20251231x20f.htm" target="_blank" class="source-link">Form 20-F</a>。</p>
 
             <!-- 1.1 收入结构 -->
             <h3 id="revenue-structure">1.1 收入结构：Cloud 已经成为主收入来源</h3>
@@ -567,7 +620,7 @@
                 </tr>
               </tbody>
             </table>
-            <p class="chart-caption">单位：EUR 百万 · 来源：SAP 2025 Integrated Report</p>
+            <p class="chart-caption">单位：EUR 百万 · 来源：<a href="https://www.sap.com/integrated-reports/2025/en/datahub/financial-data.html" target="_blank" class="source-link">SAP 2025 Integrated Report</a></p>
 
             <p>2025 年收入构成分布：</p>
 
@@ -638,7 +691,7 @@
                 </tr>
               </tbody>
             </table>
-            <p class="chart-caption">单位：EUR 百万 · 来源：SAP Five-Year Summary 2025</p>
+            <p class="chart-caption">单位：EUR 百万 · 来源：<a href="https://www.sap.com/integrated-reports/2025/en/datahub/financial-data/five-year-summary.html" target="_blank" class="source-link">SAP Five-Year Summary 2025</a></p>
 
             <div class="bar-chart">
               <div class="bar-row">
@@ -709,7 +762,7 @@
                 </tr>
               </tbody>
             </table>
-            <p class="chart-caption">单位：EUR 百万 · 来源：SAP Form 20-F 2025</p>
+            <p class="chart-caption">单位：EUR 百万 · 来源：<a href="https://www.sec.gov/Archives/edgar/data/1000184/000110465926020058/sap-20251231x20f.htm" target="_blank" class="source-link">SAP Form 20-F 2025</a></p>
 
             <p>核心国家（EUR 百万，2025）：</p>
 
@@ -790,7 +843,7 @@
                 </tr>
               </tbody>
             </table>
-            <p class="chart-caption">单位：EUR 百万 · 来源：SAP Form 20-F 2025</p>
+            <p class="chart-caption">单位：EUR 百万 · 来源：<a href="https://www.sec.gov/Archives/edgar/data/1000184/000110465926020058/sap-20251231x20f.htm" target="_blank" class="source-link">SAP Form 20-F 2025</a></p>
 
             <div class="callout">
               <div class="callout-label">关键发现</div>
@@ -918,7 +971,7 @@
                 </tr>
               </tbody>
             </table>
-            <p class="chart-caption">单位：EUR 百万 · 2024 Restructuring 异常高（裁员重组），2025 年基本结束</p>
+            <p class="chart-caption">单位：EUR 百万 · 来源：<a href="https://www.sap.com/integrated-reports/2025/en/datahub/financial-data.html" target="_blank" class="source-link">SAP 2025 Integrated Report</a> · 2024 Restructuring 异常高（裁员重组），2025 年基本结束</p>
 
             <div class="stat-row">
               <div class="stat-card accent">
@@ -1369,14 +1422,8 @@
 
           </div><!-- end article-content -->
 
-          <!-- TOC Panel -->
           <aside class="toc-panel">
-            <div class="toc-inner">
-              <div class="toc-title">目录</div>
-              <ul class="toc-list">
-                <!-- Built by script.js -->
-              </ul>
-            </div>
+            <div class="toc-inner"></div>
           </aside>
 
         </div><!-- end article-body -->
@@ -1391,7 +1438,6 @@
   <script src="../assets/script.js"></script>
   <script>
     document.getElementById('nav-mount').innerHTML = renderNav('hub');
-    document.getElementById('sidebar-mount').innerHTML = renderSidebar();
     document.getElementById('footer-mount').innerHTML = renderFooter();
   </script>
 </body>
