@@ -38,20 +38,20 @@ const Router = {
     const hash = window.location.hash.replace(/^#\/?/, '');
     const parts = hash.split('/').filter(Boolean);
 
-    // Keep nav lang-switcher in sync with current route
-    document.getElementById('nav-mount').innerHTML = renderNav();
-
     if (parts[0] === 'topics' && parts[1]) {
-      // Article route
+      // Article route — refresh nav for lang-switcher state, then load article
+      document.getElementById('nav-mount').innerHTML = renderNav();
       cleanupView();
       window.scrollTo(0, 0);
       this.showArticle(parts[1]);
     } else if (parts.length === 0 || !hash) {
+      document.getElementById('nav-mount').innerHTML = renderNav();
       cleanupView();
       window.scrollTo(0, 0);
       this.showHome();
     }
     // Any other hash (e.g. #section-2) is an in-page anchor — browser handles natively
+    // Do NOT re-render nav here: it would destroy the injected .nav-center-title
   },
 
   showHome() {

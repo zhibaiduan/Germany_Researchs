@@ -447,7 +447,8 @@ function initNavTitle(scrollHandlers = []) {
   navInner.appendChild(titleEl);
 
   function check() {
-    nav.classList.toggle('title-visible', articleHeader.getBoundingClientRect().bottom < 0);
+    // Show nav title once the article h1 itself scrolls above the nav bar
+    nav.classList.toggle('title-visible', articleTitle.getBoundingClientRect().bottom < 0);
   }
   window.addEventListener('scroll', check, { passive: true });
   scrollHandlers.push(check);
