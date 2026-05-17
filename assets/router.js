@@ -111,6 +111,14 @@ const Router = {
 
     view.innerHTML = wrap.outerHTML + renderFooter();
 
+    // innerHTML 不执行 script，手动重跑页面内所有内联脚本
+    view.querySelectorAll('script').forEach(old => {
+      const s = document.createElement('script');
+      old.getAttributeNames().forEach(a => s.setAttribute(a, old.getAttribute(a)));
+      s.textContent = old.textContent;
+      old.replaceWith(s);
+    });
+
     document.getElementById('sidebar-mount').innerHTML = '';
     pageLayout.classList.remove('has-sidebar');
 
