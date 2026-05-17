@@ -135,6 +135,55 @@ img { max-width: 100%; display: block; }
 .nav-links a:hover { color: var(--text-1); }
 .nav-links .active { color: var(--text-1); font-weight: 500; }
 
+/* ─── Language Switcher ─────────────────────────────── */
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  background: var(--border-light);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2px;
+}
+.lang-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 26px;
+  border: none;
+  background: transparent;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  transition: background var(--transition), box-shadow var(--transition);
+  user-select: none;
+}
+.lang-btn.active {
+  background: var(--surface);
+  box-shadow: 0 1px 3px rgba(0,0,0,.10);
+}
+.lang-btn:hover:not(.active) {
+  background: rgba(255,255,255,.55);
+}
+.lang-tooltip {
+  position: fixed;
+  transform: translateX(-50%);
+  background: var(--text-1);
+  color: #fff;
+  font-size: var(--fs-annotation);
+  font-family: var(--font-sans);
+  padding: 5px 10px;
+  border-radius: var(--radius);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms ease;
+  white-space: nowrap;
+  z-index: 200;
+}
+.lang-tooltip.visible { opacity: 1; }
+
 /* ─── Breadcrumb ─────────────────────────────────────── */
 .breadcrumb {
   display: flex;

@@ -115,6 +115,23 @@ const RESEARCH_CONFIG = {
     }
   ],
 
+  // ─── 英语内容 ─────────────────────────────────────────────
+  // English versions of published topics
+  englishTopics: [
+    {
+      id: "P1M1",
+      slug: "en-phase1-profit-model",
+      title: "Profit Model & Transformation",
+      subtitle: "How SAP makes money: restructuring revenue from perpetual licenses to cloud subscriptions",
+      summary: "Based on five years of financial data, this report analyzes SAP's revenue structure evolution, growth divergence within Cloud, and the three preconditions for the cloud transition value thesis to hold.",
+      tags: ["Financials", "Cloud Transition", "Business Model"],
+      status: "published",
+      publishDate: "2026-05-14",
+      readingTime: 18,
+      file: "topics/en-phase1-profit-model.html"
+    }
+  ],
+
   // ─── 站点信息 ──────────────────────────────────────────────
   site: {
     name: "Dance Research",

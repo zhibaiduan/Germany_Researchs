@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>盈利结构、客户迁移与 AI/Data 战略转型 — SAP Research</title>
+  <title>Profit Structure, Customer Migration &amp; AI/Data Strategy Transformation | SAP Research</title>
   <link rel="stylesheet" href="../assets/style.css">
   <style>
     /* ─── Page-scope visualization tokens ─── */
@@ -181,7 +181,7 @@
       color: var(--text-1);
     }
 
-    /* ─── Conclusion list → 纯排版，无白卡片 ─── */
+    /* ─── Conclusion list ─── */
     .conclusion-list {
       display: flex;
       flex-direction: column;
@@ -291,7 +291,7 @@
       font-weight: 700;
     }
 
-    /* ─── Control points 2×2 → 无框双栏 ─── */
+    /* ─── Control points 2×2 ─── */
     .control-points {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -328,7 +328,7 @@
       font-family: var(--font-sans);
     }
 
-    /* ─── DSAG survey stats → accent 横条 ─── */
+    /* ─── DSAG survey stats ─── */
     .dsag-stats {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -365,7 +365,7 @@
       font-family: var(--font-sans);
     }
 
-    /* ─── Phase assessment → 顶部色线，透明底 ─── */
+    /* ─── Phase assessment ─── */
     .phase-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -441,7 +441,7 @@
       text-decoration-color: var(--accent);
     }
 
-    /* ─── Floating TOC — always visible ─── */
+    /* ─── Floating TOC, always visible ─── */
     .toc-panel {
       width: 192px;
       flex-shrink: 0;
@@ -465,18 +465,15 @@
     }
 
     /* ─── Remove all section dividers ─── */
-    /* h2 — 去掉顶部分割线，保留间距 */
     .article-content h2 {
       border-top: none;
       padding-top: 0;
     }
-    /* article header — 去掉底部分割线 */
     .article-header {
       border-bottom: none;
       margin-bottom: 0;
       padding-bottom: 28px;
     }
-    /* article-end — 去掉顶部分割线 */
     .article-end {
       border-top: none;
       padding-top: 0;
@@ -610,9 +607,9 @@
 
         <!-- Article Header -->
         <header class="article-header">
-          <div class="article-topic-label">专题 P1M1 · Profit &amp; Strategy Transformation</div>
-          <h1 class="article-title">盈利结构、客户迁移与 AI/Data 战略转型</h1>
-          <p class="article-subtitle">SAP 正在如何从传统 ERP 公司转向云化和 AI/Data 时代的平台型公司</p>
+          <div class="article-topic-label">Topic P1M1 · Profit &amp; Strategy Transformation</div>
+          <h1 class="article-title">Profit Structure, Customer Migration &amp; AI/Data Strategy Transformation</h1>
+          <p class="article-subtitle">How SAP is transitioning from a traditional ERP vendor to a cloud and AI/Data platform company</p>
           <div class="article-meta">
             <span class="article-meta-item">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -621,7 +618,7 @@
             <span class="article-meta-divider"></span>
             <span class="article-meta-item">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              18 分钟阅读
+              18 min read
             </span>
           </div>
         </header>
@@ -632,77 +629,77 @@
           <!-- Main Content -->
           <div class="article-content">
 
-            <!-- ── 研究目的 ── -->
-            <h2 id="purpose">研究目的</h2>
+            <!-- ── Research Purpose ── -->
+            <h2 id="purpose">Research Purpose</h2>
 
-            <p>这篇报告围绕一个核心问题展开：</p>
+            <p>This report addresses one central question:</p>
 
             <blockquote>
-              <p>从收入、成本、利润、地区分布和客户迁移来看，SAP 正在如何从传统 ERP 公司转向云化和 AI/Data 时代的平台型公司？</p>
+              <p>From the perspectives of revenue, cost, profit, regional distribution, and customer migration: how is SAP transitioning from a traditional ERP vendor to a cloud and AI/Data platform company?</p>
             </blockquote>
 
-            <p>这个问题可以拆成四层，对应本文的四个主要章节：</p>
+            <p>This question can be broken into four layers, corresponding to the four main sections of this report:</p>
 
             <div class="conclusion-list">
               <div class="conclusion-item">
                 <div class="conclusion-num">01</div>
-                <div class="conclusion-text"><strong>事实层</strong> — SAP 的钱从哪里来、花到哪里去、利润来自哪里，哪些地区贡献最大？</div>
+                <div class="conclusion-text"><strong>The Facts</strong>: Where does SAP's money come from, where does it go, where do profits originate, and which regions contribute most?</div>
               </div>
               <div class="conclusion-item">
                 <div class="conclusion-num">02</div>
-                <div class="conclusion-text"><strong>变化层</strong> — 这些收入和利润结构为什么变化，是 SAP 主动战略调整，还是客户、市场和技术环境倒逼？</div>
+                <div class="conclusion-text"><strong>The Shift</strong>: Why are these revenue and profit structures changing? Is this SAP's deliberate strategic pivot, or pressure from customers, markets, and technology?</div>
               </div>
               <div class="conclusion-item">
                 <div class="conclusion-num">03</div>
-                <div class="conclusion-text"><strong>客户层</strong> — 客户是否愿意按 SAP 的节奏从旧 ERP / support 模式迁到 cloud subscription？</div>
+                <div class="conclusion-text"><strong>The Customer</strong>: Are customers willing to follow SAP's pace in migrating from legacy ERP / support models to cloud subscriptions?</div>
               </div>
               <div class="conclusion-item">
                 <div class="conclusion-num">04</div>
-                <div class="conclusion-text"><strong>判断层</strong> — SAP 能否从 cloud ERP 公司进一步变成 enterprise AI + data platform 公司？</div>
+                <div class="conclusion-text"><strong>The Verdict</strong>: Can SAP evolve beyond a cloud ERP company and become an enterprise AI + data platform?</div>
               </div>
             </div>
 
-            <p>SAP 不只是单个软件公司，它是德国乃至欧洲 B2B 软件生态中的重要基础设施。SAP 的产品方向、迁云策略、AI 和数据平台布局、客户迁移节奏，都会影响咨询公司、系统集成商、垂直 SaaS、AI 初创、数据平台和企业 IT 预算流向。理解 SAP 的盈利结构和迁移机制，是判断德国 B2B 软件生态机会和风险的基础。</p>
+            <p>SAP is not just a single software company; it is critical infrastructure within the German and European B2B software ecosystem. SAP's product direction, cloud migration strategy, AI and data platform positioning, and customer migration pace all influence consulting firms, system integrators, vertical SaaS providers, AI startups, data platforms, and enterprise IT budget allocations. Understanding SAP's profit structure and migration mechanics is foundational to assessing opportunities and risks in the German B2B software ecosystem.</p>
 
-            <!-- ── 核心结论 ── -->
-            <h2 id="conclusions">核心结论</h2>
+            <!-- ── Key Conclusions ── -->
+            <h2 id="conclusions">Key Conclusions</h2>
 
-            <p>以下五条结论贯穿全文，先提炼出来，方便读者在阅读细节时保持定位感：</p>
+            <p>The following five conclusions run throughout this report. They are distilled here upfront so readers can maintain orientation while working through the details:</p>
 
             <div class="conclusion-list">
               <div class="conclusion-item">
                 <div class="conclusion-num">C1</div>
-                <div class="conclusion-text"><strong>SAP 的收入中心已经从 license 转向 cloud。</strong> 2025 年，Cloud 已占总收入 57.1%，Software License 只剩 2.7%。主收入引擎已经从传统 license/support 转向 Cloud ERP Suite 驱动的订阅收入。</div>
+                <div class="conclusion-text"><strong>SAP's revenue center has shifted from license to cloud.</strong> In 2025, Cloud accounts for 57.1% of total revenue, while Software License has shrunk to just 2.7%. The primary revenue engine has moved from traditional license/support to Cloud ERP Suite-driven subscription revenue.</div>
               </div>
               <div class="conclusion-item">
                 <div class="conclusion-num">C2</div>
-                <div class="conclusion-text"><strong>传统 support 仍是现金牛，但正在被云转型逐步侵蚀。</strong> Software Support 2025 年仍贡献 28.6% 收入，但已从 2023 年的 EUR 11.496B 降到 EUR 10.525B。SAP 在用 cloud 增长接住 support 和 license 的下滑。</div>
+                <div class="conclusion-text"><strong>Legacy support remains a cash cow, but is being gradually eroded by cloud transformation.</strong> Software Support still contributed 28.6% of revenue in 2025, but has declined from EUR 11.496B in 2023 to EUR 10.525B. SAP is using cloud growth to absorb the decline in support and license revenue.</div>
               </div>
               <div class="conclusion-item">
                 <div class="conclusion-num">C3</div>
-                <div class="conclusion-text"><strong>SAP 的目标不是简单"卖云"，而是控制企业流程、数据和 AI 执行层。</strong> SAP 正在把 Cloud ERP Suite、Business Data Cloud、BTP、Joule / Business AI 组合起来，试图从 ERP 系统供应商变成企业流程 + 数据 + AI 执行层平台。</div>
+                <div class="conclusion-text"><strong>SAP's goal is not simply to "sell cloud"; it is to control enterprise process, data, and AI execution layers.</strong> SAP is combining Cloud ERP Suite, Business Data Cloud, BTP, and Joule / Business AI to attempt a transformation from ERP system vendor to enterprise process + data + AI execution platform.</div>
               </div>
               <div class="conclusion-item">
                 <div class="conclusion-num">C4</div>
-                <div class="conclusion-text"><strong>客户迁移不是无阻力推进，而是持续谈判。</strong> SAP 通过 RISE / GROW、旧系统维护期限、cloud-only innovation、AI/data 产品绑定推动迁移。但 DACH 大企业仍担心迁移成本、public cloud 标准化、长期合同成本和供应商锁定。</div>
+                <div class="conclusion-text"><strong>Customer migration is not frictionless; it is an ongoing negotiation.</strong> SAP is driving migration through RISE / GROW, legacy system maintenance deadlines, cloud-only innovation, and AI/data product bundling. However, DACH large enterprises remain concerned about migration costs, public cloud standardization, long-term contract costs, and vendor lock-in.</div>
               </div>
               <div class="conclusion-item">
                 <div class="conclusion-num">C5</div>
-                <div class="conclusion-text"><strong>第一阶段 cloud 转型基本成立，第二阶段 AI/Data 平台化仍待验证。</strong> Cloud 收入、Cloud ERP Suite 占比和 Cloud 毛利率都支持转型叙事。但 AI/Data 产品的收入贡献尚未被单独量化，客户是否愿意把未来 AI 和数据入口交给 SAP，还没有完全证明。</div>
+                <div class="conclusion-text"><strong>Phase 1 cloud transformation is largely validated; Phase 2 AI/Data platformization remains to be proven.</strong> Cloud revenue, Cloud ERP Suite share, and Cloud gross margins all support the transformation narrative. However, the revenue contribution of AI/Data products has not yet been quantified separately, and whether customers are willing to hand over their future AI and data access points to SAP has not been fully demonstrated.</div>
               </div>
             </div>
 
             <!-- ══════════════════════════════════════════ -->
             <!-- SECTION 1: FACTS                          -->
             <!-- ══════════════════════════════════════════ -->
-            <h2 id="facts">一、事实层：SAP 的钱从哪里来、花到哪里去？</h2>
+            <h2 id="facts">I. The Facts: Where Does SAP's Money Come From and Go?</h2>
 
-            <p>这一部分只回答事实问题：SAP 的收入、地区、成本和利润结构长什么样。所有数据来源：<a href="https://www.sap.com/integrated-reports/2025/en/datahub/financial-data.html" target="_blank" class="source-link">SAP 2025 Integrated Report</a> / <a href="https://www.sec.gov/Archives/edgar/data/1000184/000110465926020058/sap-20251231x20f.htm" target="_blank" class="source-link">Form 20-F</a>。</p>
+            <p>This section answers only factual questions: what SAP's revenue, regional, cost, and profit structures look like. All data sourced from: <a href="https://www.sap.com/integrated-reports/2025/en/datahub/financial-data.html" target="_blank" class="source-link">SAP 2025 Integrated Report</a> / <a href="https://www.sec.gov/Archives/edgar/data/1000184/000110465926020058/sap-20251231x20f.htm" target="_blank" class="source-link">Form 20-F</a>.</p>
 
-            <!-- 1.1 收入结构 -->
-            <h3 id="revenue-structure">1.1 收入结构：Cloud 已经成为主收入来源</h3>
+            <!-- 1.1 Revenue Structure -->
+            <h3 id="revenue-structure">1.1 Revenue Structure: Cloud Is Now the Primary Revenue Source</h3>
 
-            <p>三年间，SAP 的收入构成发生了根本性转变。Cloud 从 43.8% 增长到 57.1%，Software License 从 5.7% 缩水到 2.7%。</p>
+            <p>Over three years, SAP's revenue composition has undergone a fundamental shift. Cloud has grown from 43.8% to 57.1%, while Software License has contracted from 5.7% to 2.7%.</p>
 
             <!-- Proportional pie charts -->
             <div class="pie-row" id="revenue-pie-charts"></div>
@@ -772,11 +769,11 @@
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>收入类型</th>
+                  <th>Revenue Type</th>
                   <th style="text-align:right">2023</th>
                   <th style="text-align:right">2024</th>
                   <th style="text-align:right">2025</th>
-                  <th style="text-align:right">2025 占比</th>
+                  <th style="text-align:right">2025 Share</th>
                   <th style="text-align:right">2023–2025</th>
                 </tr>
               </thead>
@@ -823,31 +820,31 @@
                 </tr>
               </tbody>
             </table>
-            <p class="chart-caption">单位：EUR 百万 · 来源：<a href="https://www.sap.com/integrated-reports/2025/en/datahub/financial-data.html" target="_blank" class="source-link">SAP 2025 Integrated Report</a></p>
+            <p class="chart-caption">EUR millions · Source: <a href="https://www.sap.com/integrated-reports/2025/en/datahub/financial-data.html" target="_blank" class="source-link">SAP 2025 Integrated Report</a></p>
 
             <div class="callout">
-              <div class="callout-label">关键读法</div>
+              <div class="callout-label">Key Takeaways</div>
               <ul>
-                <li>Cloud 是唯一高速增长主线，已成为第一大收入来源。</li>
-                <li>License 快速边缘化，2025 年只占 2.7%。</li>
-                <li>Support 仍是第二大收入来源，但已进入缓慢下滑通道。</li>
-                <li>Services 基本稳定，更像迁移和客户采用的配套业务，不是利润主引擎。</li>
+                <li>Cloud is the only high-growth driver and has become the largest revenue source.</li>
+                <li>License revenue is rapidly marginalizing, at only 2.7% of total in 2025.</li>
+                <li>Support remains the second-largest revenue stream but has entered a slow decline.</li>
+                <li>Services is broadly stable, functioning more as a migration and adoption enabler than a primary profit engine.</li>
               </ul>
             </div>
 
             <!-- 1.2 Cloud ERP Suite -->
-            <h3 id="cloud-erp-suite">1.2 Cloud 内部：Cloud ERP Suite 是增长核心</h3>
+            <h3 id="cloud-erp-suite">1.2 Inside Cloud: Cloud ERP Suite Is the Core Growth Engine</h3>
 
-            <p>Cloud 收入内部并不均匀，86.2% 高度集中在 Cloud ERP Suite，其他 Cloud 产品的收入甚至在小幅下滑。</p>
+            <p>Cloud revenue is not evenly distributed: 86.2% is highly concentrated in Cloud ERP Suite, while other Cloud products have even seen a slight decline.</p>
 
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>Cloud 类型</th>
+                  <th>Cloud Type</th>
                   <th style="text-align:right">2023</th>
                   <th style="text-align:right">2024</th>
                   <th style="text-align:right">2025</th>
-                  <th style="text-align:right">2025 占 Cloud</th>
+                  <th style="text-align:right">2025 Share of Cloud</th>
                 </tr>
               </thead>
               <tbody>
@@ -859,14 +856,14 @@
                   <td style="text-align:right;color:var(--pos);font-weight:600">86.2%</td>
                 </tr>
                 <tr>
-                  <td>其他 Cloud</td>
+                  <td>Other Cloud</td>
                   <td style="text-align:right">3,038</td>
                   <td style="text-align:right">2,976</td>
                   <td style="text-align:right">2,904</td>
                   <td style="text-align:right">13.8%</td>
                 </tr>
                 <tr>
-                  <td><strong>Cloud 合计</strong></td>
+                  <td><strong>Cloud Total</strong></td>
                   <td style="text-align:right"><strong>13,664</strong></td>
                   <td style="text-align:right"><strong>17,141</strong></td>
                   <td style="text-align:right"><strong>21,023</strong></td>
@@ -874,17 +871,17 @@
                 </tr>
               </tbody>
             </table>
-            <p class="chart-caption">单位：EUR 百万 · 来源：<a href="https://www.sap.com/integrated-reports/2025/en/datahub/financial-data/five-year-summary.html" target="_blank" class="source-link">SAP Five-Year Summary 2025</a></p>
+            <p class="chart-caption">EUR millions · Source: <a href="https://www.sap.com/integrated-reports/2025/en/datahub/financial-data/five-year-summary.html" target="_blank" class="source-link">SAP Five-Year Summary 2025</a></p>
 
             <div class="callout">
-              <div class="callout-label">定义说明</div>
-              <p>Cloud ERP Suite 不只等于 S/4HANA Cloud。SAP 官方披露中，它包括 SAP S/4HANA Cloud、SAP Business Technology Platform（BTP），以及部分 HR/payroll、spend management、commerce、business process transformation、working capital management 等核心解决方案。更准确的理解是：<strong>SAP 的云增长高度集中在围绕 ERP 展开的核心业务套件，而不是外围 SaaS 产品的零散增长。</strong></p>
+              <div class="callout-label">Definition</div>
+              <p>Cloud ERP Suite is not simply equivalent to S/4HANA Cloud. In SAP's official disclosures, it includes SAP S/4HANA Cloud, SAP Business Technology Platform (BTP), as well as select HR/payroll, spend management, commerce, business process transformation, and working capital management solutions. More accurately: <strong>SAP's cloud growth is highly concentrated in the core business suite built around ERP, not dispersed growth across peripheral SaaS products.</strong></p>
             </div>
 
-            <!-- 1.3 地区结构 -->
-            <h3 id="regional">1.3 地区结构：EMEA 最大，美国是最大单一市场</h3>
+            <!-- 1.3 Regional Structure -->
+            <h3 id="regional">1.3 Regional Structure: EMEA Largest, U.S. Is the Biggest Single Market</h3>
 
-            <p>SAP 的全球收入看似分散，但实际上有两个超级核心市场：<strong>美国和德国</strong>。美国单一市场收入是德国的近两倍。</p>
+            <p>SAP's global revenue appears diverse, but in practice it has two super-core markets: <strong>the United States and Germany</strong>. The U.S. single-market revenue is nearly twice that of Germany.</p>
 
             <!-- Regional revenue line chart -->
             <div class="line-chart-wrap">
@@ -962,11 +959,11 @@
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>地区</th>
+                  <th>Region</th>
                   <th style="text-align:right">2023</th>
                   <th style="text-align:right">2024</th>
                   <th style="text-align:right">2025</th>
-                  <th style="text-align:right">2025 占比</th>
+                  <th style="text-align:right">2025 Share</th>
                   <th style="text-align:right">2023–2025</th>
                 </tr>
               </thead>
@@ -1006,36 +1003,36 @@
               </tbody>
             </table>
             <div class="region-defs">
-              <div>EMEA：Europe, Middle East &amp; Africa — SAP 按地区划分的最大收入板块，核心市场为德国、英国、法国、荷兰；中东和非洲占比较小</div>
-              <div>Americas：North &amp; South America — 美国约占该区域收入 80%，是 SAP 全球最大单一国家市场；加拿大、巴西和墨西哥为其余主要来源</div>
-              <div>APJ：Asia Pacific &amp; Japan — 日本为第一大市场（约占 APJ 30%），其次为澳大利亚、中国、印度；整体基数最小，但云化增速最快</div>
+              <div>EMEA: Europe, Middle East &amp; Africa. SAP's largest revenue segment by region; core markets are Germany, UK, France, and the Netherlands; Middle East and Africa represent a smaller share</div>
+              <div>Americas: North &amp; South America. The U.S. accounts for approximately 80% of regional revenue and is SAP's largest single-country market globally; Canada, Brazil, and Mexico are the other major contributors</div>
+              <div>APJ: Asia Pacific &amp; Japan. Japan is the largest market (approximately 30% of APJ), followed by Australia, China, and India; the smallest segment overall, but fastest cloud adoption growth rate</div>
             </div>
-            <p class="chart-caption">单位：EUR 百万 · 来源：<a href="https://www.sec.gov/Archives/edgar/data/1000184/000110465926020058/sap-20251231x20f.htm" target="_blank" class="source-link">SAP Form 20-F 2025</a></p>
+            <p class="chart-caption">EUR millions · Source: <a href="https://www.sec.gov/Archives/edgar/data/1000184/000110465926020058/sap-20251231x20f.htm" target="_blank" class="source-link">SAP Form 20-F 2025</a></p>
 
-            <p>核心国家（EUR 百万，2025）：</p>
+            <p>Key countries (EUR millions, 2025):</p>
 
             <div class="stat-row">
               <div class="stat-card accent">
-                <div class="stat-label">美国 · Americas 80%</div>
+                <div class="stat-label">United States · 80% of Americas</div>
                 <div class="stat-value">11,537</div>
-                <div class="stat-sub">最大单一市场</div>
+                <div class="stat-sub">Largest single market</div>
               </div>
               <div class="stat-card">
-                <div class="stat-label">德国 · EMEA 34%</div>
+                <div class="stat-label">Germany · 34% of EMEA</div>
                 <div class="stat-value" style="color:var(--text-2)">5,828</div>
-                <div class="stat-sub">欧洲本土核心</div>
+                <div class="stat-sub">European home market core</div>
               </div>
               <div class="stat-card">
-                <div class="stat-label">日本 · APJ 30%</div>
+                <div class="stat-label">Japan · 30% of APJ</div>
                 <div class="stat-value" style="color:var(--text-2)">1,569</div>
-                <div class="stat-sub">APJ 第一大市场</div>
+                <div class="stat-sub">Largest APJ market</div>
               </div>
             </div>
 
-            <!-- 1.4 地区收入结构 -->
-            <h3 id="cloud-by-region">1.4 地区收入结构：各业务线地区分布（2025）</h3>
+            <!-- 1.4 Revenue Mix by Region -->
+            <h3 id="cloud-by-region">1.4 Revenue Mix by Region: Business Line Distribution Across Regions (2025)</h3>
 
-            <p>各地区在 Cloud、License+Support、Services 三条业务线上的收入分布：</p>
+            <p>Revenue distribution across Cloud, License+Support, and Services by region:</p>
 
             <!-- Stacked composition bars -->
             <div class="region-composition">
@@ -1081,10 +1078,10 @@
             <table class="data-table" style="margin-top:20px">
               <thead>
                 <tr>
-                  <th>地区</th>
-                  <th style="text-align:right">总收入</th>
+                  <th>Region</th>
+                  <th style="text-align:right">Total Revenue</th>
                   <th style="text-align:right">Cloud</th>
-                  <th style="text-align:right">Cloud 占比</th>
+                  <th style="text-align:right">Cloud Share</th>
                   <th style="text-align:right">Lic + Support</th>
                   <th style="text-align:right">Services</th>
                 </tr>
@@ -1125,16 +1122,16 @@
               </tbody>
             </table>
 
-            <p>2023–2025 各地区 Cloud 收入增长：</p>
+            <p>Cloud revenue growth by region, 2023–2025:</p>
 
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>地区</th>
+                  <th>Region</th>
                   <th style="text-align:right">2023 Cloud</th>
                   <th style="text-align:right">2024 Cloud</th>
                   <th style="text-align:right">2025 Cloud</th>
-                  <th style="text-align:right">2023–2025 增长</th>
+                  <th style="text-align:right">2023–2025 Growth</th>
                 </tr>
               </thead>
               <tbody>
@@ -1161,26 +1158,26 @@
                 </tr>
               </tbody>
             </table>
-            <p class="chart-caption">单位：EUR 百万 · 来源：<a href="https://www.sec.gov/Archives/edgar/data/1000184/000110465926020058/sap-20251231x20f.htm" target="_blank" class="source-link">SAP Form 20-F 2025</a></p>
+            <p class="chart-caption">EUR millions · Source: <a href="https://www.sec.gov/Archives/edgar/data/1000184/000110465926020058/sap-20251231x20f.htm" target="_blank" class="source-link">SAP Form 20-F 2025</a></p>
 
             <div class="callout">
-              <div class="callout-label">关键发现</div>
-              <p>EMEA 总收入最大（17,025），但传统 License+Support 仍占 36%，是三个地区中比例最高的。Americas Cloud 占比最高（62.6%），License+Support 仅占 25.3%，云化转型最彻底。APJ 规模最小，但云增长率最高（+72.5%）。</p>
-              <p style="margin-top:10px">EMEA 保留更多传统收入，核心原因不是"欧洲客户不懂云"，而是大型企业的 SAP 系统经过十几年定制，和工厂、仓库、银行、税务、供应商系统深度连接。直接迁到标准化 public cloud，可能意味着重写流程、接口、权限、报表和组织习惯。大企业更常选择 private cloud 或 hybrid 路线逐步迁移。</p>
+              <div class="callout-label">Key Finding</div>
+              <p>EMEA has the largest total revenue (17,025), but legacy License+Support still accounts for 36%, the highest proportion among all three regions. Americas has the highest Cloud share (62.6%), with License+Support at only 25.3%, representing the most complete cloud transformation. APJ is the smallest in scale, but has the highest cloud growth rate (+72.5%).</p>
+              <p style="margin-top:10px">EMEA retaining more legacy revenue is not because "European customers don't understand cloud"; it is because large enterprise SAP systems have been deeply customized over decades, tightly integrated with factory, warehouse, banking, tax, and supplier systems. Migrating directly to standardized public cloud can mean rewriting processes, interfaces, permissions, reports, and organizational workflows. Large enterprises more commonly opt for private cloud or hybrid migration paths.</p>
             </div>
 
-            <!-- 1.5 成本和利润 -->
-            <h3 id="cost-profit">1.5 成本和利润：Cloud 毛利高，Services 毛利低</h3>
+            <!-- 1.5 Cost and Profit -->
+            <h3 id="cost-profit">1.5 Cost and Profit: Cloud High-Margin, Services Low-Margin</h3>
 
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>成本类型</th>
+                  <th>Cost Type</th>
                   <th style="text-align:right">2023</th>
                   <th style="text-align:right">2024</th>
                   <th style="text-align:right">2025</th>
-                  <th>对应业务</th>
-                  <th style="text-align:right">2025 毛利率</th>
+                  <th>Business Line</th>
+                  <th style="text-align:right">2025 Gross Margin</th>
                 </tr>
               </thead>
               <tbody>
@@ -1213,29 +1210,29 @@
                   <td style="text-align:right"><strong>8,674</strong></td>
                   <td style="text-align:right"><strong>9,243</strong></td>
                   <td style="text-align:right"><strong>9,986</strong></td>
-                  <td>全部业务</td>
+                  <td>All segments</td>
                   <td style="text-align:right;color:var(--pos);font-weight:600"><strong>72.9%</strong></td>
                 </tr>
               </tbody>
             </table>
-            <p class="chart-caption">单位：EUR 百万 · 来源：SAP 2025 Integrated Report</p>
+            <p class="chart-caption">EUR millions · Source: SAP 2025 Integrated Report</p>
 
             <div class="callout">
-              <div class="callout-label">关键读法</div>
-              <p>传统 license/support 毛利最高（88.6%），是历史积累的现金牛，但已进入下滑通道。Cloud 毛利率约 73.9%，说明云业务不只是增长快，也已经进入规模化盈利阶段。Services 毛利率只有 25.1%，更像迁移和 adoption 支撑，不是 SAP 的利润核心。</p>
+              <div class="callout-label">Key Takeaways</div>
+              <p>Legacy license/support carries the highest gross margin (88.6%), a historically accumulated cash cow now entering a decline trajectory. Cloud gross margin of approximately 73.9% demonstrates that cloud is not just growing fast; it has entered a scaled, profitable phase. Services gross margin of just 25.1% positions it more as a migration and adoption support function, not SAP's core profit engine.</p>
             </div>
 
-            <!-- 1.6 经营费用 -->
-            <h3 id="operating-expenses">1.6 经营费用：Sales &amp; Marketing 仍是最大费用项</h3>
+            <!-- 1.6 Operating Expenses -->
+            <h3 id="operating-expenses">1.6 Operating Expenses: Sales &amp; Marketing Remains the Largest Cost Item</h3>
 
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>支出类型</th>
+                  <th>Expense Type</th>
                   <th style="text-align:right">2023</th>
                   <th style="text-align:right">2024</th>
                   <th style="text-align:right">2025</th>
-                  <th style="text-align:right">2025 占总收入</th>
+                  <th style="text-align:right">2025 % of Total Revenue</th>
                 </tr>
               </thead>
               <tbody>
@@ -1269,435 +1266,435 @@
                 </tr>
               </tbody>
             </table>
-            <p class="chart-caption">单位：EUR 百万 · 来源：<a href="https://www.sap.com/integrated-reports/2025/en/datahub/financial-data.html" target="_blank" class="source-link">SAP 2025 Integrated Report</a> · 2024 Restructuring 异常高（裁员重组），2025 年基本结束</p>
+            <p class="chart-caption">EUR millions · Source: <a href="https://www.sap.com/integrated-reports/2025/en/datahub/financial-data.html" target="_blank" class="source-link">SAP 2025 Integrated Report</a> · 2024 Restructuring was abnormally high (layoffs and reorganization); substantially concluded by 2025</p>
 
             <div class="callout">
-              <div class="callout-label">关键读法</div>
-              <p>2025 年 Operating Profit 达 EUR 9,617M，Operating margin 26.1%，较 2024 年大幅改善（2024 因裁员重组产生 EUR 3.1B 一次性费用）。Sales &amp; Marketing 占总收入 24.1%，是最大费用项，企业软件的销售成本仍然很重，大客户销售周期长、顾问关系依赖度高。R&amp;D 投入占 18.0%，支撑 Cloud / AI 转型的持续投入，但绝对增速不快，说明 SAP 更多是通过收购（Reltio、Dremio、Prior Labs）而非内部研发来补充 AI/数据能力。</p>
+              <div class="callout-label">Key Takeaways</div>
+              <p>2025 Operating Profit reached EUR 9,617M, with an operating margin of 26.1%, a significant improvement over 2024 (when a one-time EUR 3.1B restructuring charge depressed results). Sales &amp; Marketing at 24.1% of total revenue is the largest expense item; enterprise software selling costs remain heavy, with long enterprise sales cycles and high dependence on consultant relationships. R&amp;D investment at 18.0% sustains ongoing Cloud / AI transformation, but absolute growth is modest, suggesting SAP is supplementing AI/data capabilities more through acquisitions (Reltio, Dremio, Prior Labs) than internal R&amp;D.</p>
             </div>
 
             <!-- ══════════════════════════════════════════ -->
             <!-- SECTION 2: WHY                            -->
             <!-- ══════════════════════════════════════════ -->
-            <h2 id="why-changing">二、变化层：为什么收入和利润结构会变？</h2>
+            <h2 id="why-changing">II. The Shift: Why Are Revenue and Profit Structures Changing?</h2>
 
-            <p>前面的事实说明了"发生了什么"。这一部分回答"为什么会这样"：哪些变化来自 SAP 主动转型，哪些来自客户和市场环境变化。</p>
+            <p>The facts above explained "what happened." This section answers "why": which changes stem from SAP's deliberate transformation, and which from customers and the market environment.</p>
 
-            <!-- 2.1 内因 -->
-            <h3 id="internal-driver">2.1 内因：SAP 主动把增长中心转向 Cloud ERP Suite</h3>
+            <!-- 2.1 Internal Drivers -->
+            <h3 id="internal-driver">2.1 Internal Drivers: SAP Deliberately Redirected Growth Toward Cloud ERP Suite</h3>
 
-            <p>SAP 主动做了三件事：</p>
+            <p>SAP took three deliberate actions:</p>
 
-            <p><strong>第一，把增长中心从 License 转到 Cloud ERP Suite。</strong> License 收入从 EUR 1.764B 降到 EUR 0.990B，而 Cloud ERP Suite 从 EUR 10.626B 增到 EUR 18.119B。这不是自然变化，而是 SAP 主动把销售、产品和客户迁移都导向 cloud-first。</p>
+            <p><strong>First, shifting the growth center from License to Cloud ERP Suite.</strong> License revenue declined from EUR 1.764B to EUR 0.990B, while Cloud ERP Suite grew from EUR 10.626B to EUR 18.119B. This is not organic change; SAP deliberately directed its sales, products, and customer migration toward a cloud-first model.</p>
 
-            <p><strong>第二，用 RISE / GROW / Business Suite 设计迁移路径。</strong></p>
+            <p><strong>Second, designing migration pathways through RISE / GROW / Business Suite.</strong></p>
 
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>路径</th>
-                  <th>目标客群</th>
-                  <th>部署偏好</th>
-                  <th>定位</th>
+                  <th>Pathway</th>
+                  <th>Target Segment</th>
+                  <th>Deployment Preference</th>
+                  <th>Positioning</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><strong>RISE with SAP</strong></td>
-                  <td>已有 SAP on-prem 大型老客户</td>
-                  <td>Private cloud / 复杂转型</td>
-                  <td>迁移路径</td>
+                  <td>Existing large SAP on-prem customers</td>
+                  <td>Private cloud / complex transformations</td>
+                  <td>Migration pathway</td>
                 </tr>
                 <tr>
                   <td><strong>GROW with SAP</strong></td>
-                  <td>新客户、成长型企业、流程标准化</td>
+                  <td>New customers, growing businesses, standardized processes</td>
                   <td>Public cloud</td>
-                  <td>迁移路径</td>
+                  <td>Migration pathway</td>
                 </tr>
                 <tr>
                   <td><strong>SAP Business Suite</strong></td>
-                  <td>所有客户</td>
+                  <td>All customers</td>
                   <td>Cloud</td>
-                  <td>目标产品世界</td>
+                  <td>Target product destination</td>
                 </tr>
               </tbody>
             </table>
 
-            <p>RISE 和 GROW 是迁移/销售路径，Business Suite 是 SAP 希望客户最终进入的云产品版图。</p>
+            <p>RISE and GROW are migration/sales pathways; Business Suite is the cloud product landscape SAP wants customers to ultimately inhabit.</p>
 
-            <p><strong>第三，围绕 AI 和 Data 重组产品版图。</strong> SAP 推出 Business Data Cloud，并与 Databricks 合作；2026 年完成 Reltio 收购，宣布收购 Dremio 和 Prior Labs。产品版图已经重组为四层：</p>
+            <p><strong>Third, reorganizing the product portfolio around AI and Data.</strong> SAP launched Business Data Cloud and partnered with Databricks; completed the Reltio acquisition in 2026, and announced the acquisitions of Dremio and Prior Labs. The product portfolio has been reorganized into four layers:</p>
 
             <div class="control-points">
               <div class="control-point">
-                <div class="control-point-num">应用层</div>
-                <div class="control-point-title">业务应用系统</div>
-                <div class="control-point-desc">Cloud ERP、SuccessFactors、Ariba、Concur、Commerce、Supply Chain 等核心业务系统</div>
+                <div class="control-point-num">Application Layer</div>
+                <div class="control-point-title">Business Applications</div>
+                <div class="control-point-desc">Cloud ERP, SuccessFactors, Ariba, Concur, Commerce, Supply Chain, and other core business systems</div>
               </div>
               <div class="control-point">
-                <div class="control-point-num">数据层</div>
+                <div class="control-point-num">Data Layer</div>
                 <div class="control-point-title">Business Data Cloud</div>
-                <div class="control-point-desc">Reltio、Dremio、Databricks 合作等，打通 SAP 和非 SAP 数据，形成可治理业务数据层</div>
+                <div class="control-point-desc">Reltio, Dremio, Databricks partnership, etc., connecting SAP and non-SAP data into a governed business data layer</div>
               </div>
               <div class="control-point">
-                <div class="control-point-num">平台层</div>
+                <div class="control-point-num">Platform Layer</div>
                 <div class="control-point-title">BTP</div>
-                <div class="control-point-desc">负责集成、扩展、自动化、开发和 AI 接入，是生态系统的神经系统</div>
+                <div class="control-point-desc">Handles integration, extension, automation, development, and AI access, the nervous system of the ecosystem</div>
               </div>
               <div class="control-point">
-                <div class="control-point-num">AI 层</div>
+                <div class="control-point-num">AI Layer</div>
                 <div class="control-point-title">Joule &amp; Business AI</div>
-                <div class="control-point-desc">AI agents，把数据和流程转化为建议、自动化动作和业务执行</div>
+                <div class="control-point-desc">AI agents that translate data and processes into recommendations, automated actions, and business execution</div>
               </div>
             </div>
 
-            <!-- 2.2 外因 -->
-            <h3 id="external-driver">2.2 外因：客户、AI 和资本市场也在逼 SAP 改变</h3>
+            <!-- 2.2 External Drivers -->
+            <h3 id="external-driver">2.2 External Drivers: Customers, AI, and Capital Markets Are Also Forcing SAP to Change</h3>
 
-            <p>SAP 的外部压力不是"马上被替代"的生存危机。它的 ERP 深度嵌入大型企业核心流程，客户切换成本极高。真正的压力是：<strong>如果 SAP 不把客户带到 cloud、data 和 AI 平台上，它会逐渐失去未来企业软件的控制点。</strong></p>
+            <p>SAP's external pressure is not an existential "imminent replacement" crisis. Its ERP is deeply embedded in large enterprise core processes, making switching costs extremely high. The real pressure is: <strong>if SAP does not bring customers onto cloud, data, and AI platforms, it will gradually lose control points in the future enterprise software landscape.</strong></p>
 
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>外因</th>
-                  <th>影响程度</th>
-                  <th>对 SAP 的具体影响</th>
+                  <th>External Driver</th>
+                  <th>Magnitude</th>
+                  <th>Specific Impact on SAP</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>旧 ERP 客户进入换代周期</td>
-                  <td style="color:var(--pos);font-weight:600">高</td>
-                  <td>直接推动客户从旧 SAP Business Suite / ECC 迁向 S/4HANA 和 cloud；Business Suite 7 主流维护到 2027 年底，extended maintenance 到 2030 年底</td>
+                  <td>Legacy ERP customers entering upgrade cycles</td>
+                  <td style="color:var(--pos);font-weight:600">High</td>
+                  <td>Directly drives customer migration from legacy SAP Business Suite / ECC to S/4HANA and cloud; Business Suite 7 mainstream maintenance ends 2027, extended maintenance to end of 2030</td>
                 </tr>
                 <tr>
-                  <td>AI 需要云和数据底座</td>
-                  <td style="color:var(--pos);font-weight:600">高</td>
-                  <td>决定 SAP 能否在 AI 时代继续掌握企业流程和数据入口</td>
+                  <td>AI requires cloud and data infrastructure</td>
+                  <td style="color:var(--pos);font-weight:600">High</td>
+                  <td>Determines whether SAP can maintain control of enterprise process and data access points in the AI era</td>
                 </tr>
                 <tr>
-                  <td>竞争者蚕食外围模块</td>
-                  <td style="color:var(--neg);font-weight:600">中高</td>
-                  <td>Workday、Salesforce、ServiceNow、Microsoft、Databricks、Snowflake 等削弱 SAP 在 HR、CRM、workflow、data platform、AI layer 的控制点</td>
+                  <td>Competitors eroding peripheral modules</td>
+                  <td style="color:var(--neg);font-weight:600">Medium-High</td>
+                  <td>Workday, Salesforce, ServiceNow, Microsoft, Databricks, Snowflake, etc. weakening SAP's control points in HR, CRM, workflow, data platform, and AI layer</td>
                 </tr>
                 <tr>
-                  <td>资本市场偏好可预测收入</td>
-                  <td>中</td>
-                  <td>强化 SAP 转向 cloud subscription 的动力；2025 年"more predictable revenue"占比达 86%，高于 2021 年的 75%</td>
+                  <td>Capital markets preference for predictable revenue</td>
+                  <td>Medium</td>
+                  <td>Reinforces SAP's drive toward cloud subscriptions; "more predictable revenue" share reached 86% in 2025, up from 75% in 2021</td>
                 </tr>
               </tbody>
             </table>
 
             <div class="callout">
-              <div class="callout-label">综合判断</div>
-              <p>SAP 的转型既是主动寻找新增长，也是防守核心控制点。短中期最直接的压力来自旧 ERP 换代周期，长期最重要的压力来自 AI 时代对数据和流程控制权的重新争夺。</p>
+              <div class="callout-label">Overall Assessment</div>
+              <p>SAP's transformation is both a proactive search for new growth and a defense of core control points. In the short to medium term, the most direct pressure comes from the legacy ERP upgrade cycle; in the long term, the most critical pressure comes from the contest over data and process control in the AI era.</p>
             </div>
 
             <!-- ══════════════════════════════════════════ -->
             <!-- SECTION 3: CUSTOMERS                      -->
             <!-- ══════════════════════════════════════════ -->
-            <h2 id="customer-migration">三、客户层：迁移是否顺利？</h2>
+            <h2 id="customer-migration">III. The Customer: Is Migration Going Smoothly?</h2>
 
-            <p>SAP 的云化不是单向推进，而是一场和客户之间的持续谈判。客户仍然承认 SAP 的重要性，但不愿无条件跟随 SAP 的节奏迁移。</p>
+            <p>SAP's cloud transition is not a one-way push; it is an ongoing negotiation with customers. Customers still acknowledge SAP's importance, but are unwilling to unconditionally follow SAP's migration pace.</p>
 
-            <!-- 3.1 客户态度 -->
-            <h3 id="dsag-data">3.1 客户态度：选择性接受，而不是全盘接受</h3>
+            <!-- 3.1 Customer Attitudes -->
+            <h3 id="dsag-data">3.1 Customer Attitudes: Selective Acceptance, Not Wholesale Buy-In</h3>
 
-            <p><a href="https://dsag.de/presse/dsag-investment-report-2026-companies-are-investing-more-selectively-ai-is-becoming-established-cloud-computing-is-being-put-to-the-test/" target="_blank" class="source-link">DSAG 2026 年投资调查报告</a>（德语区 SAP 用户协会，代表大量 DACH 企业）：</p>
+            <p><a href="https://dsag.de/presse/dsag-investment-report-2026-companies-are-investing-more-selectively-ai-is-becoming-established-cloud-computing-is-being-put-to-the-test/" target="_blank" class="source-link">DSAG 2026 Investment Survey</a> (the German-speaking SAP user association, representing a large number of DACH enterprises):</p>
 
             <div class="dsag-stats">
               <div class="dsag-stat">
                 <div class="dsag-stat-value">43%</div>
-                <div class="dsag-stat-desc">计划增加<br>SAP 投资</div>
+                <div class="dsag-stat-desc">Plan to increase<br>SAP investment</div>
               </div>
               <div class="dsag-stat">
                 <div class="dsag-stat-value">36%</div>
-                <div class="dsag-stat-desc">认为 SAP 对<br>未来方向重要性上升</div>
+                <div class="dsag-stat-desc">See SAP's importance<br>for future direction increasing</div>
               </div>
               <div class="dsag-stat">
                 <div class="dsag-stat-value">62%</div>
-                <div class="dsag-stat-desc">较少或未将 Business Suite 纳入投资规划</div>
+                <div class="dsag-stat-desc">Have not included Business Suite in investment planning or plan less</div>
               </div>
               <div class="dsag-stat">
                 <div class="dsag-stat-value">42%</div>
-                <div class="dsag-stat-desc">S/4HANA on-prem<br>仍是主要部署偏好</div>
+                <div class="dsag-stat-desc">S/4HANA on-prem<br>remains primary deployment preference</div>
               </div>
             </div>
 
-            <p>关键是最后两个数字：62% 的客户对 SAP 的新 Business Suite 愿景没有积极跟进。在 S/4HANA 投资偏好中，on-prem 仍远高于 public cloud（高/中等投资计划：on-prem 42%、private cloud / RISE 22%、public cloud / GROW 仅 6%）。</p>
+            <p>The last two figures are critical: 62% of customers have not actively followed SAP's new Business Suite vision. Among S/4HANA investment preferences, on-prem still far outpaces public cloud (high/medium investment plans: on-prem 42%, private cloud / RISE 22%, public cloud / GROW only 6%).</p>
 
-            <p>客户仍然承认 SAP 是核心基础设施，但持续追问四个现实问题：</p>
+            <p>Customers still recognize SAP as core infrastructure, but consistently raise four practical concerns:</p>
 
             <div class="conclusion-list">
               <div class="conclusion-item">
                 <div class="conclusion-num">Q1</div>
-                <div class="conclusion-text">迁移到 cloud 后，原有定制、接口和行业流程能否保留？</div>
+                <div class="conclusion-text">After migrating to cloud, can existing customizations, interfaces, and industry processes be preserved?</div>
               </div>
               <div class="conclusion-item">
                 <div class="conclusion-num">Q2</div>
-                <div class="conclusion-text">新的 AI/data 产品能否带来明确 ROI？</div>
+                <div class="conclusion-text">Can the new AI/data products deliver demonstrable ROI?</div>
               </div>
               <div class="conclusion-item">
                 <div class="conclusion-num">Q3</div>
-                <div class="conclusion-text">订阅合同的长期成本是否可控？</div>
+                <div class="conclusion-text">Are the long-term costs of subscription contracts manageable?</div>
               </div>
               <div class="conclusion-item">
                 <div class="conclusion-num">Q4</div>
-                <div class="conclusion-text">进入 SAP cloud 后，客户议价权和退出选择是否会变弱？</div>
+                <div class="conclusion-text">Once inside SAP cloud, will customers' bargaining power and exit options weaken?</div>
               </div>
             </div>
 
-            <!-- 3.2 迁移策略 -->
-            <h3 id="migration-strategy">3.2 SAP 的迁移策略：激励 + 压力</h3>
+            <!-- 3.2 Migration Strategy -->
+            <h3 id="migration-strategy">3.2 SAP's Migration Strategy: Incentives + Pressure</h3>
 
-            <p>SAP 的迁移策略可以概括为 <strong>"激励 + 压力"</strong>：一方面让 cloud 看起来更有价值，另一方面让留在旧模式里的成本和风险逐步上升。</p>
+            <p>SAP's migration strategy can be summarized as <strong>"incentives + pressure"</strong>: making cloud appear more valuable on one hand, while gradually increasing the costs and risks of staying on legacy systems on the other.</p>
 
             <div class="signal-grid">
               <div>
-                <div class="signal-col-header pos">激励 — 云作为未来创新入口</div>
+                <div class="signal-col-header pos">Incentives: Cloud as the Future Innovation Gateway</div>
                 <div class="signal-col-body pos">
                   <ul class="signal-list pos">
-                    <li>RISE with SAP 降低大型老客户从 on-prem 到 cloud 的迁移阻力</li>
-                    <li>GROW with SAP 给新客户和标准化客户更快上线的 public cloud ERP 路径</li>
-                    <li>Business Suite 把 Cloud ERP、Business Data Cloud、BTP、Business AI 组合成统一产品叙事</li>
-                    <li>Joule、Business AI、Business Data Cloud 等新能力更多放在 cloud 体系里</li>
-                    <li>LeanIX、WalkMe、Reltio、Dremio、Prior Labs 等收购，分别补迁移理解、用户采用、主数据、数据湖仓和结构化 AI 能力</li>
+                    <li>RISE with SAP reduces migration friction for large legacy on-prem customers moving to cloud</li>
+                    <li>GROW with SAP offers new customers and standardized businesses a faster public cloud ERP onboarding path</li>
+                    <li>Business Suite combines Cloud ERP, Business Data Cloud, BTP, and Business AI into a unified product narrative</li>
+                    <li>New capabilities like Joule, Business AI, and Business Data Cloud are increasingly delivered exclusively within the cloud ecosystem</li>
+                    <li>Acquisitions of LeanIX, WalkMe, Reltio, Dremio, and Prior Labs fill gaps in migration intelligence, user adoption, master data, data lakehouse, and structured AI capabilities</li>
                   </ul>
                 </div>
               </div>
               <div>
-                <div class="signal-col-header neg">压力 — 旧模式越来越不舒服</div>
+                <div class="signal-col-header neg">Pressure: Legacy Systems Becoming Increasingly Uncomfortable</div>
                 <div class="signal-col-body neg">
                   <ul class="signal-list neg">
-                    <li>SAP Business Suite 7 主流维护到 2027 年底，extended maintenance 到 2030 年底</li>
-                    <li>产品创新重点越来越集中到 cloud、Business Suite、Business AI 和 Business Data Cloud</li>
-                    <li>SAP 的销售、合同和投资者叙事都在强化 cloud subscription 和可预测收入</li>
-                    <li>咨询公司、系统集成商、实施伙伴也逐渐围绕 RISE / GROW / Business Suite 重组</li>
+                    <li>SAP Business Suite 7 mainstream maintenance ends 2027; extended maintenance ends 2030</li>
+                    <li>Product innovation focus is increasingly concentrated in cloud, Business Suite, Business AI, and Business Data Cloud</li>
+                    <li>SAP's sales, contracts, and investor narrative all reinforce cloud subscriptions and predictable revenue</li>
+                    <li>Consulting firms, system integrators, and implementation partners are increasingly reorganizing around RISE / GROW / Business Suite</li>
                   </ul>
                 </div>
               </div>
             </div>
 
             <blockquote>
-              <p>SAP 不是只靠说服客户"喜欢云"，而是在重塑客户的选择空间：留在旧系统越来越难获得创新，迁移到 SAP cloud 才能进入新的产品、数据和 AI 体系。</p>
+              <p>SAP is not simply trying to convince customers they "like cloud"; it is reshaping customers' choice landscape: staying on legacy systems increasingly forecloses access to innovation, while migrating to SAP cloud grants entry to a new ecosystem of products, data, and AI.</p>
             </blockquote>
 
-            <!-- 3.3 定价模式 -->
-            <h3 id="pricing-model">3.3 定价模式：从 license/support 到 cloud subscription</h3>
+            <!-- 3.3 Pricing Model -->
+            <h3 id="pricing-model">3.3 Pricing Model: From License/Support to Cloud Subscription</h3>
 
-            <p>SAP 的商业模式变化，本质是从 <strong>一次性 license + 年度 support</strong> 转向 <strong>长期 cloud subscription + 平台和 AI/data 附加价值</strong>。</p>
+            <p>SAP's fundamental commercial model shift is from <strong>one-time license + annual support</strong> to <strong>long-term cloud subscription + platform and AI/data add-on value</strong>.</p>
 
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>维度</th>
-                  <th>传统模式</th>
-                  <th>云模式</th>
+                  <th>Dimension</th>
+                  <th>Traditional Model</th>
+                  <th>Cloud Model</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>核心收费</td>
-                  <td>一次性 software license</td>
-                  <td>按订阅周期持续付费（FUE 口径）</td>
+                  <td>Core charge</td>
+                  <td>One-time software license</td>
+                  <td>Ongoing subscription payments (FUE basis)</td>
                 </tr>
                 <tr>
-                  <td>附加收费</td>
-                  <td>年度 support / maintenance</td>
-                  <td>BTP、Business Data Cloud、AI agents 等附加能力</td>
+                  <td>Add-on charges</td>
+                  <td>Annual support / maintenance</td>
+                  <td>BTP, Business Data Cloud, AI agents, and other additional capabilities</td>
                 </tr>
                 <tr>
-                  <td>对 SAP</td>
-                  <td>license 收入波动大；support 稳定高毛利</td>
-                  <td>收入更可预测，客户绑定更深，持续扩展空间</td>
+                  <td>For SAP</td>
+                  <td>License revenue volatile; support stable with high margins</td>
+                  <td>More predictable revenue, deeper customer lock-in, ongoing expansion potential</td>
                 </tr>
                 <tr>
-                  <td>对客户</td>
-                  <td>一次性大额支出，后续 support 成本清晰</td>
-                  <td>长期总成本不确定，议价权可能下降，退出成本更高</td>
+                  <td>For customers</td>
+                  <td>One-time large upfront payment; subsequent support costs are transparent</td>
+                  <td>Long-term total cost uncertain; bargaining power may diminish; exit costs are higher</td>
                 </tr>
               </tbody>
             </table>
 
-            <!-- 3.4 阶段判断 -->
-            <h3 id="phase-assessment">3.4 阶段判断：财务转型顺利，客户迁移不完全顺利</h3>
+            <!-- 3.4 Phase Assessment -->
+            <h3 id="phase-assessment">3.4 Phase Assessment: Financial Transformation on Track, Customer Migration Not Fully Smooth</h3>
 
             <div class="phase-row">
               <div class="phase-block pos">
-                <div class="phase-header pos">财务层面 · 较顺利</div>
-                <div class="phase-title">Cloud 转型在数字上成立</div>
+                <div class="phase-header pos">Financial Layer · On Track</div>
+                <div class="phase-title">Cloud transformation validated in the numbers</div>
                 <ul class="phase-items pos">
-                  <li>Cloud 收入 2023–2025 增长 53.9%</li>
-                  <li>Cloud ERP Suite 已占 Cloud 收入 86.2%</li>
-                  <li>Cloud 毛利率约 73.9%</li>
-                  <li>Software license 下滑被 Cloud 增长覆盖</li>
-                  <li>2025 operating profit 大幅改善至 EUR 9.617B</li>
+                  <li>Cloud revenue grew 53.9% from 2023–2025</li>
+                  <li>Cloud ERP Suite accounts for 86.2% of Cloud revenue</li>
+                  <li>Cloud gross margin approximately 73.9%</li>
+                  <li>Software license decline covered by Cloud growth</li>
+                  <li>2025 operating profit improved significantly to EUR 9.617B</li>
                 </ul>
               </div>
               <div class="phase-block pending">
-                <div class="phase-header pending">客户侧 · 仍有阻力</div>
-                <div class="phase-title">迁移体验不完全顺利</div>
+                <div class="phase-header pending">Customer Side · Still Facing Friction</div>
+                <div class="phase-title">Migration experience not fully smooth</div>
                 <ul class="phase-items pending">
-                  <li>DACH 企业仍偏好 on-prem 或 private cloud</li>
-                  <li>迁移成本、合同复杂度、功能完整性是主要顾虑</li>
-                  <li>AI/Data 产品真实收入贡献尚未单独量化披露</li>
+                  <li>DACH enterprises still prefer on-prem or private cloud</li>
+                  <li>Migration costs, contract complexity, and feature completeness are primary concerns</li>
+                  <li>AI/Data product revenue contribution not yet separately quantified or disclosed</li>
                 </ul>
               </div>
             </div>
 
             <blockquote>
-              <p>SAP 的财务转型顺利，客户迁移体验不完全顺利；收入结构已经变了，但客户心智和系统架构还在过渡期。</p>
+              <p>SAP's financial transformation is on track; its customer migration experience is not fully smooth. The revenue structure has changed, but customer mindsets and system architectures are still in transition.</p>
             </blockquote>
 
             <!-- ══════════════════════════════════════════ -->
             <!-- SECTION 4: JUDGMENT                       -->
             <!-- ══════════════════════════════════════════ -->
-            <h2 id="ai-data-era">四、判断层：SAP 在 AI/Data 时代的位置</h2>
+            <h2 id="ai-data-era">IV. The Verdict: SAP's Position in the AI/Data Era</h2>
 
-            <p>判断 SAP 这轮转型，不能只问"cloud 收入有没有增长"。更重要的是看：SAP 能否从 cloud ERP 公司进一步变成 enterprise AI + data platform 公司。</p>
+            <p>Evaluating SAP's transformation cannot stop at asking "has cloud revenue grown?" The more important question is whether SAP can evolve beyond a cloud ERP company to become an enterprise AI + data platform company.</p>
 
-            <!-- 4.1 控制点 -->
-            <h3 id="control-points">4.1 SAP 想控制什么？</h3>
+            <!-- 4.1 Control Points -->
+            <h3 id="control-points">4.1 What Does SAP Want to Control?</h3>
 
-            <p>SAP 的目标，是从 <strong>ERP 软件供应商</strong> 变成 <strong>企业流程 + 数据 + AI 执行层平台</strong>，这套目标可以拆成四个控制点：</p>
+            <p>SAP's goal is to evolve from an <strong>ERP software vendor</strong> into an <strong>enterprise process + data + AI execution platform</strong>. This objective breaks down into four control points:</p>
 
             <div class="control-points">
               <div class="control-point">
-                <div class="control-point-num">控制点 01</div>
-                <div class="control-point-title">流程控制点</div>
-                <div class="control-point-desc">SAP 已经深度嵌入企业财务、采购、供应链、生产、库存、人力等核心流程。</div>
+                <div class="control-point-num">Control Point 01</div>
+                <div class="control-point-title">Process Control</div>
+                <div class="control-point-desc">SAP is already deeply embedded in enterprise finance, procurement, supply chain, manufacturing, inventory, and HR core processes.</div>
               </div>
               <div class="control-point">
-                <div class="control-point-num">控制点 02</div>
-                <div class="control-point-title">数据控制点</div>
-                <div class="control-point-desc">SAP 想通过 Business Data Cloud，把 SAP 和非 SAP 数据整理成可治理、可理解、可调用的业务数据层。</div>
+                <div class="control-point-num">Control Point 02</div>
+                <div class="control-point-title">Data Control</div>
+                <div class="control-point-desc">SAP aims to use Business Data Cloud to organize SAP and non-SAP data into a governed, comprehensible, and callable business data layer.</div>
               </div>
               <div class="control-point">
-                <div class="control-point-num">控制点 03</div>
-                <div class="control-point-title">平台控制点</div>
-                <div class="control-point-desc">SAP 用 BTP 承担集成、扩展、自动化和 AI 接入，是生态系统的技术枢纽。</div>
+                <div class="control-point-num">Control Point 03</div>
+                <div class="control-point-title">Platform Control</div>
+                <div class="control-point-desc">SAP uses BTP to handle integration, extension, automation, and AI access, the technical hub of the ecosystem.</div>
               </div>
               <div class="control-point">
-                <div class="control-point-num">控制点 04</div>
-                <div class="control-point-title">AI 执行控制点</div>
-                <div class="control-point-desc">SAP 用 Joule、Business AI、AI agents，把 AI 从"回答问题"推进到"理解业务流程并执行动作"。</div>
+                <div class="control-point-num">Control Point 04</div>
+                <div class="control-point-title">AI Execution Control</div>
+                <div class="control-point-desc">SAP uses Joule, Business AI, and AI agents to advance AI from "answering questions" to "understanding business processes and executing actions."</div>
               </div>
             </div>
 
             <div class="callout">
-              <div class="callout-label">战略定位</div>
-              <p>SAP 的战略不是和 OpenAI、Anthropic、Google 正面竞争通用大模型，而是试图成为<strong>企业 AI 落地时连接流程、数据、权限和执行的业务层</strong>。企业 AI 最缺的不是模型本身，而是可靠的业务上下文、干净的数据、权限体系、流程约束和可执行入口。SAP 恰好掌握了很多大型企业最核心的业务流程和历史数据。</p>
+              <div class="callout-label">Strategic Positioning</div>
+              <p>SAP's strategy is not to compete head-on with OpenAI, Anthropic, or Google in general-purpose foundation models. Instead, it is attempting to become <strong>the business layer that connects processes, data, permissions, and execution when enterprises deploy AI</strong>. What enterprises most lack is not the model itself; it is reliable business context, clean data, permission structures, process constraints, and executable access points. SAP already controls much of the core business processes and historical data of large enterprises.</p>
             </div>
 
-            <!-- 4.2 好信号与坏信号 -->
-            <h3 id="signals">4.2 好信号与坏信号</h3>
+            <!-- 4.2 Positive and Negative Signals -->
+            <h3 id="signals">4.2 Positive and Negative Signals</h3>
 
             <div class="signal-grid">
               <div>
-                <div class="signal-col-header pos">好的信号</div>
+                <div class="signal-col-header pos">Positive Signals</div>
                 <div class="signal-col-body pos">
                   <ul class="signal-list pos">
-                    <li>Cloud 转型在财务上已经成立，Cloud 已经成为最大收入来源</li>
-                    <li>Cloud ERP Suite 占 Cloud 收入 86.2%，云增长围绕核心业务套件推进</li>
-                    <li>Software license 下滑没有拖垮总收入，cloud 增长能够覆盖旧模式收缩</li>
-                    <li>Cloud 毛利率约 73.9%，已进入规模化盈利阶段</li>
-                    <li>LeanIX、WalkMe、Reltio、Dremio、Prior Labs 等动作，正在补完关键能力拼图</li>
-                    <li>大型企业客户基础仍是护城河，核心 ERP 不容易被快速替代</li>
+                    <li>Cloud transformation is financially validated: Cloud is now the largest revenue source</li>
+                    <li>Cloud ERP Suite accounts for 86.2% of Cloud revenue, with cloud growth concentrated in core business suite</li>
+                    <li>Software license decline has not undermined total revenue; cloud growth covers legacy model contraction</li>
+                    <li>Cloud gross margin approximately 73.9%, entering a scaled, profitable phase</li>
+                    <li>LeanIX, WalkMe, Reltio, Dremio, and Prior Labs acquisitions are filling critical capability gaps</li>
+                    <li>Large enterprise customer base remains a moat: core ERP is not easily replaced quickly</li>
                   </ul>
                 </div>
               </div>
               <div>
-                <div class="signal-col-header neg">坏的信号</div>
+                <div class="signal-col-header neg">Negative Signals</div>
                 <div class="signal-col-body neg">
                   <ul class="signal-list neg">
-                    <li>客户迁移体验仍然有阻力，尤其 DACH 大企业对 public cloud 并不完全接受</li>
-                    <li>Public cloud 标准化与大企业复杂定制需求存在张力</li>
-                    <li>AI/Data 的收入贡献尚未清晰披露，仍更多是下一阶段增长假设</li>
-                    <li>Microsoft、Databricks、Snowflake、ServiceNow、Salesforce、Workday、Oracle 都在争夺企业数据、workflow 和 AI agent 入口</li>
-                    <li>产品版图很大，把 Cloud ERP、BTP、Business Data Cloud、Joule 等真正整合成低摩擦客户体验，难度很高</li>
+                    <li>Customer migration experience still faces friction, particularly DACH large enterprises not fully accepting public cloud</li>
+                    <li>Public cloud standardization creates tension with large enterprise complex customization requirements</li>
+                    <li>AI/Data revenue contribution not yet clearly disclosed, still largely a next-phase growth assumption</li>
+                    <li>Microsoft, Databricks, Snowflake, ServiceNow, Salesforce, Workday, and Oracle are all competing for the same enterprise data, workflow, and AI agent access points</li>
+                    <li>The product portfolio is large; truly integrating Cloud ERP, BTP, Business Data Cloud, and Joule into a low-friction customer experience is highly complex</li>
                   </ul>
                 </div>
               </div>
             </div>
 
-            <!-- 4.3 总体判断 -->
-            <h3 id="overall-judgment">4.3 总体判断</h3>
+            <!-- 4.3 Overall Judgment -->
+            <h3 id="overall-judgment">4.3 Overall Judgment</h3>
 
             <div class="phase-row">
               <div class="phase-block pos">
-                <div class="phase-header pos">第一阶段 · 大概率成功</div>
-                <div class="phase-title">从 license/support 向 cloud subscription 的转型</div>
+                <div class="phase-header pos">Phase 1 · High Probability of Success</div>
+                <div class="phase-title">Transition from license/support to cloud subscription</div>
                 <ul class="phase-items pos">
-                  <li>财务数据支撑：Cloud 占比 57.1%</li>
-                  <li>Cloud ERP Suite 规模验证（86.2% 集中度）</li>
-                  <li>Cloud 毛利率 73.9%，达到成熟水平</li>
-                  <li>总收入稳健增长（2023–2025 +17.9%）</li>
+                  <li>Financial data supports: Cloud at 57.1% of revenue</li>
+                  <li>Cloud ERP Suite scale validated (86.2% concentration)</li>
+                  <li>Cloud gross margin 73.9%, reaching maturity</li>
+                  <li>Total revenue growing steadily (2023–2025 +17.9%)</li>
                 </ul>
               </div>
               <div class="phase-block pending">
-                <div class="phase-header pending">第二阶段 · 方向对，待验证</div>
-                <div class="phase-title">从 cloud ERP 变成 enterprise AI + data platform</div>
+                <div class="phase-header pending">Phase 2 · Direction Right, Awaiting Validation</div>
+                <div class="phase-title">From cloud ERP to enterprise AI + data platform</div>
                 <ul class="phase-items pending">
-                  <li>AI/Data 收入贡献尚未单独量化</li>
-                  <li>客户是否愿意把 AI 和数据入口交给 SAP</li>
-                  <li>产品整合的低摩擦体验仍需证明</li>
-                  <li>竞争对手都在争夺同一个入口</li>
+                  <li>AI/Data revenue contribution not yet separately quantified</li>
+                  <li>Whether customers are willing to hand AI and data access to SAP</li>
+                  <li>Low-friction product integration experience still needs proof</li>
+                  <li>Competitors all competing for the same access point</li>
                 </ul>
               </div>
             </div>
 
             <blockquote>
-              <p>SAP 在 AI 时代最大的竞争力来自它对企业核心流程和业务数据的控制；最大的风险也来自同一个地方：这些流程和系统太复杂，导致客户迁移慢、标准化难、AI/data 产品落地周期长。</p>
+              <p>SAP's greatest competitive advantage in the AI era comes from its control of enterprise core processes and business data. Its greatest risk also comes from the same place: these processes and systems are so complex that customer migration is slow, standardization is difficult, and AI/data product deployment cycles are long.</p>
             </blockquote>
 
-            <p>SAP 未来竞争力的关键，不是它能不能发布更多 AI 功能，而是它能否把 <strong>Cloud ERP Suite、Business Data Cloud、BTP 和 Joule</strong> 真正组合成一个客户愿意迁移、愿意付费、能够产生业务结果的统一平台。</p>
+            <p>The key to SAP's future competitiveness is not whether it can release more AI features, but whether it can genuinely combine <strong>Cloud ERP Suite, Business Data Cloud, BTP, and Joule</strong> into a unified platform that customers are willing to migrate to, willing to pay for, and that can deliver real business outcomes.</p>
 
             <!-- ── Sources ── -->
             <div class="article-end">
               <div class="article-end-section">
-                <div class="article-end-label">信息来源与可信度评估</div>
+                <div class="article-end-label">Sources &amp; Credibility Assessment</div>
                 <table class="data-table">
                   <thead>
                     <tr>
-                      <th>来源</th>
-                      <th>用途</th>
-                      <th>评价</th>
+                      <th>Source</th>
+                      <th>Usage</th>
+                      <th>Assessment</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td><a href="https://www.sap.com/integrated-reports/2025/en/datahub/financial-data.html" style="color:var(--accent)">SAP Integrated Report 2025</a></td>
-                      <td>收入、成本、利润</td>
-                      <td>★★★★★ 官方审计财报</td>
+                      <td>Revenue, cost, profit</td>
+                      <td>★★★★★ Official audited financials</td>
                     </tr>
                     <tr>
                       <td><a href="https://www.sec.gov/Archives/edgar/data/1000184/000110465926020058/sap-20251231x20f.htm" style="color:var(--accent)">SAP Form 20-F 2025</a></td>
-                      <td>地区收入、业务解释</td>
-                      <td>★★★★★ SEC 文件</td>
+                      <td>Regional revenue, business commentary</td>
+                      <td>★★★★★ SEC filing</td>
                     </tr>
                     <tr>
                       <td><a href="https://www.sap.com/integrated-reports/2025/en/datahub/financial-data/five-year-summary.html" style="color:var(--accent)">SAP Five-Year Summary</a></td>
-                      <td>2021–2025 趋势</td>
-                      <td>★★★★★ 官方长期趋势数据</td>
+                      <td>2021–2025 trends</td>
+                      <td>★★★★★ Official long-term trend data</td>
                     </tr>
                     <tr>
                       <td><a href="https://dsag.de/presse/dsag-investment-report-2026-companies-are-investing-more-selectively-ai-is-becoming-established-cloud-computing-is-being-put-to-the-test/" style="color:var(--accent)">DSAG Investment Report 2026</a></td>
-                      <td>客户侧阻力与投资意愿</td>
-                      <td>★★★★★ 德语区 SAP 用户协会</td>
+                      <td>Customer-side friction and investment intent</td>
+                      <td>★★★★★ German-speaking SAP user association</td>
                     </tr>
                     <tr>
                       <td><a href="https://support.sap.com/en/release-upgrade-maintenance/maintenance-information/maintenance-strategy/s4hana-business-suite7.html" style="color:var(--accent)">SAP maintenance strategy</a></td>
-                      <td>ECC/Business Suite 维护期限</td>
-                      <td>★★★★★ 官方维护政策</td>
+                      <td>ECC/Business Suite maintenance timelines</td>
+                      <td>★★★★★ Official maintenance policy</td>
                     </tr>
                     <tr>
-                      <td>SAP Reltio / Dremio / Prior Labs 官方公告（2026-05）</td>
-                      <td>数据平台与 AI 收购动作</td>
-                      <td>★★★★★ 官方新闻（部分交易仍待监管批准）</td>
+                      <td>SAP Reltio / Dremio / Prior Labs official announcements (May 2026)</td>
+                      <td>Data platform and AI acquisition moves</td>
+                      <td>★★★★★ Official press releases (some transactions pending regulatory approval)</td>
                     </tr>
                     <tr>
                       <td><a href="https://www.sap.com/docs/download/agreements/product-policy/css/service-specifications/sap-s4hana-cloud-service-use-descriptions-english-v1-2020.pdf" style="color:var(--accent)">SAP S/4HANA Cloud Service Use Descriptions</a></td>
-                      <td>FUE 定价口径</td>
-                      <td>★★★★☆ 官方服务说明</td>
+                      <td>FUE pricing methodology</td>
+                      <td>★★★★☆ Official service specification</td>
                     </tr>
                   </tbody>
                 </table>

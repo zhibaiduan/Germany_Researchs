@@ -38,6 +38,9 @@ const Router = {
     const hash = window.location.hash.replace(/^#\/?/, '');
     const parts = hash.split('/').filter(Boolean);
 
+    // Keep nav lang-switcher in sync with current route
+    document.getElementById('nav-mount').innerHTML = renderNav();
+
     if (parts[0] === 'topics' && parts[1]) {
       // Article route
       cleanupView();

@@ -3,15 +3,109 @@
  * Handles: nav injection, footer injection, TOC generation, scroll spy
  */
 
+// ─── Language Token ──────────────────────────────────────────
+// Stored in localStorage under key 'lang' ('zh' | 'en').
+// Active language is inferred from the current hash when on an article;
+// falls back to the stored token (default: 'zh').
+
+function getLangFromHash() {
+  const hash = window.location.hash.replace(/^#\/?/, '');
+  const parts = hash.split('/').filter(Boolean);
+  if (parts[0] === 'topics' && parts[1]) {
+    return parts[1].startsWith('en-') ? 'en' : 'zh';
+  }
+  return localStorage.getItem('lang') || 'zh';
+}
+
+function _showLangTooltip(btn, msg) {
+  const old = document.getElementById('lang-tooltip');
+  if (old) old.remove();
+  const tip = document.createElement('div');
+  tip.id = 'lang-tooltip';
+  tip.className = 'lang-tooltip';
+  tip.textContent = msg;
+  document.body.appendChild(tip);
+  const r = btn.getBoundingClientRect();
+  tip.style.top  = (r.bottom + 8) + 'px';
+  tip.style.left = (r.left + r.width / 2) + 'px';
+  requestAnimationFrame(() => tip.classList.add('visible'));
+  setTimeout(() => {
+    tip.classList.remove('visible');
+    setTimeout(() => tip.remove(), 200);
+  }, 2200);
+}
+
+function setLang(lang) {
+  // Toggle active class directly — avoids re-render timing issue
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+
+  // Route to equivalent article (only when on a topic page)
+  const hash = window.location.hash.replace(/^#\/?/, '');
+  const parts = hash.split('/').filter(Boolean);
+
+  if (parts[0] !== 'topics' || !parts[1]) {
+    // On home: persist preference, no navigation needed
+    localStorage.setItem('lang', lang);
+    return;
+  }
+
+  const slug = parts[1];
+
+  if (lang === 'en') {
+    if (slug.startsWith('en-')) return; // already English
+    const enSlug = 'en-' + slug;
+    const exists = (RESEARCH_CONFIG.englishTopics || [])
+      .find(t => t.slug === enSlug && t.status === 'published');
+    if (exists) {
+      localStorage.setItem('lang', 'en');
+      window.location.hash = '#/topics/' + enSlug;
+    } else {
+      // Revert active state — no English version available
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === 'zh');
+      });
+      _showLangTooltip(
+        document.querySelector('.lang-btn[data-lang="en"]'),
+        '没有英文版本'
+      );
+    }
+  } else {
+    if (!slug.startsWith('en-')) return; // already Chinese
+    const zhSlug = slug.slice(3);
+    const exists = RESEARCH_CONFIG.topics
+      .find(t => t.slug === zhSlug && t.status === 'published');
+    if (exists) {
+      localStorage.setItem('lang', 'zh');
+      window.location.hash = '#/topics/' + zhSlug;
+    } else {
+      // Revert active state — no Chinese version available
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === 'en');
+      });
+      _showLangTooltip(
+        document.querySelector('.lang-btn[data-lang="zh"]'),
+        '没有中文版本'
+      );
+    }
+  }
+}
+
 // ─── Nav & Footer ────────────────────────────────────────────
 function renderNav() {
   const cfg = RESEARCH_CONFIG;
+  const lang = getLangFromHash();
   return `
     <nav class="nav">
       <div class="nav-inner">
         <a href="#/" class="nav-logo">
           <span>${cfg.site.name}</span>
         </a>
+        <div class="lang-switcher" role="group" aria-label="Language">
+          <button class="lang-btn${lang === 'zh' ? ' active' : ''}" data-lang="zh" onclick="setLang('zh')" title="中文">🇨🇳</button>
+          <button class="lang-btn${lang === 'en' ? ' active' : ''}" data-lang="en" onclick="setLang('en')" title="English">🇺🇸</button>
+        </div>
       </div>
     </nav>`;
 }
@@ -104,6 +198,32 @@ function renderSidebar() {
     </li>`;
   }).join('');
 
+  const enTopics = cfg.englishTopics || [];
+  const enItems = enTopics.map(t => {
+    const idDisplay = String(t.id).length <= 2 ? String(t.id).padStart(2, '0') : t.id;
+    const isActive = currentSlug === t.slug;
+    const dot = `<span class="sidebar-dot ${statusDot[t.status]}"></span>`;
+    const inner = `
+      <span class="sidebar-num">${idDisplay}</span>
+      <span class="sidebar-title-text">${t.title}</span>
+      ${dot}`;
+    if (t.status === 'published') {
+      return `<li class="sidebar-item published${isActive ? ' active' : ''}">
+        <a href="#/topics/${t.slug}">${inner}</a>
+      </li>`;
+    }
+    return `<li class="sidebar-item ${t.status}">
+      <span class="sidebar-link-disabled">${inner}</span>
+    </li>`;
+  }).join('');
+
+  const enSection = enTopics.length ? `
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-header" style="margin-top:8px">English Content</div>
+      <ul class="sidebar-list">
+        ${enItems}
+      </ul>` : '';
+
   return `
     <div class="sidebar-inner">
       <div class="sidebar-header">Contents</div>
@@ -113,6 +233,7 @@ function renderSidebar() {
         ${homeItem}
         ${items}
       </ul>
+      ${enSection}
       <div class="sidebar-divider"></div>
       <div class="sidebar-period">
         已发布 ${published} / ${total} 专题<br>
