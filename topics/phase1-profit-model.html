@@ -441,13 +441,15 @@
       text-decoration-color: var(--accent);
     }
 
-    /* ─── Floating TOC — always visible ─── */
+    /* ─── Floating TOC — sticky panel ─── */
     .toc-panel {
       width: 192px;
       flex-shrink: 0;
-      overflow: visible;
+      position: sticky;
+      top: calc(var(--nav-h) + 24px);
+      align-self: flex-start;
+      max-height: calc(100vh - var(--nav-h) - 48px);
       opacity: 1;
-      cursor: default;
       transition: none;
     }
     .toc-panel:hover,
@@ -459,6 +461,8 @@
     .toc-inner {
       min-width: 192px;
       padding: 0;
+      max-height: calc(100vh - var(--nav-h) - 48px);
+      overflow-y: auto;
     }
     .toc-float-text {
       max-width: 160px;

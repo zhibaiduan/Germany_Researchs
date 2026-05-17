@@ -659,18 +659,20 @@ img { max-width: 100%; display: block; }
   min-width: 0;
 }
 
-/* TOC panel — always visible */
+/* TOC panel — sticky on the panel itself so it works inside flex */
 .toc-panel {
   width: 200px;
   flex-shrink: 0;
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+  align-self: flex-start;
+  max-height: calc(100vh - var(--nav-h) - 48px);
   opacity: 1;
   transition: opacity 300ms ease;
 }
 .toc-panel.scroll-dimmed { opacity: 0.35; }
 
 .toc-inner {
-  position: sticky;
-  top: calc(var(--nav-h) + 24px);
   min-width: 220px;
   max-height: calc(100vh - var(--nav-h) - 48px);
   overflow-y: auto;

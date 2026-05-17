@@ -374,7 +374,7 @@ function buildFloatingTOC(scrollHandlers = [], onObserver = null) {
 
   const hdr = document.createElement('div');
   hdr.className = 'toc-float-header';
-  hdr.textContent = '目录';
+  hdr.textContent = getLangFromHash() === 'en' ? 'Contents' : '目录';
   tocInner.appendChild(hdr);
 
   const floatItems = [];
