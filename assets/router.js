@@ -21,7 +21,11 @@ function cleanupView() {
 }
 
 const Router = {
-  init() {
+  async init() {
+    if (typeof loadSiteContext === 'function') {
+      await loadSiteContext();
+    }
+
     const lang = getActiveLang();
     document.getElementById('nav-mount').innerHTML = renderNav();
     document.getElementById('sidebar-mount').innerHTML = renderSidebar(lang);
@@ -131,4 +135,10 @@ const Router = {
   }
 };
 
-Router.init();
+Router.init().catch(err => {
+  console.error(err);
+  const view = document.getElementById('view');
+  if (view) {
+    view.innerHTML = '<div class="view-error">Unable to load site configuration.</div>';
+  }
+});

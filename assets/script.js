@@ -4,7 +4,7 @@
  */
 
 // ─── Language ─────────────────────────────────────────────────
-// 'lang' stored in localStorage: 'zh' | 'en'. Default 'zh'.
+// 'lang' stored in localStorage: 'zh' | 'en'. Default 'en'.
 
 function getActiveLang() {
   return localStorage.getItem('lang') || 'en';
@@ -63,7 +63,7 @@ function setLang(lang) {
 
   if (lang === 'en') {
     if (isCurrentlyEn) return;
-    if (topic && topic.enSlug) {
+    if (topic && topic.enSlug && (topic.availableLangs || []).includes('en')) {
       window.location.hash = '#/topics/' + topic.enSlug;
     } else {
       // No English version — revert button
@@ -89,7 +89,7 @@ const UI = {
     overview: "研究概览",
     researchTopics: "专题研究",
     coreQuestions: "核心研究问题",
-    status: { published: "已发布", draft: "草稿", coming: "即将发布" },
+    status: { published: "已发布", draft: "草稿", "in-review": "审核中", archived: "已归档", coming: "即将发布" },
     tocLabel: "目录",
     loading: "加载中…",
     loadError: "无法加载文章内容。",
@@ -101,7 +101,7 @@ const UI = {
     overview: "Overview",
     researchTopics: "Research Topics",
     coreQuestions: "Core Research Questions",
-    status: { published: "Published", draft: "Draft", coming: "Coming Soon" },
+    status: { published: "Published", draft: "Draft", "in-review": "In Review", archived: "Archived", coming: "Coming Soon" },
     tocLabel: "Contents",
     loading: "Loading…",
     loadError: "Unable to load article.",
@@ -135,6 +135,7 @@ function initSidebarState() {
 // ─── Nav & Footer ────────────────────────────────────────────
 function renderNav() {
   const lang = getActiveLang();
+  const siteName = RESEARCH_CONFIG?.site?.name || 'Research';
   return `
     <nav class="nav">
       <div class="nav-inner">
@@ -146,7 +147,7 @@ function renderNav() {
               <rect x="1" y="11.2" width="13" height="1.3" rx=".65" fill="currentColor"/>
             </svg>
           </button>
-          <a href="#/" class="nav-collapsed-brand">Duan's Research</a>
+          <a href="#/" class="nav-collapsed-brand">${siteName}</a>
         </div>
         <div class="lang-switcher" role="group" aria-label="Language">
           <button class="lang-btn${lang === 'zh' ? ' active' : ''}" data-lang="zh" onclick="setLang('zh')" title="中文">🇨🇳</button>
@@ -210,8 +211,6 @@ function renderSidebar(lang) {
   const isHome = !currentSlug;
 
   const ui = UI[lang] || UI.zh;
-  const statusDot = { published: 'dot-published', draft: 'dot-draft', coming: 'dot-coming' };
-
   const homeItem = `
     <li class="sidebar-item${isHome ? ' active' : ''}">
       <a href="#/" class="sidebar-link">
@@ -221,10 +220,9 @@ function renderSidebar(lang) {
 
   const items = cfg.topics.map(t => {
     const tl = loc(t, lang);
-    const slug = (lang === 'en' && t.enSlug) ? t.enSlug : t.slug;
+    const slug = (lang === 'en' && t.enSlug && (t.availableLangs || []).includes('en')) ? t.enSlug : t.slug;
     const isActive = currentSlug === t.slug || currentSlug === t.enSlug;
     const inner = `
-      <span class="sidebar-item-num">${t.id}</span>
       <span class="sidebar-item-title">${tl.title}</span>`;
 
     if (t.status === 'published') {
@@ -272,11 +270,12 @@ function renderHub(lang) {
   return `
     <section class="hub-hero">
       <div class="hub-company-id">
-        <div class="hub-logo">SAP</div>
+        <div class="hub-logo">${s.logoText || s.shortName || s.name}</div>
         <div>
           <h1 class="hub-hero-name">${s.name}</h1>
           <div class="hub-hero-badges">
             ${[s.ticker, s.exchange, sl.sector]
+              .filter(Boolean)
               .map(v => `<span class="hub-hero-badge">${v}</span>`).join('')}
           </div>
         </div>
@@ -313,10 +312,11 @@ function renderHub(lang) {
       <div class="topics-grid">
         ${cfg.topics.map(t => {
           const tl = loc(t, lang);
-          const slug = (lang === 'en' && t.enSlug) ? t.enSlug : t.slug;
+          const slug = (lang === 'en' && t.enSlug && (t.availableLangs || []).includes('en')) ? t.enSlug : t.slug;
           const statusLabel = ui.status[t.status] || t.status;
           const isClickable = t.status === 'published';
           const El = isClickable ? 'a' : 'div';
+          const readingTime = t.readingTimeByLang?.[lang] || t.readingTime?.[lang] || t.readingTime || '';
           return `
             <${El} ${isClickable ? `href="#/topics/${slug}"` : ''} class="topic-card ${t.status !== 'published' ? t.status : ''}">
               <div class="topic-card-top">
@@ -328,7 +328,7 @@ function renderHub(lang) {
               <div class="topic-summary">${tl.summary}</div>
               <div class="topic-footer">
                 <div class="topic-tags">${(tl.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
-                <div class="topic-read-meta">${t.readingTime} min</div>
+                <div class="topic-read-meta">${readingTime ? `${readingTime} min` : ''}</div>
               </div>
             </${El}>`;
         }).join('')}
@@ -482,7 +482,16 @@ function initNavTitle(scrollHandlers = []) {
 }
 
 // ─── Init (for standalone topic HTML files) ───────────────────
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  if (typeof loadSiteContext === 'function' && !window.RESEARCH_CONFIG) {
+    try {
+      await loadSiteContext();
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+  }
+
   // Only run if not in SPA mode (no #view element)
   if (document.getElementById('view')) return;
   buildTOC();

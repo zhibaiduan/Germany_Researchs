@@ -71,23 +71,32 @@
   <script src="config.js"></script>
   <script src="assets/script.js"></script>
   <script>
-    document.getElementById('nav-mount').innerHTML = renderNavHub();
-    document.getElementById('sidebar-mount').innerHTML = renderSidebar();
-    document.getElementById('footer-mount').innerHTML = renderFooter();
+    (async function () {
+      await loadSiteContext();
+      const lang = getActiveLang();
+      document.getElementById('nav-mount').innerHTML = renderNav();
+      document.getElementById('sidebar-mount').innerHTML = renderSidebar(lang);
+      document.getElementById('footer-mount').innerHTML = renderFooter(lang);
 
-    const cfg = RESEARCH_CONFIG;
-    const r = cfg.researcher;
-    const s = cfg.subject;
+      const cfg = RESEARCH_CONFIG;
+      const r = cfg.researcher;
+      const rl = loc(r, lang);
+      const s = cfg.subject;
+      const sl = loc(s, lang);
+      const ui = UI[lang] || UI.zh;
 
-    document.getElementById('about-subject-title').textContent = `为什么研究 ${s.name}`;
-    document.getElementById('about-motivation').innerHTML = `<p>${s.motivation}</p>`;
-    document.getElementById('about-core-questions').innerHTML =
-      s.coreQuestions.map(q => `<li>${q}</li>`).join('');
-    document.getElementById('about-methodology').innerHTML =
-      r.methodology.split('\n\n').map(p => `<p>${p}</p>`).join('');
-    document.getElementById('about-researcher-name').textContent = r.name;
-    document.getElementById('about-researcher-bio').innerHTML = `<p>${r.bio}</p><p>${r.title}</p>`;
-    document.getElementById('about-disclaimer').innerHTML = `<p>${r.disclaimer}</p>`;
+      document.getElementById('about-subject-title').textContent =
+        lang === 'zh' ? `为什么研究 ${s.name}` : `Why study ${s.name}`;
+      document.getElementById('about-motivation').innerHTML =
+        (sl.motivation || '').split('\n\n').map(p => `<p>${p}</p>`).join('');
+      document.getElementById('about-core-questions').innerHTML =
+        (sl.coreQuestions || []).map(q => `<li>${q}</li>`).join('');
+      document.getElementById('about-methodology').innerHTML =
+        `<p>${ui.overview} follows a reusable research-site schema: author identity, project positioning, topic index, article source content, and generated outputs are managed separately.</p>`;
+      document.getElementById('about-researcher-name').textContent = r.name;
+      document.getElementById('about-researcher-bio').innerHTML = `<p>${rl.intro || ''}</p>`;
+      document.getElementById('about-disclaimer').innerHTML = `<p>${rl.disclaimer || ''}</p>`;
+    })().catch(console.error);
   </script>
 </body>
 </html>

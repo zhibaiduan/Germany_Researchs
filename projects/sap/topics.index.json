@@ -1,0 +1,110 @@
+{
+  "topics": [
+    {
+      "id": "P1M0",
+      "slug": "01-company-overview",
+      "status": "published",
+      "canonicalLang": "zh",
+      "availableLangs": ["zh"],
+      "publishDate": "2026-05-14",
+      "lastUpdated": "2026-05-14",
+      "readingTime": {
+        "zh": 22
+      },
+      "title": {
+        "zh": "公司全景",
+        "en": "Company Overview"
+      },
+      "subtitle": {
+        "zh": "从小镇创业到全球巨头",
+        "en": "From small-town startup to global enterprise software giant"
+      },
+      "summary": {
+        "zh": "梳理 SAP 的历史沿革、产品版图、护城河来源、云转型与 AI 战略，是进入后续专题前的全局认知入口。",
+        "en": "A broad overview of SAP's history, product map, moat, cloud transition, and AI strategy."
+      },
+      "tags": {
+        "zh": ["历史", "战略", "商业模式"],
+        "en": ["History", "Strategy", "Business Model"]
+      },
+      "paths": {
+        "zh": "projects/sap/content/topics/company-overview/zh.md"
+      },
+      "output": {
+        "zh": "topics/01-company-overview.html"
+      }
+    },
+    {
+      "id": "P1M1",
+      "slug": "phase1-profit-model",
+      "enSlug": "en-phase1-profit-model",
+      "status": "published",
+      "canonicalLang": "zh",
+      "availableLangs": ["zh", "en"],
+      "publishDate": "2026-05-14",
+      "lastUpdated": "2026-05-18",
+      "readingTime": {
+        "zh": 18,
+        "en": 20
+      },
+      "title": {
+        "zh": "盈利模式及其变迁",
+        "en": "Profit Model & Transformation"
+      },
+      "subtitle": {
+        "zh": "SAP 如何赚钱：从一次性授权到云订阅的收入重构",
+        "en": "How SAP makes money: restructuring revenue from perpetual licenses to cloud subscriptions"
+      },
+      "summary": {
+        "zh": "基于五年财务数据，解析 SAP 收入结构的变迁逻辑、Cloud 内部增长分化、以及 Cloud 转型云端价值假设成立的三个前提条件。",
+        "en": "Drawing on five years of financial data, this report analyzes SAP's revenue structure evolution, growth divergence within Cloud, and the preconditions for the cloud transition value thesis to hold."
+      },
+      "tags": {
+        "zh": ["财务", "云转型", "商业模式"],
+        "en": ["Financials", "Cloud Transition", "Business Model"]
+      },
+      "paths": {
+        "zh": "projects/sap/content/topics/profit-model/zh.md",
+        "en": "projects/sap/content/topics/profit-model/en.md"
+      },
+      "output": {
+        "zh": "topics/phase1-profit-model.html",
+        "en": "topics/en-phase1-profit-model.html"
+      }
+    },
+    {
+      "id": "P1M2",
+      "slug": "ma-partnership",
+      "status": "published",
+      "canonicalLang": "zh",
+      "availableLangs": ["zh"],
+      "publishDate": "2026-05-18",
+      "lastUpdated": "2026-05-18",
+      "readingTime": {
+        "zh": 22
+      },
+      "title": {
+        "zh": "SAP 近两年的 5 笔收购与 10 类合作",
+        "en": "SAP's 5 Acquisitions and 10 Partnerships"
+      },
+      "subtitle": {
+        "zh": "它们共同指向一个目标——重建企业 AI 控制层",
+        "en": "All pointing toward one goal — rebuilding the enterprise AI control layer"
+      },
+      "summary": {
+        "zh": "梳理 SAP 2024–2026 年的 5 笔收购与 10 类关键合作，判断其 AI 战略意图与落地有效性：从 ERP 软件公司迈向企业数据与 AI 操作层。",
+        "en": "A timeline of SAP's 5 acquisitions and 10 key partnerships from 2024–2026, assessing the intent and effectiveness of its AI strategy."
+      },
+      "tags": {
+        "zh": ["收购", "合作", "AI 战略"],
+        "en": ["M&A", "Partnerships", "AI Strategy"]
+      },
+      "paths": {
+        "zh": "projects/sap/content/topics/ma-partnership/zh.md"
+      },
+      "output": {
+        "zh": "topics/ma-partnership.html"
+      }
+    }
+  ]
+}

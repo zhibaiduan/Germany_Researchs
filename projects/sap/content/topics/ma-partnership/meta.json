@@ -1,0 +1,20 @@
+{
+  "id": "P1M2",
+  "slug": "ma-partnership",
+  "canonicalLang": "zh",
+  "status": "published",
+  "content": {
+    "source": {
+      "zh": "zh.md"
+    },
+    "generated": {
+      "zh": "../../../../topics/ma-partnership.html"
+    }
+  },
+  "display": {
+    "template": "article",
+    "toc": true,
+    "showSources": true,
+    "showReadingProgress": false
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "P1M1",
+  "slug": "phase1-profit-model",
+  "enSlug": "en-phase1-profit-model",
+  "canonicalLang": "zh",
+  "status": "published",
+  "content": {
+    "source": {
+      "zh": "zh.md",
+      "en": "en.md"
+    },
+    "generated": {
+      "zh": "../../../../topics/phase1-profit-model.html",
+      "en": "../../../../topics/en-phase1-profit-model.html"
+    }
+  },
+  "translation": {
+    "en": {
+      "sourceLang": "zh",
+      "status": "generated",
+      "generatedAt": "2026-05-18",
+      "reviewStatus": "needs-review"
+    }
+  },
+  "display": {
+    "template": "article",
+    "toc": true,
+    "showSources": true,
+    "showReadingProgress": false
+  }
+}

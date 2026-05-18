@@ -228,9 +228,13 @@
   <script src="../config.js"></script>
   <script src="../assets/script.js"></script>
   <script>
-    document.getElementById('nav-mount').innerHTML = renderNav('hub');
-    document.getElementById('sidebar-mount').innerHTML = renderSidebar();
-    document.getElementById('footer-mount').innerHTML = renderFooter();
+    (async function () {
+      await loadSiteContext();
+      const lang = getActiveLang();
+      document.getElementById('nav-mount').innerHTML = renderNav();
+      document.getElementById('sidebar-mount').innerHTML = renderSidebar(lang);
+      document.getElementById('footer-mount').innerHTML = renderFooter(lang);
+    })().catch(console.error);
   </script>
 </body>
 </html>

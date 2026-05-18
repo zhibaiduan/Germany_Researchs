@@ -1,0 +1,90 @@
+{
+  "projectId": "sap-research",
+  "projectType": "company-research",
+  "defaultLang": "zh",
+  "supportedLangs": ["zh", "en"],
+  "site": {
+    "name": {
+      "zh": "Duan's Research",
+      "en": "Duan's Research"
+    },
+    "tagline": {
+      "zh": "独立研究 · 长期视角",
+      "en": "Independent Research · Long-term Perspective"
+    },
+    "copyright": {
+      "zh": "© 2026 Duan",
+      "en": "© 2026 Duan"
+    },
+    "license": {
+      "zh": "非商业用途可自由转载，需注明来源。",
+      "en": "Free to share for non-commercial use with attribution."
+    }
+  },
+  "subject": {
+    "type": "company",
+    "name": "SAP SE",
+    "shortName": "SAP",
+    "logoText": "SAP",
+    "ticker": "SAP",
+    "exchange": "NYSE · XETRA",
+    "founded": "1972",
+    "hq": "Walldorf, Germany",
+    "employees": "~107,000",
+    "startDate": "2026-05",
+    "lastUpdated": "2026-05-14"
+  },
+  "positioning": {
+    "zh": {
+      "sector": "企业软件 / Enterprise Software",
+      "description": "SAP 是全球最大的企业应用软件公司之一，总部位于德国 Walldorf，1972 年由五位前 IBM 工程师创立。其 ERP 系统是全球约 77% 的财富 500 强企业核心业务流程的底层系统，在制造、金融、零售、能源等几乎所有主要行业占据主导地位。2025 年总营收 €368 亿，市值约 $2,500 亿，是欧洲市值最高的科技公司。",
+      "researchMotivation": "我们研究 SAP 的核心价值在于两层。\n\n一层是通用价值：SAP 是企业软件护城河逻辑的最佳标本——迁移成本、数据积累、生态体系三重叠加的自我强化正循环，在 B2B SaaS 领域具有普遍参考意义。S/4HANA 迁移窗口期（2025–2030）正在创造十年级别的机会，而它从“卖授权”到“卖平台”的转型，是理解行业下一个十年竞争格局的关键视角。\n\n另一层是本地价值：在德国，SAP 就是 B2B 软件运转的基础设施本身。整个生态围绕它或在它之上展开。研究它的业务边界、擅长与短板、生态设施、竞争格局与未来动向，就是给德国 B2B 软件市场装上了信号标和地震仪——看得清方向在哪、震感从哪来、自己该往哪走。",
+      "coreQuestions": [
+        "SAP 的护城河来自哪里？客户粘性的底层逻辑是什么？",
+        "云转型战略的真实进展：RISE with SAP 能否完成历史使命？",
+        "与 Oracle、Workday、ServiceNow 相比，SAP 的竞争边界在哪里？",
+        "AI 集成（Joule）能否成为 SAP 下一个十年的增长引擎？",
+        "S/4HANA 迁移窗口期对 ISV 和周边产品意味着什么机会？"
+      ]
+    },
+    "en": {
+      "sector": "Enterprise Software",
+      "description": "SAP is one of the world's largest enterprise application software companies, founded in 1972 by five former IBM engineers and headquartered in Walldorf, Germany. Its ERP systems underpin the core business processes of approximately 77% of Fortune 500 companies, holding a dominant position across manufacturing, finance, retail, energy, and virtually every major industry. Total revenue in 2025 reached €36.8 billion, with a market capitalization of approximately $250 billion — Europe's highest-valued technology company.",
+      "researchMotivation": "We study SAP at two levels.\n\nThe first is universal value: SAP is the definitive case study in enterprise software moat logic — a self-reinforcing flywheel of switching costs, data accumulation, and ecosystem lock-in that has broad reference value across B2B SaaS. The S/4HANA migration window (2025–2030) is creating a decade-scale opportunity, and SAP's transition from 'selling licenses' to 'selling a platform' is the key lens for understanding the competitive landscape of enterprise software over the next decade.\n\nThe second is local value: In Germany, SAP is the infrastructure of B2B software itself. The entire ecosystem operates around it or on top of it. Studying its business boundaries, strengths and weaknesses, ecosystem dynamics, competitive landscape, and future direction is like installing a signal beacon and seismograph on the German B2B software market — revealing where things are heading, where tremors originate, and where you should be positioning.",
+      "coreQuestions": [
+        "Where does SAP's moat come from? What is the underlying logic of customer stickiness?",
+        "Cloud transformation progress: Can RISE with SAP fulfill its historical mission?",
+        "Compared to Oracle, Workday, and ServiceNow — where does SAP's competitive boundary lie?",
+        "Can AI integration (Joule) become SAP's growth engine for the next decade?",
+        "What opportunities does the S/4HANA migration window create for ISVs and adjacent products?"
+      ]
+    }
+  },
+  "metadata": [
+    {
+      "key": "founded",
+      "label": { "zh": "成立年份", "en": "Founded" },
+      "value": { "zh": "1972", "en": "1972" }
+    },
+    {
+      "key": "hq",
+      "label": { "zh": "总部", "en": "Headquarters" },
+      "value": { "zh": "Walldorf, Germany", "en": "Walldorf, Germany" }
+    },
+    {
+      "key": "employees",
+      "label": { "zh": "员工规模", "en": "Employees" },
+      "value": { "zh": "~107,000", "en": "~107,000" }
+    },
+    {
+      "key": "marketCap",
+      "label": { "zh": "市值", "en": "Market Cap" },
+      "value": { "zh": "约 $2,500 亿（2026 年）", "en": "~$250B (2026)" }
+    },
+    {
+      "key": "lastUpdated",
+      "label": { "zh": "最近更新", "en": "Last Updated" },
+      "value": { "zh": "2026-05-14", "en": "2026-05-14" }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "id": "duan",
+  "name": "Duan",
+  "location": "Berlin",
+  "bio": {
+    "zh": "Duan，曾在办公协同与效率软件领域担任产品经理 6 年，目前于柏林求学，持续关注德国 B2B 软件、企业数字化与 AI 落地相关议题。",
+    "en": "Duan is a product manager with 6 years of experience in office collaboration and productivity software. Currently based in Berlin, with ongoing focus on German B2B software, enterprise digitalization, and AI adoption."
+  },
+  "aboutTitle": {
+    "zh": "关于作者与研究说明",
+    "en": "About the Author"
+  },
+  "focusLabel": {
+    "zh": "长期关注的问题包括：",
+    "en": "Areas of ongoing focus:"
+  },
+  "focusAreas": {
+    "zh": [
+      "德国 B2B 软件市场的结构与特征",
+      "企业如何在特定市场、文化与监管环境下定义问题、设计产品并推进 Go-to-Market",
+      "数字化与 AI 系统如何真正被组织采用，并在实际业务中发挥价值"
+    ],
+    "en": [
+      "The structure and characteristics of the German B2B software market",
+      "How companies define problems, design products, and execute Go-to-Market within specific market, cultural, and regulatory environments",
+      "How digitalization and AI systems are genuinely adopted by organizations and deliver value in real business operations"
+    ]
+  },
+  "coreLabel": {
+    "zh": "这些问题背后的核心，其实是：",
+    "en": "The underlying question across all of this:"
+  },
+  "coreInsight": {
+    "zh": "在市场、组织、监管、技术与用户体验等多重约束下，企业如何设计真正有效、可落地、可被采用的产品与行动策略，并完成从概念到规模化采用的闭环。",
+    "en": "Under the multi-layered constraints of market, organization, regulation, technology, and user experience, how can companies design products and strategies that are truly effective, deployable, and adoptable, completing the loop from concept to scaled adoption?"
+  },
+  "aiNote": {
+    "zh": "同时，也持续关注 AI、自动化与企业系统的结合方式，尤其关注其在真实商业环境中的可控性、责任边界与长期价值。",
+    "en": "Also tracking how AI, automation, and enterprise systems intersect, particularly their controllability, accountability boundaries, and long-term value in real business environments."
+  },
+  "disclaimer": {
+    "zh": "相关研究与分析主要基于公开信息、行业观察与个人理解整理，内容仅用于学习交流与观点讨论，不构成商业、法律或投资建议。",
+    "en": "Research and analysis are based primarily on public information, industry observation, and personal interpretation. Content is for learning and discussion only, and does not constitute commercial, legal, or investment advice."
+  },
+  "links": {
+    "email": "",
+    "website": "",
+    "linkedin": ""
+  }
+}
