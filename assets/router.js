@@ -22,10 +22,10 @@ function cleanupView() {
 
 const Router = {
   init() {
+    const lang = getActiveLang();
     document.getElementById('nav-mount').innerHTML = renderNav();
-    document.getElementById('sidebar-mount').innerHTML = renderSidebar();
+    document.getElementById('sidebar-mount').innerHTML = renderSidebar(lang);
 
-    // Restore sidebar open/collapsed state from localStorage
     initSidebarState();
 
     window.addEventListener('hashchange', () => this.resolve());
@@ -35,32 +35,34 @@ const Router = {
   resolve() {
     const hash = window.location.hash.replace(/^#\/?/, '');
     const parts = hash.split('/').filter(Boolean);
+    const lang = getActiveLang();
 
     if (parts[0] === 'topics' && parts[1]) {
       document.getElementById('nav-mount').innerHTML = renderNav();
       cleanupView();
       window.scrollTo(0, 0);
-      this.showArticle(parts[1]);
+      this.showArticle(parts[1], lang);
     } else if (parts.length === 0 || !hash) {
       document.getElementById('nav-mount').innerHTML = renderNav();
       cleanupView();
       window.scrollTo(0, 0);
-      this.showHome();
+      this.showHome(lang);
     }
-    // In-page anchors (e.g. #section-2) — browser handles natively
-    // Do NOT re-render nav: it would destroy the injected .nav-center-title
+    // In-page anchors — browser handles natively
   },
 
-  showHome() {
-    document.getElementById('view').innerHTML = renderHub();
-    // Update sidebar active state (highlight overview item)
-    document.getElementById('sidebar-mount').innerHTML = renderSidebar();
+  showHome(lang) {
+    lang = lang || getActiveLang();
+    document.getElementById('view').innerHTML = renderHub(lang);
+    document.getElementById('sidebar-mount').innerHTML = renderSidebar(lang);
   },
 
-  async showArticle(slug) {
+  async showArticle(slug, lang) {
+    lang = lang || getActiveLang();
+    const ui = UI[lang] || UI.zh;
     const view = document.getElementById('view');
 
-    view.innerHTML = `<div class="view-loading">加载中…</div>`;
+    view.innerHTML = `<div class="view-loading">${ui.loading}</div>`;
 
     let html;
     try {
@@ -70,13 +72,13 @@ const Router = {
     } catch (e) {
       view.innerHTML = `
         <div class="view-error">
-          <p>无法加载文章内容。</p>
+          <p>${ui.loadError}</p>
           <p style="color:var(--text-3);font-size:13px;margin-top:8px;">
-            请通过本地服务器访问（而非直接打开文件）：<br>
+            ${ui.loadErrorHint}<br>
             <code>python3 -m http.server 8080</code><br>
-            然后访问 <code>http://localhost:8080</code>
+            then open <code>http://localhost:8080</code>
           </p>
-          <a href="#/" style="margin-top:16px;display:inline-block;">← 返回首页</a>
+          <a href="#/" style="margin-top:16px;display:inline-block;">${ui.backHome}</a>
         </div>`;
       return;
     }
@@ -94,7 +96,7 @@ const Router = {
 
     const wrap = doc.querySelector('.article-wrap');
     if (!wrap) {
-      view.innerHTML = `<div class="view-error">文章结构异常，无法渲染。<br><a href="#/">← 返回首页</a></div>`;
+      view.innerHTML = `<div class="view-error">${ui.structureError}<br><a href="#/">${ui.backHome}</a></div>`;
       return;
     }
 
@@ -106,7 +108,7 @@ const Router = {
       }
     });
 
-    view.innerHTML = wrap.outerHTML + renderFooter();
+    view.innerHTML = wrap.outerHTML + renderFooter(lang);
 
     // Re-execute any inline scripts
     view.querySelectorAll('script').forEach(old => {
@@ -117,7 +119,7 @@ const Router = {
     });
 
     // Update sidebar active state (highlight current article)
-    document.getElementById('sidebar-mount').innerHTML = renderSidebar();
+    document.getElementById('sidebar-mount').innerHTML = renderSidebar(lang);
 
     requestAnimationFrame(() => {
       buildFloatingTOC(_scrollHandlers, obs => { _tocObserver = obs; });

@@ -3,18 +3,16 @@
  * Handles: nav injection, footer injection, TOC generation, scroll spy
  */
 
-// ─── Language Token ──────────────────────────────────────────
-// Stored in localStorage under key 'lang' ('zh' | 'en').
-// Active language is inferred from the current hash when on an article;
-// falls back to the stored token (default: 'zh').
+// ─── Language ─────────────────────────────────────────────────
+// 'lang' stored in localStorage: 'zh' | 'en'. Default 'zh'.
 
-function getLangFromHash() {
-  const hash = window.location.hash.replace(/^#\/?/, '');
-  const parts = hash.split('/').filter(Boolean);
-  if (parts[0] === 'topics' && parts[1]) {
-    return parts[1].startsWith('en-') ? 'en' : 'zh';
-  }
+function getActiveLang() {
   return localStorage.getItem('lang') || 'zh';
+}
+
+// Localise helper — picks obj[lang], falls back to obj['zh']
+function loc(obj, lang) {
+  return (obj && obj[lang]) ? obj[lang] : (obj && obj['zh']) ? obj['zh'] : obj;
 }
 
 function _showLangTooltip(btn, msg) {
@@ -36,61 +34,82 @@ function _showLangTooltip(btn, msg) {
 }
 
 function setLang(lang) {
-  // Toggle active class directly — avoids re-render timing issue
+  localStorage.setItem('lang', lang);
+
+  // Update switcher state
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === lang);
   });
 
-  // Route to equivalent article (only when on a topic page)
+  // Detect current route
   const hash = window.location.hash.replace(/^#\/?/, '');
   const parts = hash.split('/').filter(Boolean);
 
   if (parts[0] !== 'topics' || !parts[1]) {
-    // On home: persist preference, no navigation needed
-    localStorage.setItem('lang', lang);
+    // On hub page — re-render hub + sidebar
+    const view = document.getElementById('view');
+    const sidebarMount = document.getElementById('sidebar-mount');
+    if (view) view.innerHTML = renderHub(lang);
+    if (sidebarMount) sidebarMount.innerHTML = renderSidebar(lang);
     return;
   }
 
-  const slug = parts[1];
+  // On article page — navigate to language equivalent
+  const currentSlug = parts[1];
+  const isCurrentlyEn = currentSlug.startsWith('en-');
+  const topic = RESEARCH_CONFIG.topics.find(t =>
+    t.slug === currentSlug || t.enSlug === currentSlug
+  );
 
   if (lang === 'en') {
-    if (slug.startsWith('en-')) return; // already English
-    const enSlug = 'en-' + slug;
-    const exists = (RESEARCH_CONFIG.englishTopics || [])
-      .find(t => t.slug === enSlug && t.status === 'published');
-    if (exists) {
-      localStorage.setItem('lang', 'en');
-      window.location.hash = '#/topics/' + enSlug;
+    if (isCurrentlyEn) return;
+    if (topic && topic.enSlug) {
+      window.location.hash = '#/topics/' + topic.enSlug;
     } else {
-      // Revert active state — no English version available
+      // No English version — revert button
       document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.lang === 'zh');
       });
+      localStorage.setItem('lang', 'zh');
       _showLangTooltip(
         document.querySelector('.lang-btn[data-lang="en"]'),
-        '没有英文版本'
+        'No English version available'
       );
     }
   } else {
-    if (!slug.startsWith('en-')) return; // already Chinese
-    const zhSlug = slug.slice(3);
-    const exists = RESEARCH_CONFIG.topics
-      .find(t => t.slug === zhSlug && t.status === 'published');
-    if (exists) {
-      localStorage.setItem('lang', 'zh');
-      window.location.hash = '#/topics/' + zhSlug;
-    } else {
-      // Revert active state — no Chinese version available
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.lang === 'en');
-      });
-      _showLangTooltip(
-        document.querySelector('.lang-btn[data-lang="zh"]'),
-        '没有中文版本'
-      );
-    }
+    if (!isCurrentlyEn) return;
+    const zhSlug = topic ? topic.slug : currentSlug.replace(/^en-/, '');
+    window.location.hash = '#/topics/' + zhSlug;
   }
 }
+
+// UI strings
+const UI = {
+  zh: {
+    overview: "研究概览",
+    researchTopics: "专题研究",
+    coreQuestions: "核心研究问题",
+    status: { published: "已发布", draft: "草稿", coming: "即将发布" },
+    tocLabel: "目录",
+    loading: "加载中…",
+    loadError: "无法加载文章内容。",
+    loadErrorHint: "请通过本地服务器访问：",
+    backHome: "← 返回首页",
+    structureError: "文章结构异常，无法渲染。"
+  },
+  en: {
+    overview: "Overview",
+    researchTopics: "Research Topics",
+    coreQuestions: "Core Research Questions",
+    status: { published: "Published", draft: "Draft", coming: "Coming Soon" },
+    tocLabel: "Contents",
+    loading: "Loading…",
+    loadError: "Unable to load article.",
+    loadErrorHint: "Serve via local server:",
+    backHome: "← Back to home",
+    structureError: "Article structure error."
+  }
+};
 
 // ─── Sidebar Toggle ───────────────────────────────────────────
 function toggleSidebar() {
@@ -115,12 +134,12 @@ function initSidebarState() {
 
 // ─── Nav & Footer ────────────────────────────────────────────
 function renderNav() {
-  const lang = getLangFromHash();
+  const lang = getActiveLang();
   return `
     <nav class="nav">
       <div class="nav-inner">
         <div class="nav-left-group">
-          <button class="nav-sidebar-toggle" onclick="toggleSidebar()" title="切换侧边栏" aria-label="切换侧边栏">
+          <button class="nav-sidebar-toggle" onclick="toggleSidebar()" title="Toggle sidebar" aria-label="Toggle sidebar">
             <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
               <rect x="1" y="2.5" width="13" height="1.3" rx=".65" fill="currentColor"/>
               <rect x="1" y="6.85" width="9" height="1.3" rx=".65" fill="currentColor"/>
@@ -137,87 +156,80 @@ function renderNav() {
     </nav>`;
 }
 
-function renderFooter() {
-  const cfg = RESEARCH_CONFIG;
-  const r = cfg.researcher;
+// ─── About Card (hub page) ────────────────────────────────────
+function renderAboutCard(lang) {
+  lang = lang || getActiveLang();
+  const r = RESEARCH_CONFIG.researcher;
+  const rl = loc(r, lang);
+  const focusItems = (rl.focusItems || [])
+    .map(item => `<li class="about-card-list-item">${item}</li>`)
+    .join('');
+  return `
+    <section class="hub-about">
+      <div class="about-card">
+        <div class="about-card-left">
+          <div class="about-card-label">${rl.aboutTitle}</div>
+          <p class="about-card-para">${rl.intro}</p>
+          <p class="about-card-focus-label">${rl.focusLabel}</p>
+          <ul class="about-card-list">${focusItems}</ul>
+        </div>
+        <div class="about-card-sep"></div>
+        <div class="about-card-right">
+          <p class="about-card-core-label">${rl.coreLabel}</p>
+          <p class="about-card-core-text">${rl.coreInsight}</p>
+          <p class="about-card-para">${rl.aiNote}</p>
+          <p class="about-card-disclaimer">${rl.disclaimer}</p>
+        </div>
+      </div>
+    </section>`;
+}
 
-  const methodShort = r.methodology.split('\n\n')[0];
-
+// ─── Footer (slim — copyright bar only) ──────────────────────
+function renderFooter(lang) {
+  lang = lang || getActiveLang();
+  const site = RESEARCH_CONFIG.site;
+  const sl = loc(site, lang);
   return `
     <footer class="page-footer">
-      <div class="footer-body">
-
-        <div class="footer-col">
-          <div class="footer-col-label">关于研究者</div>
-          <div class="footer-col-title">${r.name} · ${r.title}</div>
-          <div class="footer-col-body"><p>${r.bio}</p></div>
-        </div>
-
-        <div class="footer-col">
-          <div class="footer-col-label">研究方法论</div>
-          <div class="footer-col-body"><p>${methodShort}</p></div>
-        </div>
-
-        <div class="footer-col">
-          <div class="footer-col-label">免责声明</div>
-          <div class="footer-col-body"><p>${r.disclaimer}</p></div>
-        </div>
-
-      </div>
       <div class="footer-bar">
-        <div class="footer-bar-left">${cfg.site.copyright} · ${cfg.site.tagline}</div>
-        <div class="footer-bar-right">${cfg.site.license}</div>
+        <div class="footer-bar-left">${sl.copyright} · ${sl.tagline}</div>
+        <div class="footer-bar-right">${sl.license}</div>
       </div>
     </footer>`;
 }
 
-// ─── Hub: Core Questions ──────────────────────────────────────
-function renderQuestions(questions) {
-  if (!questions || !questions.length) return '';
-  const items = questions.map((q, i) =>
-    `<div class="hub-question-item">
-       <span class="hub-question-num">Q${i + 1}</span>
-       <span class="hub-question-text">${q}</span>
-     </div>`
-  ).join('');
-  return `<div class="hub-questions-label">核心研究问题</div>${items}`;
-}
-
 // ─── Left Sidebar Navigation ──────────────────────────────────
-function renderSidebar() {
+function renderSidebar(lang) {
+  lang = lang || getActiveLang();
   const cfg = RESEARCH_CONFIG;
   const s = cfg.subject;
-  const total = cfg.topics.length;
-  const published = cfg.topics.filter(t => t.status === 'published').length;
 
   const hash = window.location.hash.replace(/^#\/?/, '');
   const parts = hash.split('/').filter(Boolean);
   const currentSlug = (parts[0] === 'topics' && parts[1]) ? parts[1] : null;
   const isHome = !currentSlug;
 
+  const ui = UI[lang] || UI.zh;
   const statusDot = { published: 'dot-published', draft: 'dot-draft', coming: 'dot-coming' };
 
-  // Home / overview item
   const homeItem = `
     <li class="sidebar-item${isHome ? ' active' : ''}">
       <a href="#/" class="sidebar-link">
-        <span class="sidebar-item-title" style="padding-left:2px">研究概览</span>
+        <span class="sidebar-item-title" style="padding-left:2px">${ui.overview}</span>
       </a>
     </li>`;
 
-  // Topic items
   const items = cfg.topics.map(t => {
-    const num = String(t.id).length <= 2 ? String(t.id).padStart(2, '0') : t.id;
-    const isActive = currentSlug === t.slug;
-    const dot = `<span class="sidebar-dot ${statusDot[t.status]}"></span>`;
+    const tl = loc(t, lang);
+    const slug = (lang === 'en' && t.enSlug) ? t.enSlug : t.slug;
+    const isActive = currentSlug === t.slug || currentSlug === t.enSlug;
     const inner = `
-      <span class="sidebar-item-num">${num}</span>
-      <span class="sidebar-item-title">${t.title}</span>
-      ${dot}`;
+      <span class="sidebar-item-num">${t.id}</span>
+      <span class="sidebar-item-title">${tl.title}</span>`;
 
     if (t.status === 'published') {
       return `<li class="sidebar-item published${isActive ? ' active' : ''}">
-        <a href="#/topics/${t.slug}" class="sidebar-link">${inner}</a>
+        <a href="#/topics/${slug}" class="sidebar-link">${inner}</a>
       </li>`;
     }
     return `<li class="sidebar-item ${t.status}">
@@ -236,11 +248,26 @@ function renderSidebar() {
 }
 
 // ─── Hub Page Renderer ────────────────────────────────────────
-function renderHub() {
+function renderHub(lang) {
+  lang = lang || getActiveLang();
   const cfg = RESEARCH_CONFIG;
   const s = cfg.subject;
+  const sl = loc(s, lang);          // localised subject content
+  const ui = UI[lang] || UI.zh;
 
   const published = cfg.topics.filter(t => t.status === 'published').length;
+
+  const questions = (sl.coreQuestions || []).map((q, i) =>
+    `<div class="hub-question-item">
+       <span class="hub-question-num">Q${i + 1}</span>
+       <span class="hub-question-text">${q}</span>
+     </div>`
+  ).join('');
+
+  const metaLabels = sl.metaLabels || {};
+
+  const motivationParas = (sl.motivation || '').split('\n\n')
+    .map(p => `<p class="hub-para hub-para-motivation">${p}</p>`).join('');
 
   return `
     <section class="hub-hero">
@@ -249,54 +276,58 @@ function renderHub() {
         <div>
           <h1 class="hub-hero-name">${s.name}</h1>
           <div class="hub-hero-badges">
-            ${[s.ticker, s.exchange, s.sector.split(' / ')[0]]
+            ${[s.ticker, s.exchange, sl.sector]
               .map(v => `<span class="hub-hero-badge">${v}</span>`).join('')}
           </div>
         </div>
       </div>
 
-      <p class="hub-para">${s.description}</p>
-      <p class="hub-para hub-para-motivation">${s.motivation}</p>
+      <p class="hub-para">${sl.description}</p>
+      ${motivationParas}
 
-      <div class="hub-questions">${renderQuestions(s.coreQuestions)}</div>
+      <div class="hub-questions">
+        <div class="hub-questions-label">${ui.coreQuestions}</div>
+        ${questions}
+      </div>
 
       <div class="hub-meta-row">
         ${[
-          { label: '成立年份', value: s.founded },
-          { label: '总部',     value: s.hq },
-          { label: '员工规模', value: s.employees },
-          { label: '市值',     value: s.marketCap },
-          { label: '最近更新', value: s.lastUpdated },
+          { label: metaLabels.founded,   value: s.founded },
+          { label: metaLabels.hq,        value: s.hq },
+          { label: metaLabels.employees, value: s.employees },
+          { label: metaLabels.marketCap, value: sl.marketCap },
+          { label: metaLabels.lastUpdated, value: s.lastUpdated },
         ].map(m => `
           <div class="hub-meta-item">
-            <span class="hub-meta-label">${m.label}</span>
-            <span class="hub-meta-value">${m.value}</span>
+            <span class="hub-meta-label">${m.label || ''}</span>
+            <span class="hub-meta-value">${m.value || ''}</span>
           </div>`).join('')}
       </div>
     </section>
 
     <section class="hub-topics">
       <div class="section-header">
-        <span class="section-title">专题研究</span>
+        <span class="section-title">${ui.researchTopics}</span>
         <span class="section-count">${published} / ${cfg.topics.length}</span>
       </div>
       <div class="topics-grid">
         ${cfg.topics.map(t => {
-          const statusLabel = { published: '已发布', draft: '草稿', coming: '即将发布' }[t.status];
+          const tl = loc(t, lang);
+          const slug = (lang === 'en' && t.enSlug) ? t.enSlug : t.slug;
+          const statusLabel = ui.status[t.status] || t.status;
           const isClickable = t.status === 'published';
           const El = isClickable ? 'a' : 'div';
-          const idDisplay = String(t.id).length <= 2 ? String(t.id).padStart(2, '0') : t.id;
           return `
-            <${El} ${isClickable ? `href="#/topics/${t.slug}"` : ''} class="topic-card ${t.status !== 'published' ? t.status : ''}">
+            <${El} ${isClickable ? `href="#/topics/${slug}"` : ''} class="topic-card ${t.status !== 'published' ? t.status : ''}">
               <div class="topic-card-top">
-                <span class="topic-num">${idDisplay}</span>
+                <span class="topic-num">${t.id}</span>
                 <span class="topic-status status-${t.status}">${statusLabel}</span>
               </div>
-              <div class="topic-title">${t.title}</div>
-              <div class="topic-subtitle">${t.subtitle}</div>
-              <div class="topic-summary">${t.summary}</div>
+              <div class="topic-title">${tl.title}</div>
+              <div class="topic-subtitle">${tl.subtitle}</div>
+              <div class="topic-summary">${tl.summary}</div>
               <div class="topic-footer">
-                <div class="topic-tags">${t.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
+                <div class="topic-tags">${(tl.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
                 <div class="topic-read-meta">${t.readingTime} min</div>
               </div>
             </${El}>`;
@@ -304,7 +335,8 @@ function renderHub() {
       </div>
     </section>
 
-    ${renderFooter()}`;
+    ${renderAboutCard(lang)}
+    ${renderFooter(lang)}`;
 }
 
 // ─── TOC Builder (legacy, for standalone pages) ───────────────
@@ -367,7 +399,8 @@ function buildFloatingTOC(scrollHandlers = [], onObserver = null) {
 
   const hdr = document.createElement('div');
   hdr.className = 'toc-float-header';
-  hdr.textContent = getLangFromHash() === 'en' ? 'Contents' : '目录';
+  const ui = UI[getActiveLang()] || UI.zh;
+  hdr.textContent = ui.tocLabel;
   tocInner.appendChild(hdr);
 
   const floatItems = [];
