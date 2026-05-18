@@ -92,16 +92,43 @@ function setLang(lang) {
   }
 }
 
+// ─── Sidebar Toggle ───────────────────────────────────────────
+function toggleSidebar() {
+  const shell = document.getElementById('app-shell');
+  const sidebar = document.getElementById('left-sidebar');
+  if (!shell || !sidebar) return;
+  const collapsed = shell.classList.toggle('sidebar-collapsed');
+  sidebar.classList.toggle('collapsed', collapsed);
+  localStorage.setItem('sidebar-collapsed', collapsed ? '1' : '0');
+}
+
+function initSidebarState() {
+  const isMobile = window.innerWidth <= 768;
+  const stored = localStorage.getItem('sidebar-collapsed');
+  // Collapse by default on mobile; respect stored preference on desktop
+  const collapsed = isMobile ? true : (stored === '1');
+  if (collapsed) {
+    document.getElementById('app-shell')?.classList.add('sidebar-collapsed');
+    document.getElementById('left-sidebar')?.classList.add('collapsed');
+  }
+}
+
 // ─── Nav & Footer ────────────────────────────────────────────
 function renderNav() {
-  const cfg = RESEARCH_CONFIG;
   const lang = getLangFromHash();
   return `
     <nav class="nav">
       <div class="nav-inner">
-        <a href="#/" class="nav-logo">
-          <span>${cfg.site.name}</span>
-        </a>
+        <div class="nav-left-group">
+          <button class="nav-sidebar-toggle" onclick="toggleSidebar()" title="切换侧边栏" aria-label="切换侧边栏">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <rect x="1" y="2.5" width="13" height="1.3" rx=".65" fill="currentColor"/>
+              <rect x="1" y="6.85" width="9" height="1.3" rx=".65" fill="currentColor"/>
+              <rect x="1" y="11.2" width="13" height="1.3" rx=".65" fill="currentColor"/>
+            </svg>
+          </button>
+          <a href="#/" class="nav-collapsed-brand">Duan's Research</a>
+        </div>
         <div class="lang-switcher" role="group" aria-label="Language">
           <button class="lang-btn${lang === 'zh' ? ' active' : ''}" data-lang="zh" onclick="setLang('zh')" title="中文">🇨🇳</button>
           <button class="lang-btn${lang === 'en' ? ' active' : ''}" data-lang="en" onclick="setLang('en')" title="English">🇺🇸</button>
@@ -156,14 +183,13 @@ function renderQuestions(questions) {
   return `<div class="hub-questions-label">核心研究问题</div>${items}`;
 }
 
-// ─── Global Sidebar ───────────────────────────────────────────
+// ─── Left Sidebar Navigation ──────────────────────────────────
 function renderSidebar() {
   const cfg = RESEARCH_CONFIG;
   const s = cfg.subject;
   const total = cfg.topics.length;
   const published = cfg.topics.filter(t => t.status === 'published').length;
 
-  // Active detection via hash
   const hash = window.location.hash.replace(/^#\/?/, '');
   const parts = hash.split('/').filter(Boolean);
   const currentSlug = (parts[0] === 'topics' && parts[1]) ? parts[1] : null;
@@ -171,74 +197,41 @@ function renderSidebar() {
 
   const statusDot = { published: 'dot-published', draft: 'dot-draft', coming: 'dot-coming' };
 
+  // Home / overview item
   const homeItem = `
     <li class="sidebar-item${isHome ? ' active' : ''}">
       <a href="#/" class="sidebar-link">
-        <span class="sidebar-num" style="color:var(--text-3)">○</span>
-        <span class="sidebar-title-text">研究概览</span>
+        <span class="sidebar-item-title" style="padding-left:2px">研究概览</span>
       </a>
     </li>`;
 
+  // Topic items
   const items = cfg.topics.map(t => {
-    const idDisplay = String(t.id).length <= 2 ? String(t.id).padStart(2, '0') : t.id;
+    const num = String(t.id).length <= 2 ? String(t.id).padStart(2, '0') : t.id;
     const isActive = currentSlug === t.slug;
     const dot = `<span class="sidebar-dot ${statusDot[t.status]}"></span>`;
     const inner = `
-      <span class="sidebar-num">${idDisplay}</span>
-      <span class="sidebar-title-text">${t.title}</span>
+      <span class="sidebar-item-num">${num}</span>
+      <span class="sidebar-item-title">${t.title}</span>
       ${dot}`;
 
     if (t.status === 'published') {
       return `<li class="sidebar-item published${isActive ? ' active' : ''}">
-        <a href="#/topics/${t.slug}">${inner}</a>
+        <a href="#/topics/${t.slug}" class="sidebar-link">${inner}</a>
       </li>`;
     }
     return `<li class="sidebar-item ${t.status}">
       <span class="sidebar-link-disabled">${inner}</span>
     </li>`;
   }).join('');
-
-  const enTopics = cfg.englishTopics || [];
-  const enItems = enTopics.map(t => {
-    const idDisplay = String(t.id).length <= 2 ? String(t.id).padStart(2, '0') : t.id;
-    const isActive = currentSlug === t.slug;
-    const dot = `<span class="sidebar-dot ${statusDot[t.status]}"></span>`;
-    const inner = `
-      <span class="sidebar-num">${idDisplay}</span>
-      <span class="sidebar-title-text">${t.title}</span>
-      ${dot}`;
-    if (t.status === 'published') {
-      return `<li class="sidebar-item published${isActive ? ' active' : ''}">
-        <a href="#/topics/${t.slug}">${inner}</a>
-      </li>`;
-    }
-    return `<li class="sidebar-item ${t.status}">
-      <span class="sidebar-link-disabled">${inner}</span>
-    </li>`;
-  }).join('');
-
-  const enSection = enTopics.length ? `
-      <div class="sidebar-divider"></div>
-      <div class="sidebar-header" style="margin-top:8px">English Content</div>
-      <ul class="sidebar-list">
-        ${enItems}
-      </ul>` : '';
 
   return `
-    <div class="sidebar-inner">
-      <div class="sidebar-header">Contents</div>
-      <div class="sidebar-series">${s.name}</div>
-      <div class="sidebar-divider"></div>
+    <div class="sidebar-nav-inner">
+      <div class="sidebar-section-label">${s.name}</div>
       <ul class="sidebar-list">
         ${homeItem}
         ${items}
       </ul>
-      ${enSection}
-      <div class="sidebar-divider"></div>
-      <div class="sidebar-period">
-        已发布 ${published} / ${total} 专题<br>
-        研究周期 ${s.startDate} 起
-      </div>
     </div>`;
 }
 

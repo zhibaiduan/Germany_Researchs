@@ -7,21 +7,16 @@ let _scrollHandlers = [];
 let _tocObserver = null;
 
 function cleanupView() {
-  // Remove scroll listeners
   _scrollHandlers.forEach(fn => window.removeEventListener('scroll', fn));
   _scrollHandlers = [];
 
-  // Disconnect TOC IntersectionObserver
   if (_tocObserver) {
     _tocObserver.disconnect();
     _tocObserver = null;
   }
 
-  // Remove injected nav title element and state
   document.querySelectorAll('.nav-center-title').forEach(el => el.remove());
   document.querySelector('.nav')?.classList.remove('title-visible');
-
-  // Remove page-scoped styles
   document.querySelectorAll('style[data-page]').forEach(el => el.remove());
 }
 
@@ -29,6 +24,9 @@ const Router = {
   init() {
     document.getElementById('nav-mount').innerHTML = renderNav();
     document.getElementById('sidebar-mount').innerHTML = renderSidebar();
+
+    // Restore sidebar open/collapsed state from localStorage
+    initSidebarState();
 
     window.addEventListener('hashchange', () => this.resolve());
     this.resolve();
@@ -39,7 +37,6 @@ const Router = {
     const parts = hash.split('/').filter(Boolean);
 
     if (parts[0] === 'topics' && parts[1]) {
-      // Article route — refresh nav for lang-switcher state, then load article
       document.getElementById('nav-mount').innerHTML = renderNav();
       cleanupView();
       window.scrollTo(0, 0);
@@ -50,20 +47,18 @@ const Router = {
       window.scrollTo(0, 0);
       this.showHome();
     }
-    // Any other hash (e.g. #section-2) is an in-page anchor — browser handles natively
-    // Do NOT re-render nav here: it would destroy the injected .nav-center-title
+    // In-page anchors (e.g. #section-2) — browser handles natively
+    // Do NOT re-render nav: it would destroy the injected .nav-center-title
   },
 
   showHome() {
-    const view = document.getElementById('view');
-    view.innerHTML = renderHub();
+    document.getElementById('view').innerHTML = renderHub();
+    // Update sidebar active state (highlight overview item)
     document.getElementById('sidebar-mount').innerHTML = renderSidebar();
-    document.getElementById('page-layout').classList.remove('has-sidebar');
   },
 
   async showArticle(slug) {
     const view = document.getElementById('view');
-    const pageLayout = document.getElementById('page-layout');
 
     view.innerHTML = `<div class="view-loading">加载中…</div>`;
 
@@ -97,7 +92,6 @@ const Router = {
       document.head.appendChild(clone);
     });
 
-    // Extract article wrap
     const wrap = doc.querySelector('.article-wrap');
     if (!wrap) {
       view.innerHTML = `<div class="view-error">文章结构异常，无法渲染。<br><a href="#/">← 返回首页</a></div>`;
@@ -114,7 +108,7 @@ const Router = {
 
     view.innerHTML = wrap.outerHTML + renderFooter();
 
-    // innerHTML 不执行 script，手动重跑页面内所有内联脚本
+    // Re-execute any inline scripts
     view.querySelectorAll('script').forEach(old => {
       const s = document.createElement('script');
       old.getAttributeNames().forEach(a => s.setAttribute(a, old.getAttribute(a)));
@@ -122,8 +116,8 @@ const Router = {
       old.replaceWith(s);
     });
 
-    document.getElementById('sidebar-mount').innerHTML = '';
-    pageLayout.classList.remove('has-sidebar');
+    // Update sidebar active state (highlight current article)
+    document.getElementById('sidebar-mount').innerHTML = renderSidebar();
 
     requestAnimationFrame(() => {
       buildFloatingTOC(_scrollHandlers, obs => { _tocObserver = obs; });

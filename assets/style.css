@@ -197,7 +197,141 @@ img { max-width: 100%; display: block; }
 .breadcrumb a:hover { color: var(--text-2); }
 .breadcrumb-sep { opacity: .4; }
 
-/* ─── Global Page Layout ─────────────────────────────── */
+/* ─── Docs App Shell ─────────────────────────────────── */
+.app-shell {
+  display: block;
+}
+
+/* Left sidebar: fixed, full height, collapsible */
+.left-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 240px;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  transition: width 240ms cubic-bezier(.4, 0, .2, 1),
+              border-color 240ms cubic-bezier(.4, 0, .2, 1);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.left-sidebar.collapsed {
+  width: 0;
+  border-right-color: transparent;
+}
+
+/* Sticky header inside sidebar */
+.left-sidebar-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-h);
+  padding: 0 10px 0 18px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0;
+  min-width: 240px;
+}
+/* Brand shown in sidebar when expanded */
+.left-sidebar-brand {
+  font-size: var(--fs-ui);
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: -.01em;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.left-sidebar-brand:hover { color: var(--accent); }
+
+/* Sidebar collapse button (top-right of sidebar) */
+.sidebar-collapse-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  color: var(--text-3);
+  transition: background var(--transition), color var(--transition);
+  flex-shrink: 0;
+}
+.sidebar-collapse-btn:hover {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+/* Inner nav content (min-width prevents reflow during animation) */
+.sidebar-nav-inner {
+  min-width: 240px;
+  width: 240px;
+  padding: 12px 0 32px;
+  flex: 1;
+}
+
+/* Content column: push right of sidebar */
+.app-content {
+  margin-left: 240px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 240ms cubic-bezier(.4, 0, .2, 1);
+}
+.app-shell.sidebar-collapsed .app-content {
+  margin-left: 0;
+}
+
+/* Nav sidebar toggle (hamburger in top bar) */
+.nav-sidebar-toggle {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  color: var(--text-2);
+  transition: color var(--transition);
+  flex-shrink: 0;
+}
+.nav-sidebar-toggle:hover { color: var(--text-1); }
+
+.nav-left-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Brand in nav: only visible when sidebar is collapsed */
+.nav-collapsed-brand {
+  font-size: var(--fs-ui);
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: -.01em;
+  text-decoration: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+.app-shell.sidebar-collapsed .nav-collapsed-brand {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ─── Global Page Layout (legacy, unused in new shell) ── */
 .page-layout { display: block; }
 .page-content { min-width: 0; }
 .global-sidebar { display: none; }
@@ -464,92 +598,90 @@ img { max-width: 100%; display: block; }
   white-space: nowrap;
 }
 
-/* ─── Global Sidebar ─────────────────────────────────── */
-.global-sidebar {
-  position: sticky;
-  top: var(--nav-h);
-  height: calc(100vh - var(--nav-h));
-  overflow-y: auto;
-  border-right: 1px solid var(--border);
-  background: var(--surface);
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
-}
-.sidebar-inner {
-  padding: 24px 18px 32px;
-}
-.sidebar-header {
+/* ─── Left Sidebar Navigation ────────────────────────── */
+.sidebar-section-label {
   font-size: var(--fs-annotation);
   font-weight: 700;
-  letter-spacing: .12em;
+  letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--text-3);
-  margin-bottom: 6px;
-}
-.sidebar-series {
-  font-size: var(--fs-ui);
-  font-weight: 600;
-  color: var(--text-1);
-  letter-spacing: -.01em;
-  line-height: 1.3;
+  padding: 20px 12px 6px;
 }
 .sidebar-divider {
   height: 1px;
   background: var(--border-light);
-  margin: 14px 0;
+  margin: 8px 0;
 }
 .sidebar-list {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 0;
+  padding: 2px 0;
 }
-.sidebar-item a,
-.sidebar-item .sidebar-link-disabled {
+/* Nav link */
+.sidebar-link,
+.sidebar-link-disabled {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 8px;
-  border-radius: var(--radius);
+  gap: 10px;
+  padding: 5px 12px;
   text-decoration: none;
-  transition: background var(--transition);
+  transition: color var(--transition);
+  cursor: pointer;
+  color: var(--text-2);
 }
-.sidebar-item a { cursor: pointer; }
-.sidebar-item a:hover { background: var(--accent-bg); }
-.sidebar-item.active a { background: var(--accent-bg); color: var(--accent); }
-.sidebar-item.active .sidebar-num { color: var(--accent); }
-.sidebar-item.active .sidebar-title-text { color: var(--accent); font-weight: 500; }
-.sidebar-item .sidebar-link-disabled { cursor: default; opacity: .45; }
-.sidebar-num {
+.sidebar-link:hover { color: var(--text-1); }
+
+/* Active: text highlight only, no background */
+.sidebar-item.active .sidebar-link { color: var(--accent); }
+.sidebar-item.active .sidebar-item-num { color: var(--accent); }
+.sidebar-item.active .sidebar-item-title { color: var(--accent); font-weight: 500; }
+
+/* Disabled (draft/coming) */
+.sidebar-link-disabled {
+  cursor: default;
+  opacity: .4;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 12px;
+}
+
+.sidebar-item-num {
   font-size: var(--fs-annotation);
-  font-weight: 700;
-  color: var(--accent);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: .03em;
-  flex-shrink: 0;
-  min-width: 30px;
-}
-.sidebar-item .sidebar-link-disabled .sidebar-num { color: var(--text-3); }
-.sidebar-title-text {
-  font-size: var(--fs-annotation);
-  line-height: 1.35;
-  color: var(--text-1);
-  flex: 1;
-}
-.sidebar-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.dot-published { background: #2E7D52; }
-.dot-draft     { background: var(--border); }
-.dot-coming    { background: #5E7FAA; }
-.sidebar-period {
-  font-size: var(--fs-annotation);
+  font-weight: 600;
   color: var(--text-3);
-  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .04em;
+  flex-shrink: 0;
+  min-width: 28px;
 }
+.sidebar-item.published .sidebar-item-num { color: var(--text-2); }
+
+.sidebar-item-title {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--fs-ui);
+  line-height: 1.4;
+  color: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-dot { display: none; } /* dots removed per minimal design */
+
+/* ─── Legacy Global Sidebar (kept for compat) ─────────── */
+.global-sidebar { display: none; }
+.sidebar-inner { padding: 24px 18px 32px; }
+.sidebar-header {
+  font-size: var(--fs-annotation); font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 6px;
+}
+.sidebar-series { font-size: var(--fs-ui); font-weight: 600; color: var(--text-1); }
+.sidebar-period { font-size: var(--fs-annotation); color: var(--text-3); line-height: 1.5; }
 
 /* ─── About Page ─────────────────────────────────────── */
 .about-wrap {
@@ -1064,14 +1196,25 @@ img { max-width: 100%; display: block; }
 /* ─── Responsive ─────────────────────────────────────── */
 @media (max-width: 768px) {
   :root { --page-gutter: 20px; }
+
+  /* On mobile, sidebar overlays (no margin push) */
+  .app-content {
+    margin-left: 0 !important;
+    transition: none;
+  }
+  /* Sidebar overlays content on mobile */
+  .left-sidebar {
+    z-index: 200;
+  }
+  .app-shell:not(.sidebar-collapsed) .left-sidebar {
+    box-shadow: 4px 0 24px rgba(0,0,0,.12);
+  }
 }
 
 @media (max-width: 960px) {
   .topics-grid { grid-template-columns: 1fr; }
   .article-body { flex-direction: column; }
   .toc-panel { display: none; }
-  .page-layout.has-sidebar { display: block; }
-  .page-layout.has-sidebar .global-sidebar { display: none; }
 }
 
 @media (max-width: 600px) {
