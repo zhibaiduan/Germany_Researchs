@@ -7,7 +7,7 @@
 // 'lang' stored in localStorage: 'zh' | 'en'. Default 'zh'.
 
 function getActiveLang() {
-  return localStorage.getItem('lang') || 'zh';
+  return localStorage.getItem('lang') || 'en';
 }
 
 // Localise helper — picks obj[lang], falls back to obj['zh']

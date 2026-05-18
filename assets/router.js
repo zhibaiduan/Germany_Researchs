@@ -100,15 +100,18 @@ const Router = {
       return;
     }
 
-    // Fix breadcrumb links
+    // Fix breadcrumb links; open external links in new tab
     wrap.querySelectorAll('a[href]').forEach(a => {
       const href = a.getAttribute('href');
       if (href === '../index.html' || href === './index.html' || href === 'index.html') {
         a.setAttribute('href', '#/');
+      } else if (href && href.startsWith('http')) {
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener noreferrer');
       }
     });
 
-    view.innerHTML = wrap.outerHTML + renderFooter(lang);
+    view.innerHTML = wrap.outerHTML;
 
     // Re-execute any inline scripts
     view.querySelectorAll('script').forEach(old => {
