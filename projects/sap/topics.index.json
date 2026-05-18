@@ -75,9 +75,10 @@
     {
       "id": "P1M2",
       "slug": "ma-partnership",
+      "enSlug": "en-ma-partnership",
       "status": "published",
       "canonicalLang": "zh",
-      "availableLangs": ["zh"],
+      "availableLangs": ["zh", "en"],
       "publishDate": "2026-05-18",
       "lastUpdated": "2026-05-18",
       "readingTime": {
@@ -100,10 +101,12 @@
         "en": ["M&A", "Partnerships", "AI Strategy"]
       },
       "paths": {
-        "zh": "projects/sap/content/topics/ma-partnership/zh.md"
+        "zh": "projects/sap/content/topics/ma-partnership/zh.md",
+        "en": "projects/sap/content/topics/ma-partnership/en.md"
       },
       "output": {
-        "zh": "topics/ma-partnership.html"
+        "zh": "topics/ma-partnership.html",
+        "en": "topics/en-ma-partnership.html"
       }
     }
   ]
