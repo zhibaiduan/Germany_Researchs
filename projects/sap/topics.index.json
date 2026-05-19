@@ -3,35 +3,40 @@
     {
       "id": "P1M0",
       "slug": "01-company-overview",
+      "enSlug": "en-01-company-overview",
       "status": "published",
       "canonicalLang": "zh",
-      "availableLangs": ["zh"],
-      "publishDate": "2026-05-14",
-      "lastUpdated": "2026-05-14",
+      "availableLangs": ["zh", "en"],
+      "sidebarTitle": { "zh": "公司全景", "en": "Company Overview" },
+      "publishDate": "2026-05-18",
+      "lastUpdated": "2026-05-18",
       "readingTime": {
-        "zh": 22
+        "zh": 18,
+        "en": 18
       },
       "title": {
         "zh": "公司全景",
         "en": "Company Overview"
       },
       "subtitle": {
-        "zh": "从小镇创业到全球巨头",
-        "en": "From small-town startup to global enterprise software giant"
+        "zh": "从五个人到一座城池",
+        "en": "From Five People to a Global Platform"
       },
       "summary": {
         "zh": "梳理 SAP 的历史沿革、产品版图、护城河来源、云转型与 AI 战略，是进入后续专题前的全局认知入口。",
-        "en": "A broad overview of SAP's history, product map, moat, cloud transition, and AI strategy."
+        "en": "SAP's historical evolution, strategic shifts, competitive position, and where it's heading next."
       },
       "tags": {
         "zh": ["历史", "战略", "商业模式"],
         "en": ["History", "Strategy", "Business Model"]
       },
       "paths": {
-        "zh": "projects/sap/content/topics/company-overview/zh.md"
+        "zh": "projects/sap/content/topics/company-overview/zh.md",
+        "en": "projects/sap/content/topics/company-overview/en.md"
       },
       "output": {
-        "zh": "topics/01-company-overview.html"
+        "zh": "topics/01-company-overview.html",
+        "en": "topics/en-01-company-overview.html"
       }
     },
     {
@@ -39,6 +44,7 @@
       "slug": "phase1-profit-model",
       "enSlug": "en-phase1-profit-model",
       "status": "published",
+      "sidebarTitle": { "zh": "盈利模式", "en": "Profit Model" },
       "canonicalLang": "zh",
       "availableLangs": ["zh", "en"],
       "publishDate": "2026-05-14",
@@ -77,6 +83,7 @@
       "slug": "ma-partnership",
       "enSlug": "en-ma-partnership",
       "status": "published",
+      "sidebarTitle": { "zh": "收购与合作", "en": "M&A & Partnerships" },
       "canonicalLang": "zh",
       "availableLangs": ["zh", "en"],
       "publishDate": "2026-05-18",

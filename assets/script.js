@@ -220,10 +220,11 @@ function renderSidebar(lang) {
 
   const items = cfg.topics.map(t => {
     const tl = loc(t, lang);
+    const sidebarLabel = t.sidebarTitle ? loc(t.sidebarTitle, lang) : tl.title;
     const slug = (lang === 'en' && t.enSlug && (t.availableLangs || []).includes('en')) ? t.enSlug : t.slug;
     const isActive = currentSlug === t.slug || currentSlug === t.enSlug;
     const inner = `
-      <span class="sidebar-item-title">${tl.title}</span>`;
+      <span class="sidebar-item-title">${sidebarLabel}</span>`;
 
     if (t.status === 'published') {
       return `<li class="sidebar-item published${isActive ? ' active' : ''}">
@@ -497,4 +498,38 @@ document.addEventListener('DOMContentLoaded', async () => {
   buildTOC();
   buildFloatingTOC();
   initNavTitle();
+  initLightbox();
 });
+
+// ─── Lightbox ─────────────────────────────────────────────
+function initLightbox() {
+  // Create overlay once
+  const lb = document.createElement('div');
+  lb.className = 'lightbox';
+  lb.innerHTML = '<button class="lightbox-close" aria-label="Close">✕</button><img />';
+  document.body.appendChild(lb);
+
+  const lbImg = lb.querySelector('img');
+
+  function open(src, alt) {
+    lbImg.src = src;
+    lbImg.alt = alt || '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+
+  // Bind all .article-figure img
+  document.querySelectorAll('.article-figure img').forEach(img => {
+    img.addEventListener('click', () => open(img.src, img.alt));
+  });
+
+  // Close on overlay click or button
+  lb.addEventListener('click', e => { if (e.target !== lbImg) close(); });
+  lb.querySelector('.lightbox-close').addEventListener('click', close);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+}
