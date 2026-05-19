@@ -31,6 +31,7 @@ const Router = {
     document.getElementById('sidebar-mount').innerHTML = renderSidebar(lang);
 
     initSidebarState();
+    initLightbox();
 
     window.addEventListener('hashchange', () => this.resolve());
     this.resolve();
@@ -55,10 +56,16 @@ const Router = {
     // In-page anchors — browser handles natively
   },
 
-  showHome(lang) {
+  async showHome(lang) {
     lang = lang || getActiveLang();
     document.getElementById('view').innerHTML = renderHub(lang);
     document.getElementById('sidebar-mount').innerHTML = renderSidebar(lang);
+
+    const items = await collectGalleryItems(lang);
+    const mount = document.getElementById('gallery-mount');
+    if (mount && items.length) {
+      mount.outerHTML = renderGallery(lang, items);
+    }
   },
 
   async showArticle(slug, lang) {
@@ -117,12 +124,22 @@ const Router = {
 
     view.innerHTML = wrap.outerHTML;
 
-    // Re-execute any inline scripts
+    // Re-execute any inline scripts inside the injected article body
     view.querySelectorAll('script').forEach(old => {
       const s = document.createElement('script');
       old.getAttributeNames().forEach(a => s.setAttribute(a, old.getAttribute(a)));
       s.textContent = old.textContent;
       old.replaceWith(s);
+    });
+
+    // Standalone article pages keep page-specific inline scripts near </body>.
+    // The SPA injects only .article-wrap, so run those inline scripts explicitly.
+    doc.body.querySelectorAll('script:not([src])').forEach(old => {
+      if (wrap.contains(old)) return;
+      const s = document.createElement('script');
+      old.getAttributeNames().forEach(a => s.setAttribute(a, old.getAttribute(a)));
+      s.textContent = old.textContent;
+      view.appendChild(s);
     });
 
     // Update sidebar active state (highlight current article)
@@ -134,6 +151,53 @@ const Router = {
     });
   }
 };
+
+// ─── Gallery: Auto-scan articles for figures ──────────────────
+// Fetches each published article HTML, collects .article-figure
+// elements, normalises src paths, returns items array.
+async function collectGalleryItems(lang) {
+  lang = lang || getActiveLang();
+  const cfg = RESEARCH_CONFIG;
+
+  const published = cfg.topics.filter(t => t.status === 'published');
+
+  const perTopic = await Promise.all(published.map(async t => {
+    const slug = (lang === 'en' && t.enSlug && (t.availableLangs || []).includes('en'))
+      ? t.enSlug : t.slug;
+    const articleTitle = t.sidebarTitle ? loc(t.sidebarTitle, lang) : loc(t, lang).title;
+    const topicItems = [];
+
+    try {
+      const res = await fetch(`topics/${slug}.html`);
+      if (!res.ok) return topicItems;
+      const html = await res.text();
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+
+      doc.querySelectorAll('.article-figure').forEach(fig => {
+        const img = fig.querySelector('img');
+        if (!img) return;
+        const figcaption = fig.querySelector('figcaption');
+
+        // articles use ../assets/images/x.png; normalise to assets/images/x.png
+        const rawSrc = img.getAttribute('src') || '';
+        const src = rawSrc.replace(/^\.\.\//, '');
+
+        topicItems.push({
+          src,
+          alt: img.getAttribute('alt') || '',
+          caption: figcaption ? figcaption.textContent.trim() : '',
+          slug,
+          articleTitle
+        });
+      });
+    } catch (_) { /* skip on fetch error */ }
+
+    return topicItems;
+  }));
+
+  // flatten in topic order
+  return perTopic.flat();
+}
 
 Router.init().catch(err => {
   console.error(err);

@@ -89,6 +89,8 @@ const UI = {
     overview: "研究概览",
     researchTopics: "专题研究",
     coreQuestions: "核心研究问题",
+    gallery: "图库",
+    galleryFrom: "来自：",
     status: { published: "已发布", draft: "草稿", "in-review": "审核中", archived: "已归档", coming: "即将发布" },
     tocLabel: "目录",
     loading: "加载中…",
@@ -101,6 +103,8 @@ const UI = {
     overview: "Overview",
     researchTopics: "Research Topics",
     coreQuestions: "Core Research Questions",
+    gallery: "Gallery",
+    galleryFrom: "From:",
     status: { published: "Published", draft: "Draft", "in-review": "In Review", archived: "Archived", coming: "Coming Soon" },
     tocLabel: "Contents",
     loading: "Loading…",
@@ -271,7 +275,7 @@ function renderHub(lang) {
   return `
     <section class="hub-hero">
       <div class="hub-company-id">
-        <div class="hub-logo">${s.logoText || s.shortName || s.name}</div>
+        <div class="hub-logo"><img src="assets/images/sap-logo.svg" alt="${s.shortName || s.name}" /></div>
         <div>
           <h1 class="hub-hero-name">${s.name}</h1>
           <div class="hub-hero-badges">
@@ -336,8 +340,39 @@ function renderHub(lang) {
       </div>
     </section>
 
+    <div id="gallery-mount"></div>
     ${renderAboutCard(lang)}
     ${renderFooter(lang)}`;
+}
+
+// ─── Hub: Gallery ────────────────────────────────────────────
+// items: [{ src, alt, caption, slug, articleTitle }]
+// Auto-populated by collectGalleryItems() in router.js
+function renderGallery(lang, items) {
+  lang = lang || getActiveLang();
+  const ui = UI[lang] || UI.zh;
+
+  if (!items || !items.length) return '';
+
+  const cards = items.map(({ src, alt, caption, slug, articleTitle }) => `
+      <div class="gallery-card">
+        <div class="gallery-img-wrap">
+          <img class="gallery-img" src="${src}" alt="${alt}" />
+        </div>
+        <div class="gallery-card-body">
+          <p class="gallery-caption">${caption}</p>
+          <a href="#/topics/${slug}" class="gallery-article-link">${ui.galleryFrom} ${articleTitle} →</a>
+        </div>
+      </div>`).join('');
+
+  return `
+    <section class="hub-gallery">
+      <div class="section-header">
+        <span class="section-title">${ui.gallery}</span>
+        <span class="section-count">${items.length}</span>
+      </div>
+      <div class="gallery-grid">${cards}</div>
+    </section>`;
 }
 
 // ─── TOC Builder (legacy, for standalone pages) ───────────────
@@ -502,8 +537,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // ─── Lightbox ─────────────────────────────────────────────
+// Initialised once; uses event delegation so it works for
+// both static article figures and dynamically rendered gallery.
 function initLightbox() {
-  // Create overlay once
+  if (document.querySelector('.lightbox')) return; // guard: init once
+
   const lb = document.createElement('div');
   lb.className = 'lightbox';
   lb.innerHTML = '<button class="lightbox-close" aria-label="Close">✕</button><img />';
@@ -523,12 +561,15 @@ function initLightbox() {
     lbImg.src = '';
   }
 
-  // Bind all .article-figure img
-  document.querySelectorAll('.article-figure img').forEach(img => {
-    img.addEventListener('click', () => open(img.src, img.alt));
+  // Delegated click — handles .article-figure img and .gallery-img
+  document.addEventListener('click', e => {
+    const t = e.target;
+    if (t.tagName !== 'IMG') return;
+    if (t.closest('.article-figure') || t.classList.contains('gallery-img')) {
+      open(t.src, t.alt);
+    }
   });
 
-  // Close on overlay click or button
   lb.addEventListener('click', e => { if (e.target !== lbImg) close(); });
   lb.querySelector('.lightbox-close').addEventListener('click', close);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });

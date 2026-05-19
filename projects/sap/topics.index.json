@@ -115,6 +115,42 @@
         "zh": "topics/ma-partnership.html",
         "en": "topics/en-ma-partnership.html"
       }
+    },
+    {
+      "id": "P1M3",
+      "slug": "product-line-map",
+      "enSlug": "en-product-line-map",
+      "status": "published",
+      "sidebarTitle": { "zh": "产品线图谱", "en": "Product Line Map" },
+      "canonicalLang": "zh",
+      "availableLangs": ["zh"],
+      "publishDate": "2026-05-19",
+      "lastUpdated": "2026-05-19",
+      "readingTime": {
+        "zh": 20
+      },
+      "title": {
+        "zh": "SAP 全产品线梳理",
+        "en": "SAP Product Line Map"
+      },
+      "subtitle": {
+        "zh": "看懂 SAP 产品线的主脉络：从 ERP、Spend、HCM 到 BTP、Business Data Cloud 与 Joule",
+        "en": "How SAP's product portfolio is organized, from ERP and business applications to BTP, data, and AI."
+      },
+      "summary": {
+        "zh": "梳理 SAP 2025–2026 年产品线的整体结构：核心 ERP、Spend、HCM、Supply Chain、CX、BTP、Business Data Cloud、Business AI，以及哪些产品是增长引擎、现金牛、未来赌注或应避开的陷阱。",
+        "en": "A map of SAP's 2025–2026 product portfolio across ERP, spend, HCM, supply chain, CX, BTP, Business Data Cloud, and Business AI."
+      },
+      "tags": {
+        "zh": ["产品线", "ERP", "BTP", "AI 战略"],
+        "en": ["Product Portfolio", "ERP", "BTP", "AI Strategy"]
+      },
+      "paths": {
+        "zh": "projects/sap/content/topics/product-line-map/zh.md"
+      },
+      "output": {
+        "zh": "topics/product-line-map.html"
+      }
     }
   ]
 }
