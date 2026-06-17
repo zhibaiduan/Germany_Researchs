@@ -194,71 +194,6 @@
       color: var(--accent);
       background: rgba(231, 241, 235, .86);
     }
-    .final-map-tabs input {
-      position: absolute;
-      inline-size: 1px;
-      block-size: 1px;
-      opacity: 0;
-      pointer-events: none;
-    }
-    .final-map-stage {
-      width: 100%;
-    }
-    .final-map-slide {
-      display: none;
-    }
-    #final-map-step-1:checked ~ .final-map-stage .final-step-1,
-    #final-map-step-2:checked ~ .final-map-stage .final-step-2,
-    #final-map-step-3:checked ~ .final-map-stage .final-step-3,
-    #final-map-step-4:checked ~ .final-map-stage .final-step-4 {
-      display: block;
-    }
-    .article-image-figure .final-map-slide img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    .final-map-slide p {
-      margin: 12px 0 0;
-      color: var(--text-2);
-      font-size: var(--fs-ui);
-      line-height: 1.65;
-    }
-    .final-map-slide p strong {
-      color: var(--accent);
-    }
-    .final-map-tabbar {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 8px;
-      margin-top: 14px;
-    }
-    .final-map-tabbar label {
-      padding: 8px 10px;
-      border: 1px solid rgba(45, 95, 73, .18);
-      border-radius: 999px;
-      color: var(--text-2);
-      background: rgba(255, 255, 255, .62);
-      font-size: var(--fs-ui);
-      font-weight: 700;
-      line-height: 1.2;
-      text-align: center;
-      cursor: pointer;
-      transition: background .18s ease, border-color .18s ease, color .18s ease;
-    }
-    #final-map-step-1:checked ~ .final-map-tabbar label[for="final-map-step-1"],
-    #final-map-step-2:checked ~ .final-map-tabbar label[for="final-map-step-2"],
-    #final-map-step-3:checked ~ .final-map-tabbar label[for="final-map-step-3"],
-    #final-map-step-4:checked ~ .final-map-tabbar label[for="final-map-step-4"] {
-      border-color: rgba(45, 95, 73, .42);
-      color: var(--accent);
-      background: rgba(231, 241, 235, .86);
-    }
-    @media (max-width: 640px) {
-      .final-map-tabbar {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
     .logic-figure {
       width: min(980px, 100%);
       margin: 34px 0 52px;
@@ -1195,7 +1130,7 @@
   <li><strong>Place the players on the map.</strong> Where does each vendor naturally stand?</li>
   <li><strong>Judge the value of each position.</strong> Which positions matter more in the current AI competition?</li>
   <li><strong>Analyze the strategic hand.</strong> If each vendor's AI narrative is to become real, what resources does it need? What cards does it already hold? Which missing cards are in someone else's hand? Which parts are feasible, which require specific conditions, and which are genuinely difficult?</li>
-  <li><strong>Turn it into a final map.</strong> Where is enterprise AI actually being contested, which players occupy each area, and how can this map help you evaluate any new enterprise AI narrative?</li>
+  <li><strong>Synthesize it into a market structure.</strong> Where is enterprise AI actually being contested, which players occupy each area, and who is closer to long-term control?</li>
 </ol>
 
 <p>The point is not to tell you who has already won. The point is to give you a tool for judging the next enterprise AI story you hear.</p>
@@ -1336,7 +1271,7 @@
 
 <p><strong>Workday</strong> also enters from <strong>departmental tasks</strong>, especially HCM. Its core narrative is <strong>Illuminate</strong> plus <strong>Agent System of Record</strong>. In plain language: optimize AI around people and organizational data. In large German enterprises, it is often covered or constrained by SAP SuccessFactors.</p>
 
-<p>All six players appear on the final map, each occupying a different position:</p>
+<p>All six players occupy different positions. A single positioning view makes the pattern easier to see:</p>
 
 <figure class="article-image-figure">
   <figcaption>Figure 02 · Player Positioning</figcaption>
@@ -1373,11 +1308,11 @@
   <li>Data exclusivity, integration depth, migration cost, ecosystem lock-in, and accumulated trust.</li>
 </ul>
 
-<p>So the matrix has two layers.</p>
+<p>By this standard, different positions have different value logic.</p>
 
-<p>First, place the six positions from the first map into the matrix: personal assistants, departmental tasks, process orchestration, core execution, data intelligence, and governance and security.</p>
+<p>Personal assistants diffuse the fastest, but pricing power is still unstable. Departmental tasks are easier to prove through ROI. Process orchestration becomes more valuable as the number of agents grows. Core execution is the hardest to land, but it has the highest long-term value.</p>
 
-<p>Second, place the players on the same matrix. A company is not strong or weak in the abstract. It is strong because it occupies a position with a specific profit pool and replacement barrier.</p>
+<p>Data intelligence and governance/security are not single scenarios. They are amplifiers for deeper enterprise AI: the former helps AI understand the enterprise; the latter makes enterprises willing to authorize AI to act.</p>
 
 <figure class="article-image-figure value-matrix-figure">
   <figcaption>Figure 03 · Value Matrix</figcaption>
@@ -1407,45 +1342,15 @@
 
 <h3 id="position-by-position">Position by Position</h3>
 
-<p><strong>SAP, in core execution</strong></p>
+<p><strong>SAP</strong> sits deepest in core execution, with the strongest moat, but monetization will take the longest.</p>
 
-<ul>
-  <li>Profit pool: high. Enterprises already pay heavily for ERP, and AI execution can be added as a premium layer. But implementation cost is also high.</li>
-  <li>Moat: extremely high. ERP replacement cost is enormous, business semantics are hard to replicate, and trust is accumulated over decades.</li>
-  <li>Conclusion: one of the highest long-term commercial value positions, but monetization will take time.</li>
-</ul>
+<p><strong>Microsoft</strong> diffuses fastest through the entry layer, but its pricing power and execution-layer control still need to be proven.</p>
 
-<p><strong>Microsoft, at the entry layer</strong></p>
+<p><strong>ServiceNow</strong> becomes more valuable as process orchestration and agent governance become more important.</p>
 
-<ul>
-  <li>Profit pool: uncertain. Copilot pricing is still being tested in the market. There is more than a year of commercial data, but the sustainability of enterprise renewal rates and pricing premium is not fully transparent. The entry point has scale, but unit price may be compressed.</li>
-  <li>Moat: medium to high. Office and Teams are deeply embedded in work habits. GitHub, VS Code, and Copilot Studio create a strong developer ecosystem at the entry and departmental task layers, allowing employees and IT teams to deploy prebuilt agent templates quickly. But this ecosystem advantage weakens in process orchestration and core execution, because enterprises will not let community-built agents touch payments and inventory.</li>
-  <li>Conclusion: fastest to diffuse, but its profit pool and moat are weaker than the execution layer. Its real advantage is that it can try to move rightward.</li>
-</ul>
+<p><strong>Salesforce</strong> has the strongest cash-flow logic in customer revenue processes, but needs back-office connections to enter the larger map.</p>
 
-<p><strong>ServiceNow, in process orchestration and governance</strong></p>
-
-<ul>
-  <li>Profit pool: medium to high. ITSM and workflow are already part of enterprise budgets. Agent governance is becoming a must-have.</li>
-  <li>Moat: medium to high. Workflow integrations are deep, and the real moat is that the more agents an enterprise has, the more it needs a control plane. Demand density is rising.</li>
-  <li>Conclusion: the player whose position is rising the fastest.</li>
-</ul>
-
-<p><strong>Salesforce, as a scenario player in customer revenue</strong></p>
-
-<ul>
-  <li>Profit pool: very high. Sales AI is directly tied to revenue, making this a high-cash-flow position.</li>
-  <li>Moat: high. CRM data accumulation and sales process integration are deeply embedded.</li>
-  <li>Conclusion: extremely valuable on its own battlefield, but it needs to connect to the back office to enter the larger map.</li>
-</ul>
-
-<p><strong>Workday, as a scenario player in HCM</strong></p>
-
-<ul>
-  <li>Profit pool: high. HCM is a core system and contains sensitive data.</li>
-  <li>Moat: high. Organizational data is sensitive, and replacement cost is high.</li>
-  <li>Conclusion: a high-value local player, very stable within its own domain.</li>
-</ul>
+<p><strong>Workday</strong> is stable in HCM, but remains more of a high-value local player.</p>
 
 <h2 id="4-can-their-narratives-actually-become-real">4. Can Their Narratives Actually Become Real?</h2>
 
@@ -1553,95 +1458,63 @@
 
 <p>This will raise the entry barrier for the execution layer. In the short term, it favors SAP, because its compliance system is the most mature. In the medium term, it favors ServiceNow, because governance platforms become more important. It has less direct impact on Microsoft's entry layer.</p>
 
-<h2 id="5-the-final-map">5. The Final Map</h2>
+<h2 id="5-market-structure">5. Market Structure</h2>
 
-<p>Pulling the threads together, the final map should be read in four steps:</p>
+<p>At this point, we can fold the analysis back in layers.</p>
 
-<ol>
-  <li>Enterprise AI is not one market. It is multiple execution positions layered on top of one another.</li>
-  <li>Players do not start from the same place. They expand outward from their native advantages.</li>
-  <li>Use <strong>profit pool x switching cost</strong> to judge which position has more long-term value.</li>
-  <li>Return to the strategic hand: who holds which cards, who is missing which cards, who needs authorization from others, and who benefits from higher regulatory barriers?</li>
-</ol>
+<p>The first layer is how deeply AI touches the business.</p>
 
-<figure class="article-image-figure final-map-deck">
-  <figcaption>Figure 05 · Final Reasoning Map</figcaption>
-  <div class="final-map-tabs">
-    <input type="radio" name="final-map-view" id="final-map-step-1" checked>
-    <input type="radio" name="final-map-view" id="final-map-step-2">
-    <input type="radio" name="final-map-view" id="final-map-step-3">
-    <input type="radio" name="final-map-view" id="final-map-step-4">
-    <div class="final-map-stage">
-      <section class="final-map-slide final-step-1">
-        <img src="../assets/images/enterprise-ai-six-scenarios.png" alt="The six scenarios of enterprise AI">
-        <p><strong>Step 1.</strong> First, split the market: enterprise AI is not one entry-point market, but four execution positions plus two foundations.</p>
-      </section>
-      <section class="final-map-slide final-step-2">
-        <img src="../assets/images/enterprise-ai-player-positioning.svg" alt="Enterprise AI player positioning map">
-        <p><strong>Step 2.</strong> Then place the players: SAP, Microsoft, and ServiceNow do not start from the same track. Each expands outward from its existing system advantage.</p>
-      </section>
-      <section class="final-map-slide final-step-3">
-        <img src="../assets/images/enterprise-ai-value-players.svg" alt="Enterprise AI value matrix by players">
-        <p><strong>Step 3.</strong> Judge value: long-term commercial value depends on the product of profit pool and moat. The upper-right corner is the area to watch.</p>
-      </section>
-      <section class="final-map-slide final-step-4">
-        <img src="../assets/images/enterprise-ai-card-game-summary.svg" alt="Strategic card table summary for enterprise AI players">
-        <p><strong>Step 4.</strong> Return to the strategic hand: the closer a position is to core execution, the more valuable it is, and the more it depends on authorization, governance, audit, and compliance.</p>
-      </section>
-    </div>
-    <div class="final-map-tabbar" aria-label="Final reasoning map views">
-      <label for="final-map-step-1">1 Market Structure</label>
-      <label for="final-map-step-2">2 Player Position</label>
-      <label for="final-map-step-3">3 Value Logic</label>
-      <label for="final-map-step-4">4 Strategic Hand</label>
-    </div>
-  </div>
-</figure>
+<p>If AI only helps people write emails, join meetings, or prepare documents, the entry point matters most. If AI enters sales, service, HR, or finance departments, short-term ROI matters most. If AI starts moving work across systems, workflow and governance become important. If AI directly touches orders, payments, inventory, or invoices, core execution rights become the real issue.</p>
 
-<p>This map also includes Salesforce in customer revenue processes, Workday in HCM, and Oracle as a full-stack alternative route whose influence in Germany is constrained by SAP's installed base.</p>
+<p>The second layer is each player's native system position.</p>
 
-<p>They have extremely high value in their own domains, but they are not competing for the whole-enterprise control plane in the same way.</p>
+<p>Microsoft is closest to employees, so it is best positioned to own the entry layer. Salesforce and Workday are closest to departmental business processes, so they can prove value in customer revenue and HCM scenarios. ServiceNow is closest to requests, approvals, routing, and audit trails, so it naturally moves toward process orchestration and agent governance. SAP and Oracle are closest to core transaction systems, so they are closer to true business execution.</p>
 
-<h3 id="how-to-use-this-map">How to Use This Map</h3>
+<p>The third layer is the value judgment.</p>
 
-<p>When you see any new enterprise AI narrative, ask five questions:</p>
+<p>The entry layer diffuses fastest, but it does not automatically own control. Departmental tasks are easiest to justify through ROI, but they usually remain local. Process orchestration becomes more important as the number of agents grows. Core execution is the hardest to land, but once enterprises are willing to authorize it, it has the highest long-term value and replacement barrier.</p>
 
-<ol>
-  <li><strong>Locate it:</strong> Which layer of the four-position map does it occupy?</li>
-  <li><strong>Assess the profit pool:</strong> How much is the enterprise willing to pay for this scenario?</li>
-  <li><strong>Assess switching cost:</strong> How much data, process, permission structure, integration, and organizational habit would need to move in order to replace this vendor?</li>
-  <li><strong>Judge extensibility:</strong> Can it naturally extend into a more valuable position? Pay attention to the domain of the moat. Being strong in one layer does not mean being strong in another.</li>
-  <li><strong>Check the strategic hand:</strong> What needs to be true for the narrative to become real? What does the company already have? Which missing cards are in someone else's hand? Which parts are feasible, which require specific conditions, and which may not hold?</li>
-</ol>
+<p>So German enterprise AI is unlikely to become a winner-takes-all market. It is more likely to become a layered structure:</p>
 
-<p>This map is not a collection of information. It is a judgment tool.</p>
+<ul>
+  <li><strong>Entry layer</strong>: Microsoft is strongest.</li>
+  <li><strong>Departmental task layer</strong>: Salesforce, Workday, and Microsoft all have opportunities.</li>
+  <li><strong>Process orchestration layer</strong>: ServiceNow is best positioned.</li>
+  <li><strong>Core execution layer</strong>: SAP and Oracle are closer.</li>
+  <li><strong>Data intelligence layer</strong>: SAP, Microsoft, Oracle, Salesforce, and data platforms will all compete.</li>
+  <li><strong>Governance and security layer</strong>: ServiceNow, Microsoft, and SAP will all compete.</li>
+</ul>
+
+<p>This brings us back to the opening question. These companies are not competing in one generic &quot;AI assistant&quot; market. Each is trying to move from its native position into deeper, higher-value business processes.</p>
+
+<p>The main line becomes:</p>
+
+<blockquote><p>Whoever can be authorized by enterprises to enter high-value processes under controlled conditions, and actually execute actions there, is closer to long-term control in enterprise AI.</p></blockquote>
 
 <h2 id="takeaways">Takeaways</h2>
+
+<p>After reading this, the next time you see a new enterprise AI narrative, ask these questions in order:</p>
 
 <div class="conclusion-list">
   <div class="conclusion-item">
     <div class="conclusion-code">01</div>
-    <div class="conclusion-text"><strong>Enterprise AI is not one market.</strong> Personal assistants, departmental tasks, process orchestration, core execution, data intelligence, and governance and security all have different risk levels, value logic, implementation speeds, and moats.</div>
+    <div class="conclusion-text"><strong>Which layer of the business does it touch?</strong> Is it a personal assistant, a departmental task, process orchestration, or core execution? The closer it gets to execution, the more valuable it becomes, and the harder it is to authorize.</div>
   </div>
   <div class="conclusion-item">
     <div class="conclusion-code">02</div>
-    <div class="conclusion-text"><strong>Players do not start from the same place.</strong> SAP starts from core execution, Microsoft from the work entry point, and ServiceNow from process orchestration. Their AI narratives use AI to push their original strengths outward. Each narrative has roots in official language: Autonomous Enterprise, Copilot, and AI Control Tower.</div>
+    <div class="conclusion-text"><strong>Whose native position does it start from?</strong> Microsoft starts from the entry point, SAP from core systems, and ServiceNow from workflow. AI narratives rarely appear from nowhere; they usually extend an existing advantage.</div>
   </div>
   <div class="conclusion-item">
     <div class="conclusion-code">03</div>
-    <div class="conclusion-text"><strong>The value standard is profit pool x switching cost.</strong> How much can this position earn, and how hard is it to replace? By that standard, SAP and Salesforce both have very high long-term value in their respective positions, but they are competing for different things.</div>
+    <div class="conclusion-text"><strong>Where does its value come from?</strong> Diffusion speed, short-term ROI, process control, or long-term replacement barriers? Do not use &quot;who lands first&quot; as a proxy for &quot;who controls more.&quot;</div>
   </div>
   <div class="conclusion-item">
     <div class="conclusion-code">04</div>
-    <div class="conclusion-text"><strong>The key finding from the strategic hand analysis:</strong> SAP has the most stable core base. Its entry-point weakness matters less among installed-base customers, but it is a structural obstacle for new customers. Microsoft's entry point will work, but execution authority remains unproven, its profit pool is still being tested, and its developer ecosystem is strongest in entry and departmental layers rather than execution. ServiceNow has the clearest short-term path, but long-term uncertainty rises as Workday and Microsoft enter the governance space. The EU AI Act will further raise the barrier for execution-layer AI. The more valuable the execution position is, the harder it is to obtain authorization.</div>
+    <div class="conclusion-text"><strong>Which card is missing?</strong> Entry point, business facts, semantic layer, governance authority, and execution authorization usually do not sit with the same company. Whoever holds the missing card determines both partnership potential and ceiling.</div>
   </div>
   <div class="conclusion-item">
     <div class="conclusion-code">05</div>
-    <div class="conclusion-text"><strong>Several open questions are worth tracking:</strong> the boundary between Workday and ServiceNow in agent management, where public information remains limited and confidence is medium; whether data platform companies will capture the data intelligence layer; and how much pricing power the entry layer truly has.</div>
-  </div>
-  <div class="conclusion-item">
-    <div class="conclusion-code">06</div>
-    <div class="conclusion-text"><strong>In the end, do not watch conference volume. Watch system position:</strong> who holds business facts, who understands business semantics, who enterprises are willing to pay a premium, who can be authorized to execute, and whose missing cards are in someone else's hand. These factors determine who really has a seat at the table.</div>
+    <div class="conclusion-text"><strong>In Germany, add one more question: who can be trusted and audited?</strong> Installed systems, compliance requirements, and execution responsibility slow down core execution, but they also make the players that can enter that layer harder to replace.</div>
   </div>
 </div>
 
