@@ -86,5 +86,24 @@
       "label": { "zh": "最近更新", "en": "Last Updated" },
       "value": { "zh": "2026-05-14", "en": "2026-05-14" }
     }
+  ],
+  "galleryAssets": [
+    {
+      "id": "sap-product-strategy-map-asset",
+      "src": "assets/images/sap-product-strategy-map-preview.png",
+      "alt": {
+        "zh": "SAP 产品线收入贡献与战略重要度地图预览",
+        "en": "SAP product portfolio revenue and strategic importance map preview"
+      },
+      "caption": {
+        "zh": "SAP 产品线战略地图：横轴为收入贡献，纵轴为战略重要度，右侧面板解释当前选中产品的收入披露口径与市场地位。",
+        "en": "SAP product strategy map: revenue contribution on the x-axis, strategic importance on the y-axis, with a detail panel for disclosure basis and market position."
+      },
+      "slug": "product-line-map",
+      "articleTitle": {
+        "zh": "产品线图谱",
+        "en": "Product Line Map"
+      }
+    }
   ]
 }

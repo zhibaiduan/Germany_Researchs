@@ -1,0 +1,28 @@
+{
+  "id": "P1M3",
+  "slug": "product-line-map",
+  "enSlug": "en-product-line-map",
+  "canonicalLang": "zh",
+  "status": "published",
+  "content": {
+    "source": {
+      "zh": "zh.md"
+    },
+    "generated": {
+      "zh": "../../../../topics/product-line-map.html"
+    }
+  },
+  "translation": {
+    "en": {
+      "sourceLang": "zh",
+      "status": "not-started",
+      "reviewStatus": "not-started"
+    }
+  },
+  "display": {
+    "template": "article",
+    "toc": true,
+    "showSources": true,
+    "showReadingProgress": false
+  }
+}

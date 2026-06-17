@@ -1,0 +1,30 @@
+{
+  "id": "P1M7",
+  "slug": "enterprise-ai-war-map-germany",
+  "canonicalLang": "zh",
+  "status": "published",
+  "content": {
+    "source": {
+      "zh": "zh.md",
+      "en": "en.md"
+    },
+    "generated": {
+      "zh": "../../../../topics/enterprise-ai-war-map-germany.html",
+      "en": "../../../../topics/en-enterprise-ai-war-map-germany.html"
+    }
+  },
+  "translation": {
+    "en": {
+      "sourceLang": "zh",
+      "status": "generated",
+      "generatedAt": "2026-06-15",
+      "reviewStatus": "needs-review"
+    }
+  },
+  "display": {
+    "template": "article",
+    "toc": true,
+    "showSources": false,
+    "showReadingProgress": false
+  }
+}

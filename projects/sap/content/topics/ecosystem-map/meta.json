@@ -1,0 +1,28 @@
+{
+  "id": "P1M4",
+  "slug": "ecosystem-map",
+  "enSlug": "en-ecosystem-map",
+  "canonicalLang": "zh",
+  "status": "published",
+  "content": {
+    "source": {
+      "zh": "zh.md"
+    },
+    "generated": {
+      "zh": "../../../../topics/ecosystem-map.html"
+    }
+  },
+  "translation": {
+    "en": {
+      "sourceLang": "zh",
+      "status": "not-started",
+      "reviewStatus": "not-started"
+    }
+  },
+  "display": {
+    "template": "article",
+    "toc": true,
+    "showSources": false,
+    "showReadingProgress": false
+  }
+}

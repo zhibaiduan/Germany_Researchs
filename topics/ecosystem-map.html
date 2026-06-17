@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAP 生态系统权力地图 — SAP Research</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .ecosystem-asset {
+      width: min(1320px, calc(100vw - 288px));
+      margin: -8px 0 46px 50%;
+      transform: translateX(-50%);
+    }
+    .ecosystem-shell {
+      display: grid;
+      grid-template-columns: minmax(660px, 1fr) minmax(330px, 410px);
+      gap: 16px;
+      align-items: start;
+    }
+    .ecosystem-panel,
+    .player-panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.48);
+    }
+    .ecosystem-panel {
+      padding: 16px;
+    }
+    .map-toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+    .map-title {
+      font-size: var(--fs-heading-sm);
+      line-height: 1.25;
+      color: var(--text-1);
+      font-weight: 700;
+    }
+    .map-subtitle {
+      max-width: 680px;
+      margin-top: 5px;
+      font-size: var(--fs-ui);
+      line-height: 1.65;
+      color: var(--text-2);
+    }
+    .ecosystem-map {
+      position: relative;
+      height: 690px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 50% 28%, rgba(255,255,255,.86), transparent 42%),
+        linear-gradient(135deg, rgba(255,255,255,.68), rgba(232,238,231,.42));
+      overflow: hidden;
+    }
+    .ecosystem-lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .relation-line {
+      fill: none;
+      stroke: var(--line-color);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-dasharray: var(--dash, 0);
+      opacity: .5;
+      transition: opacity var(--transition), stroke-width var(--transition);
+    }
+    .relation-line.dimmed {
+      opacity: .08;
+    }
+    .relation-line.highlight {
+      opacity: .92;
+      stroke-width: 3;
+    }
+    .relation-label {
+      position: absolute;
+      z-index: 4;
+      transform: translate(-50%, -50%);
+      max-width: 120px;
+      padding: 3px 8px;
+      border: 1px solid rgba(42,96,72,.22);
+      border-radius: 99px;
+      background: rgba(242,245,241,.9);
+      box-shadow: 0 1px 5px rgba(0,0,0,.06);
+      color: var(--accent);
+      font-size: 11px;
+      line-height: 1.25;
+      font-weight: 700;
+      text-align: center;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition), border-color var(--transition), background var(--transition);
+    }
+    .relation-label.visible {
+      opacity: 1;
+    }
+    .player-node {
+      position: absolute;
+      z-index: 2;
+      width: var(--node-w);
+      min-height: var(--node-h);
+      transform: translate(-50%, -50%);
+      padding: 10px 11px;
+      border: 1px solid rgba(24,28,23,.16);
+      border-radius: var(--radius);
+      background: var(--node-bg);
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      color: var(--text-1);
+      text-align: left;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), opacity var(--transition);
+    }
+    .player-node:hover,
+    .player-node.active {
+      transform: translate(-50%, -50%) translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+    .player-node.dimmed {
+      opacity: .3;
+    }
+    .node-title {
+      display: block;
+      font-size: var(--fs-annotation);
+      line-height: 1.18;
+      font-weight: 700;
+      color: var(--text-1);
+    }
+    .node-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 7px;
+      color: rgba(24,28,23,.66);
+      font-size: 10px;
+      line-height: 1.25;
+    }
+    .node-score {
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+    .map-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      margin-top: 12px;
+      color: var(--text-3);
+      font-size: var(--fs-annotation);
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend-line {
+      width: 28px;
+      height: 0;
+      border-top: 2px solid var(--legend-color);
+    }
+    .legend-line.dashed {
+      border-top-style: dashed;
+    }
+    .player-panel {
+      position: sticky;
+      top: calc(var(--nav-h) + 16px);
+      min-height: 640px;
+      padding: 18px;
+    }
+    .detail-kicker {
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-size: var(--fs-annotation);
+      line-height: 1.3;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .detail-title {
+      margin: 0 0 12px;
+      color: var(--text-1);
+      font-family: var(--font-serif);
+      font-size: 30px;
+      line-height: 1.08;
+      font-weight: 400;
+    }
+    .detail-summary {
+      margin: 0 0 15px;
+      color: var(--text-2);
+      font-size: var(--fs-ui);
+      line-height: 1.7;
+    }
+    .detail-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: -4px 0 15px;
+    }
+    .detail-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 25px;
+      padding: 4px 9px;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      background: rgba(255,255,255,.58);
+      color: var(--text-2);
+      font-size: var(--fs-annotation);
+      line-height: 1.3;
+    }
+    .detail-badge strong {
+      margin-right: 5px;
+      color: var(--text-1);
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .detail-item {
+      border-top: 1px solid var(--border-light);
+      padding-top: 8px;
+    }
+    .detail-item.wide {
+      grid-column: 1 / -1;
+    }
+    .detail-label {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text-3);
+      font-size: 11px;
+      line-height: 1.25;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .detail-value {
+      display: block;
+      color: var(--text-1);
+      font-size: var(--fs-ui);
+      line-height: 1.5;
+    }
+    .detail-section {
+      border-top: 1px solid var(--border-light);
+      margin-top: 11px;
+      padding-top: 11px;
+    }
+    .detail-section-title {
+      margin-bottom: 7px;
+      color: var(--text-3);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .detail-note {
+      margin: 0;
+      color: var(--text-2);
+      font-size: var(--fs-ui);
+      line-height: 1.65;
+    }
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .detail-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 23px;
+      padding: 3px 8px;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: var(--fs-annotation);
+      line-height: 1.3;
+    }
+    .framework-chapter {
+      margin: 32px 0 38px;
+      padding-top: 2px;
+    }
+    .framework-intro {
+      max-width: 840px;
+      margin: 0 0 18px;
+      color: var(--text-2);
+      font-size: var(--fs-body);
+      line-height: 1.78;
+    }
+    .relationship-flow {
+      max-width: 840px;
+      margin: 14px 0 24px;
+    }
+    .relationship-flow p {
+      margin: 0 0 13px;
+      color: var(--text-2);
+      font-size: var(--fs-body);
+      line-height: 1.78;
+    }
+    .relationship-flow strong {
+      color: var(--text-1);
+      font-weight: 600;
+    }
+    .conclusion-list {
+      display: flex;
+      flex-direction: column;
+      margin: 20px 0 28px;
+      border-left: 2px solid var(--accent-border);
+    }
+    .conclusion-item {
+      display: flex;
+      gap: 14px;
+      align-items: baseline;
+      padding: 11px 16px;
+    }
+    .conclusion-num {
+      flex-shrink: 0;
+      width: 22px;
+      color: var(--accent);
+      font-size: var(--fs-annotation);
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+    .conclusion-text {
+      color: var(--text-1);
+      font-size: var(--fs-ui);
+      line-height: 1.65;
+    }
+    @media (max-width: 1100px) {
+      .ecosystem-asset {
+        width: min(920px, calc(100vw - 32px));
+      }
+      .ecosystem-shell {
+        grid-template-columns: 1fr;
+      }
+      .player-panel {
+        position: static;
+        min-height: auto;
+      }
+    }
+    @media (max-width: 760px) {
+      .ecosystem-asset {
+        width: calc(100vw - 24px);
+      }
+      .map-toolbar {
+        flex-direction: column;
+      }
+      .ecosystem-map {
+        height: auto;
+        padding: 12px;
+        display: grid;
+        gap: 9px;
+        overflow: visible;
+      }
+      .ecosystem-lines,
+      .relation-label {
+        display: none;
+      }
+      .player-node {
+        position: static;
+        width: 100% !important;
+        min-height: 58px !important;
+        transform: none;
+      }
+      .player-node:hover,
+      .player-node.active {
+        transform: none;
+      }
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="nav-mount"></div>
+
+  <div class="page-layout">
+    <div class="page-content">
+      <div class="article-wrap">
+        <header class="article-header">
+          <div class="article-topic-label">专题 P1M4 · Ecosystem Power Map</div>
+          <h1 class="article-title">SAP 生态系统权力地图</h1>
+          <p class="article-subtitle">研究 SAP 不能只看产品线，还要看围绕它赚钱、交付、影响决策和争夺客户预算的人。生态图的目标，是把玩家、关系、权力链和收益链放到同一张地图里。</p>
+          <div class="article-meta">
+            <span class="article-meta-item">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              2026-06-07
+            </span>
+            <span class="article-meta-divider"></span>
+            <span class="article-meta-item">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              交互地图
+            </span>
+          </div>
+        </header>
+
+        <figure class="ecosystem-asset article-figure" id="sap-ecosystem-power-map" data-asset-type="interactive-map">
+          <section class="ecosystem-shell" aria-label="SAP 生态系统玩家关系地图">
+            <div class="ecosystem-panel">
+              <div class="map-toolbar">
+                <div>
+                  <div class="map-title">玩家关系地图 · 权力、利润与依赖</div>
+                  <div class="map-subtitle">位置越靠上，越接近预算、问题定义和高层决策；越靠下，越接近执行、人天和可替代劳动。点击任一玩家，右侧查看它在生态中的真实行动逻辑。</div>
+                </div>
+              </div>
+
+              <div class="ecosystem-map" id="ecosystem-map">
+                <svg class="ecosystem-lines" viewBox="0 0 1000 690" preserveAspectRatio="none" aria-hidden="true"></svg>
+              </div>
+
+              <div class="map-legend" aria-label="图例">
+                <span class="legend-item"><span class="legend-line" style="--legend-color:#2A6048"></span>预算 / 权力流</span>
+                <span class="legend-item"><span class="legend-line" style="--legend-color:#537791"></span>平台控制</span>
+                <span class="legend-item"><span class="legend-line" style="--legend-color:#8E735B"></span>项目交付</span>
+              </div>
+            </div>
+
+            <aside class="player-panel" id="player-detail" aria-live="polite">
+              <div class="detail-kicker" id="detail-layer"></div>
+              <h2 class="detail-title" id="detail-title"></h2>
+              <p class="detail-summary" id="detail-summary"></p>
+              <div class="detail-badges">
+                <span class="detail-badge"><strong>权力</strong><span id="detail-power"></span></span>
+                <span class="detail-badge"><strong>AI</strong><span id="detail-ai-badge"></span></span>
+              </div>
+              <div class="detail-grid">
+                <div class="detail-item">
+                  <span class="detail-label">代表玩家</span>
+                  <span class="detail-value" id="detail-examples"></span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">卖什么</span>
+                  <span class="detail-value" id="detail-sells"></span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">客户是谁</span>
+                  <span class="detail-value" id="detail-customers"></span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">赚钱方式</span>
+                  <span class="detail-value" id="detail-money"></span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">掌握资源</span>
+                  <span class="detail-value" id="detail-resources"></span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">依赖对象</span>
+                  <span class="detail-value" id="detail-depends"></span>
+                </div>
+                <div class="detail-item wide">
+                  <span class="detail-label">最害怕什么</span>
+                  <span class="detail-value" id="detail-fear"></span>
+                </div>
+                <div class="detail-item wide">
+                  <span class="detail-label">未来 5 年位置变化</span>
+                  <span class="detail-value" id="detail-future"></span>
+                </div>
+              </div>
+              <div class="detail-section">
+                <div class="detail-section-title">这一类玩家通常和谁打交道</div>
+                <div class="chip-list" id="detail-relations"></div>
+              </div>
+              <div class="detail-section">
+                <div class="detail-section-title">一句话读法</div>
+                <p class="detail-note" id="detail-reading"></p>
+              </div>
+            </aside>
+          </section>
+          <figcaption>SAP 生态系统权力地图：同一张图里阅读玩家、预算链、决策影响、交付链与平台依赖。</figcaption>
+        </figure>
+
+        <div class="article-body">
+          <div class="article-content">
+            <h2 id="why-ecosystem">为什么要研究 SAP 生态系统</h2>
+            <p>只研究 SAP 产品，会很容易把问题看成“哪个模块更重要”。但企业软件真正的价值分配，不只发生在产品内部，而发生在围绕客户预算展开的一整套生态关系里。客户决定是否投入，咨询公司影响投入方向，SAP 控制平台和标准，SI 把项目交付出来，ISV 补足平台没有覆盖的能力，开发者和顾问完成大量具体工作。</p>
+            <p>所以这张图的核心不是公司名单，而是一个心理模型：不要从“功能模块”理解 SAP，要从“企业数字化预算如何被定义、说服、分配、交付和锁定”理解 SAP 生态。</p>
+
+            <section class="framework-chapter">
+              <h2 id="relationship-types">地图里的五种关系</h2>
+              <p class="framework-intro">SAP 生态里的玩家看起来都在帮客户做数字化项目，但他们的权力来源完全不同。地图把关系拆成几条主线：预算、决策影响、平台控制、项目交付和合作竞争。</p>
+              <div class="relationship-flow">
+                <p><strong>第一条是预算链。</strong>钱从企业客户的 CEO、CIO 和业务负责人那里流出。它最开始不是直接变成代码或配置，而是先变成一个转型议题：为什么要改系统，为什么现在改，预算应该投向哪里。</p>
+                <p><strong>第二条是决策影响。</strong>战略咨询和管理咨询不一定亲自实施系统，但它们经常在项目立项前定义问题、路线图和未来蓝图。也就是说，它们影响的不是某一张配置表，而是客户一开始相信什么、选择什么、优先做什么。</p>
+                <p><strong>第三条是平台控制。</strong>当客户进入 SAP 体系后，SAP 掌握产品路线图、认证、标准、API、BTP、数据和 AI 入口。生态里的 SI、ISV、开发者和顾问大多不是自由行动，而是在 SAP 定义的规则和接口里行动。</p>
+                <p><strong>第四条是交付链。</strong>项目真正落地时，SI 承接配置、迁移、接口、测试、培训和上线。很多项目成败发生在这一层，但它的上游议价权通常弱于咨询公司和 SAP，因为它更多是在执行已经被定义好的方向。</p>
+                <p><strong>第五条是合作竞争。</strong>SAP、咨询公司、SI、ISV 和云厂商会一起做大客户项目，也会争夺客户关系、数据入口、平台控制点和长期运维预算。SAP 生态不是一个和平分工表，而是一张不断协商的利益网络。</p>
+              </div>
+            </section>
+
+            <h2 id="power-chain">权力链与收益链</h2>
+            <p>在 SAP 生态里，越接近客户高层、预算控制和问题定义，权力越大；越接近执行、人天和可替代劳动，议价能力越低。战略咨询卖决策，管理咨询卖蓝图，SAP 卖平台和标准，SI 卖实施能力，ISV 卖补充功能，开发者卖具体交付时间。</p>
+            <p>这不是说下层不重要。恰恰相反，大型 SAP 项目能否上线，经常取决于 SI、顾问和开发者。但从收益分配和议价能力看，项目成败责任和生态话语权并不总是落在同一个位置。</p>
+
+            <h2 id="ai-shift">AI 会怎么重排生态</h2>
+            <p>AI 不会平均冲击所有角色。它会优先压缩 ABAP 开发、基础配置、文档、测试和低复杂度实施等工作，因为这些工作规则明确、重复性高、可以被模板和 agent 拆解。普通实施顾问也会受到影响，未来一个顾问加 AI 可能承担过去多个人的工作。</p>
+            <p>但 AI 会强化三类人：</p>
+            <ol>
+              <li><strong>SAP 这样的平台方。</strong>因为 AI 会进一步增强平台粘性，让客户更依赖 SAP 的数据、权限、流程和业务对象。</li>
+              <li><strong>大型咨询公司。</strong>因为它们天然拥有客户关系、行业知识和方法论，AI 会放大它们做研究、建模和方案包装的效率。</li>
+              <li><strong>懂业务、懂流程、懂 AI 工作流的人。</strong>因为他们能把问题定义、平台能力和自动化工具重新组合成解决方案。</li>
+            </ol>
+
+            <h2 id="research-frame">用这张图继续研究</h2>
+            <p>后续研究每一类玩家时，都可以沿用右侧卡片的同一套问题：他们卖什么，客户是谁，靠什么赚钱，掌握什么资源，依赖谁，最害怕什么，AI 会削弱还是增强他们，未来五年价值向上还是向下。</p>
+            <div class="conclusion-list">
+              <div class="conclusion-item">
+                <div class="conclusion-num">C1</div>
+                <div class="conclusion-text"><strong>SAP 生态的核心不是 ERP 产品，而是企业数字化预算的分配机制。</strong> 谁越靠近预算和问题定义，谁越接近上层。</div>
+              </div>
+              <div class="conclusion-item">
+                <div class="conclusion-num">C2</div>
+                <div class="conclusion-text"><strong>咨询公司、SAP、SI 的区别不能混在一起。</strong> 咨询卖决策和蓝图，SAP 卖平台，SI 卖交付能力。</div>
+              </div>
+              <div class="conclusion-item">
+                <div class="conclusion-num">C3</div>
+                <div class="conclusion-text"><strong>AI 会把价值从低层执行推向高层定义。</strong> 未来更贵的不是“会不会写 ABAP”，而是能不能定义业务问题并设计 AI + workflow + SAP 的解决方案。</div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="toc-panel">
+            <div class="toc-inner"></div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../config.js"></script>
+  <script src="../assets/script.js"></script>
+  <script>
+  (() => {
+    const PLAYERS = [
+      {
+        id: 'customer',
+        name: '企业客户',
+        layer: '预算源头',
+        x: 50,
+        y: 11,
+        width: 168,
+        height: 74,
+        power: 100,
+        nodeBg: 'rgba(42,96,72,.16)',
+        summary: '整个生态存在的理由。客户掌握钱、数据、最终决策和真实业务问题，尤其是 Volkswagen、Siemens、BMW、BASF 这类复杂大型企业。',
+        examples: ['Volkswagen', 'Siemens', 'BMW', 'BASF'],
+        sells: '不卖东西；购买转型、软件、实施和长期运维能力。',
+        customers: '内部业务部门、集团管理层、股东和监管环境。',
+        money: '用 CAPEX/OPEX 预算购买软件订阅、咨询项目、实施人天和后续维护。',
+        resources: '预算、数据、业务流程、组织权力、最终验收权。',
+        depends: 'SAP 的平台能力、咨询公司的路线图、SI 的交付能力、内部变革能力。',
+        fear: '项目失控、上线失败、预算超支、业务中断、被供应商锁定但拿不到业务价值。',
+        ai: '增强',
+        future: '权力仍在顶层，但会更依赖能把业务问题转成 AI + workflow 方案的人。',
+        relations: ['SAP', '战略咨询', '管理咨询', 'SI', 'ISV', '云厂商'],
+        reading: '所有生态分析都应该从客户预算和决策链开始，而不是从供应商目录开始。'
+      },
+      {
+        id: 'sap',
+        name: 'SAP',
+        layer: '平台控制者',
+        x: 52,
+        y: 31,
+        width: 158,
+        height: 74,
+        power: 92,
+        nodeBg: 'rgba(83,119,145,.18)',
+        summary: 'SAP 掌握平台、产品路线图、认证、标准、BTP、数据和 AI 入口，是生态规则的制定者。',
+        examples: ['SAP S/4HANA', 'BTP', 'Joule', 'Business Data Cloud'],
+        sells: 'ERP、云订阅、平台、数据、AI 能力、维护与认证体系。',
+        customers: '大型企业 CIO、业务部门、采购部门，以及生态伙伴。',
+        money: 'license、cloud subscription、support、platform consumption、partner ecosystem。',
+        resources: '产品标准、客户存量、认证体系、路线图、API、业务语义和平台入口。',
+        depends: '大客户迁移意愿、SI 交付质量、咨询公司影响力、云厂商基础设施、ISV 补位。',
+        fear: '客户迁移变慢、云转型不及预期、数据入口被 hyperscaler 或独立数据平台夺走。',
+        ai: '增强',
+        future: '价值向上移动。Joule、BTP 和 Business Data Cloud 会强化平台粘性。',
+        relations: ['企业客户', 'SI', 'ISV', '云厂商', '开发者 / 顾问'],
+        reading: 'SAP 不只是卖软件，它在定义生态中的规则、入口和长期锁定方式。'
+      },
+      {
+        id: 'strategy',
+        name: '战略咨询',
+        layer: '问题定义者',
+        x: 20,
+        y: 24,
+        width: 150,
+        height: 68,
+        power: 86,
+        nodeBg: 'rgba(42,96,72,.12)',
+        summary: '战略咨询卖的是高层判断：未来五年数字化怎么做、是否上 SAP、转型优先级是什么。',
+        examples: ['McKinsey', 'BCG', 'Bain'],
+        sells: '战略、CEO 建议、转型路线图、商业案例和组织议题。',
+        customers: 'CEO、董事会、集团战略部门、CIO。',
+        money: '高单价项目费、长期顾问关系、战略转型项目。',
+        resources: '高层关系、行业观点、方法论、议题设置能力。',
+        depends: '客户高层信任、行业案例、后续管理咨询和实施伙伴落地。',
+        fear: '建议无法落地、被客户内部团队替代、AI  commoditize 初级分析工作。',
+        ai: '增强',
+        future: '价值仍在上层。AI 会压缩研究和材料工作，但放大高层关系与判断能力。',
+        relations: ['企业客户', '管理咨询', 'SAP'],
+        reading: '战略咨询不一定做 SAP 项目，但它经常在项目还没立项前影响方向。'
+      },
+      {
+        id: 'management',
+        name: '管理咨询',
+        layer: '蓝图设计者',
+        x: 28,
+        y: 43,
+        width: 154,
+        height: 70,
+        power: 78,
+        nodeBg: 'rgba(98,132,88,.16)',
+        summary: '管理咨询把战略翻译成组织、流程和系统蓝图，常处在 SAP 项目立项前后。',
+        examples: ['Deloitte', 'PwC', 'EY', 'KPMG'],
+        sells: '数字化转型、流程优化、ERP 规划、组织设计、未来蓝图。',
+        customers: 'CIO、CFO、业务负责人、转型办公室。',
+        money: '咨询项目费、转型办公室、PMO、流程设计和后续实施联动。',
+        resources: '行业流程模板、项目治理方法、客户中高层关系、审计/税务/合规入口。',
+        depends: '客户内部推进能力、SAP 标准能力、SI 交付、数据和流程现状。',
+        fear: '蓝图无法落地、项目被 SI 或 SAP 直接接管、AI 压缩文档和流程建模工作。',
+        ai: '增强',
+        future: '高端业务顾问上移，普通流程文档和 PMO 工作下移。',
+        relations: ['企业客户', '战略咨询', 'SAP', 'SI'],
+        reading: '管理咨询的价值不只是写方案，而是把组织、流程和系统改造连起来。'
+      },
+      {
+        id: 'si',
+        name: 'SI 系统集成商',
+        layer: '项目交付者',
+        x: 55,
+        y: 56,
+        width: 168,
+        height: 72,
+        power: 62,
+        nodeBg: 'rgba(142,115,91,.17)',
+        summary: 'SI 负责配置、数据迁移、接口开发、测试、培训和上线，是项目能不能跑起来的关键执行层。',
+        examples: ['Accenture', 'Capgemini', 'NTT DATA', 'Infosys', 'TCS'],
+        sells: '实施能力、项目团队、人天、迁移经验、托管服务。',
+        customers: '企业客户、SAP、管理咨询联合项目组。',
+        money: '人天、项目制合同、AMS 运维、外包交付中心。',
+        resources: '大量顾问、交付方法、行业模板、认证人才、全球交付网络。',
+        depends: '客户预算、SAP 产品与认证、咨询蓝图、开发者和顾问团队。',
+        fear: '利润被人天模式压低、项目延期背锅、AI 自动化削减低端实施需求。',
+        ai: '混合',
+        future: '规模型 SI 会用 AI 提高交付杠杆；低复杂度实施和测试人天被压缩。',
+        relations: ['企业客户', 'SAP', '管理咨询', '开发者 / 顾问'],
+        reading: 'SI 掌握项目成败，但不一定掌握最高议价权。它卖的是执行确定性。'
+      },
+      {
+        id: 'isv',
+        name: 'ISV',
+        layer: '功能补位者',
+        x: 78,
+        y: 47,
+        width: 146,
+        height: 66,
+        power: 48,
+        nodeBg: 'rgba(42,122,112,.15)',
+        summary: 'ISV 在 SAP 没覆盖或覆盖不够好的地方提供专业能力，例如文档、流程挖掘、RPA、合同、发票识别。',
+        examples: ['OpenText', 'Celonis', 'UiPath', 'DocuSign'],
+        sells: '补充应用、行业插件、流程自动化、内容管理和专业 SaaS。',
+        customers: 'SAP 客户、SI、SAP marketplace、业务部门。',
+        money: 'SaaS 订阅、license、按量收费、联合销售和实施服务。',
+        resources: '专业产品能力、细分领域数据、客户案例、生态认证。',
+        depends: 'SAP API、BTP、客户安装基础、SI 推荐、SAP 是否进入同一功能区。',
+        fear: '被 SAP 原生功能替代、被平台规则限制、获客成本高、集成变复杂。',
+        ai: '混合',
+        future: '能掌握垂直业务数据和深场景的 ISV 上移，通用自动化工具面临平台内置竞争。',
+        relations: ['SAP', '企业客户', 'SI', '云厂商'],
+        reading: 'ISV 的机会来自 SAP 的边界，风险也来自 SAP 何时把边界往外推。'
+      },
+      {
+        id: 'cloud',
+        name: '云厂商',
+        layer: '基础设施伙伴',
+        x: 82,
+        y: 28,
+        width: 146,
+        height: 66,
+        power: 70,
+        nodeBg: 'rgba(83,119,145,.14)',
+        summary: '云厂商提供基础设施、算力、数据平台和 AI 服务，既是 SAP 的伙伴，也是数据与 AI 控制点的潜在竞争者。',
+        examples: ['AWS', 'Microsoft Azure', 'Google Cloud', 'Databricks'],
+        sells: '云基础设施、数据库、数据平台、AI 算力、企业协作入口。',
+        customers: 'SAP、SAP 客户、ISV、企业 IT 部门。',
+        money: 'IaaS/PaaS 消费、数据平台订阅、AI token/compute consumption。',
+        resources: '基础设施、全球云区域、AI 算力、数据平台、企业云合同。',
+        depends: 'SAP 工作负载迁移、客户云战略、合规要求、合作认证。',
+        fear: 'SAP 把关键数据语义封回自身平台，或客户采用多云降低单一云厂商控制力。',
+        ai: '增强',
+        future: '基础设施和 AI 算力价值上升，但与 SAP 在数据层和 AI 入口上会更微妙地竞合。',
+        relations: ['SAP', '企业客户', 'ISV'],
+        reading: '云厂商不是 SAP 生态外部背景板，而是云迁移和 AI 算力背后的关键利益方。'
+      },
+      {
+        id: 'developer',
+        name: '开发者 / 顾问',
+        layer: '执行劳动层',
+        x: 52,
+        y: 82,
+        width: 166,
+        height: 70,
+        power: 30,
+        nodeBg: 'rgba(143,151,136,.18)',
+        summary: '包括 ABAP、BTP、Fiori、集成、测试、文档和配置顾问，依附于平台和项目生存。',
+        examples: ['ABAP 开发', 'BTP 开发', 'Fiori 开发', '配置顾问', '测试顾问'],
+        sells: '开发时间、配置能力、测试执行、文档产出、接口实现。',
+        customers: 'SI、企业项目组、SAP partner、外包团队。',
+        money: '工资、外包费、人天、短期项目合同。',
+        resources: '具体技术技能、项目经验、模块知识、交付速度。',
+        depends: 'SAP 平台、SI 项目、客户预算、认证体系和工具链。',
+        fear: 'AI 生成代码/测试/文档、低成本外包竞争、技术栈变迁、议价能力低。',
+        ai: '削弱',
+        future: '纯执行岗位下移；懂业务流程、架构、AI 自动化和客户沟通的人上移。',
+        relations: ['SI', 'SAP', '企业客户'],
+        reading: '开发者不是没有价值，而是只卖可替代执行时间时，权力链位置最低。'
+      }
+    ];
+
+    const RELATIONS = [
+      { from: 'customer', to: 'strategy', type: 'influence', label: '定义方向', color: '#2A6048' },
+      { from: 'customer', to: 'management', type: 'influence', label: '设计蓝图', color: '#2A6048' },
+      { from: 'customer', to: 'sap', type: 'budget', label: '订阅 / 平台', color: '#2A6048' },
+      { from: 'customer', to: 'si', type: 'budget', label: '项目预算', color: '#2A6048' },
+      { from: 'strategy', to: 'management', type: 'influence', label: '战略落地', color: '#2A6048' },
+      { from: 'strategy', to: 'sap', type: 'influence', label: '选型影响', color: '#2A6048' },
+      { from: 'management', to: 'si', type: 'delivery', label: '蓝图交付', color: '#8E735B' },
+      { from: 'sap', to: 'si', type: 'platform', label: '认证 / 标准', color: '#537791' },
+      { from: 'sap', to: 'isv', type: 'platform', label: 'API / Marketplace', color: '#537791' },
+      { from: 'sap', to: 'developer', type: 'platform', label: '平台依附', color: '#537791' },
+      { from: 'cloud', to: 'sap', type: 'platform', label: '云基础设施', color: '#537791' },
+      { from: 'isv', to: 'customer', type: 'budget', label: '补充功能', color: '#2A6048' },
+      { from: 'si', to: 'developer', type: 'delivery', label: '人天执行', color: '#8E735B' }
+    ];
+
+    const map = document.getElementById('ecosystem-map');
+    const svg = map.querySelector('.ecosystem-lines');
+    let activeId = 'sap';
+
+    function playerById(id) {
+      return PLAYERS.find(player => player.id === id);
+    }
+
+    function powerStars(power) {
+      const level = power >= 90 ? 5 : power >= 75 ? 4 : power >= 55 ? 3 : power >= 35 ? 2 : 1;
+      return '★★★★★'.slice(0, level);
+    }
+
+    function mapScale() {
+      return {
+        x: 1000 / Math.max(map.clientWidth, 1),
+        y: 690 / Math.max(map.clientHeight, 1)
+      };
+    }
+
+    function centerPoint(player) {
+      return {
+        x: player.x * 10,
+        y: player.y * 6.9
+      };
+    }
+
+    function edgePoint(player, target) {
+      const scale = mapScale();
+      const center = centerPoint(player);
+      const dx = target.x - center.x;
+      const dy = target.y - center.y;
+      const halfW = (player.width * scale.x) / 2;
+      const halfH = (player.height * scale.y) / 2;
+      const horizontal = Math.abs(dx) / Math.max(halfW, 1) > Math.abs(dy) / Math.max(halfH, 1);
+
+      if (horizontal) {
+        return {
+          x: center.x + (dx >= 0 ? halfW : -halfW),
+          y: center.y
+        };
+      }
+
+      return {
+        x: center.x,
+        y: center.y + (dy >= 0 ? halfH : -halfH)
+      };
+    }
+
+    function relationGeometry(rel) {
+      const from = playerById(rel.from);
+      const to = playerById(rel.to);
+      const fromCenter = centerPoint(from);
+      const toCenter = centerPoint(to);
+      const start = edgePoint(from, toCenter);
+      const end = edgePoint(to, fromCenter);
+      const midX = (start.x + end.x) / 2;
+      const midY = (start.y + end.y) / 2;
+      const bend = Math.abs(end.x - start.x) > 360 ? 42 : 26;
+      const c1x = midX;
+      const c1y = start.y + (end.y > start.y ? bend : -bend);
+      const c2x = midX;
+      const c2y = end.y + (end.y > start.y ? -bend : bend);
+
+      return {
+        d: `M ${start.x} ${start.y} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${end.x} ${end.y}`,
+        labelX: midX / 10,
+        labelY: midY / 6.9
+      };
+    }
+
+    function renderLines() {
+      svg.innerHTML = RELATIONS.map((rel, index) => {
+        const geometry = relationGeometry(rel);
+        return `<path class="relation-line" data-type="${rel.type}" data-from="${rel.from}" data-to="${rel.to}" data-index="${index}" style="--line-color:${rel.color};--dash:${rel.dashed ? '6 6' : '0'}" d="${geometry.d}"></path>`;
+      }).join('');
+    }
+
+    function renderRelationLabels() {
+      map.querySelectorAll('.relation-label').forEach(label => label.remove());
+      RELATIONS.forEach((rel, index) => {
+        const geometry = relationGeometry(rel);
+        const label = document.createElement('div');
+        label.className = 'relation-label';
+        label.dataset.type = rel.type;
+        label.dataset.from = rel.from;
+        label.dataset.to = rel.to;
+        label.dataset.index = index;
+        label.textContent = rel.label;
+        label.style.left = geometry.labelX + '%';
+        label.style.top = geometry.labelY + '%';
+        map.appendChild(label);
+      });
+    }
+
+    function renderNodes() {
+      PLAYERS.forEach(player => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'player-node';
+        button.dataset.id = player.id;
+        button.style.left = player.x + '%';
+        button.style.top = player.y + '%';
+        button.style.setProperty('--node-w', player.width + 'px');
+        button.style.setProperty('--node-h', player.height + 'px');
+        button.style.setProperty('--node-bg', player.nodeBg);
+        button.innerHTML = `
+          <span class="node-title">${player.name}</span>
+          <span class="node-meta"><span>${player.layer}</span><span class="node-score">${powerStars(player.power)}</span></span>
+        `;
+        button.addEventListener('click', () => {
+          activeId = player.id;
+          update();
+        });
+        map.appendChild(button);
+      });
+    }
+
+    function fill(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = Array.isArray(value) ? value.join('、') : value;
+    }
+
+    function renderDetail(player) {
+      fill('detail-layer', player.layer);
+      fill('detail-title', player.name);
+      fill('detail-summary', player.summary);
+      fill('detail-power', powerStars(player.power));
+      fill('detail-ai-badge', player.ai);
+      fill('detail-examples', player.examples);
+      fill('detail-sells', player.sells);
+      fill('detail-customers', player.customers);
+      fill('detail-money', player.money);
+      fill('detail-resources', player.resources);
+      fill('detail-depends', player.depends);
+      fill('detail-fear', player.fear);
+      fill('detail-future', player.future);
+      fill('detail-reading', player.reading);
+
+      const chipMount = document.getElementById('detail-relations');
+      chipMount.innerHTML = player.relations.map(item => `<span class="detail-chip">${item}</span>`).join('');
+    }
+
+    function update() {
+      const activePlayer = playerById(activeId);
+      const connectedIds = new Set([activeId]);
+      RELATIONS.forEach(rel => {
+        if (rel.from === activeId) connectedIds.add(rel.to);
+        if (rel.to === activeId) connectedIds.add(rel.from);
+      });
+
+      document.querySelectorAll('.player-node').forEach(node => {
+        const id = node.dataset.id;
+        node.classList.toggle('active', id === activeId);
+        node.classList.toggle('dimmed', !connectedIds.has(id));
+      });
+
+      document.querySelectorAll('.relation-line').forEach(line => {
+        const playerMatches = line.dataset.from === activeId || line.dataset.to === activeId;
+        line.classList.toggle('highlight', playerMatches);
+        line.classList.toggle('dimmed', !playerMatches);
+      });
+
+      document.querySelectorAll('.relation-label').forEach(label => {
+        const playerMatches = label.dataset.from === activeId || label.dataset.to === activeId;
+        label.classList.toggle('visible', playerMatches);
+      });
+
+      renderDetail(activePlayer);
+    }
+
+    function redrawRelations() {
+      renderLines();
+      renderRelationLabels();
+      update();
+    }
+
+    renderNodes();
+    redrawRelations();
+    window.addEventListener('resize', redrawRelations);
+    update();
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAP, Microsoft, and ServiceNow Are All Building Enterprise AI: A Map of What They Are Really Competing For · SAP Research</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .conclusion-list {
+      border-left: 2px solid var(--accent);
+      margin: 28px 0 44px;
+      padding: 2px 0 2px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .conclusion-item {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+    .conclusion-code {
+      color: var(--accent);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      line-height: 1.75;
+    }
+    .conclusion-text {
+      color: var(--text-1);
+      font-size: var(--fs-body);
+      line-height: 1.78;
+    }
+    .conclusion-text strong {
+      font-weight: 700;
+      color: var(--text-1);
+    }
+    .article-section-divider {
+      width: 64px;
+      height: 1px;
+      margin: 100px auto;
+      background: linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--accent) 0%, transparent),
+        color-mix(in srgb, var(--accent) 80%, transparent) 50%,
+        color-mix(in srgb, var(--accent) 0%, transparent)
+      );
+    }
+    .article-code-figure {
+      width: min(980px, 100%);
+      max-width: 100%;
+      min-width: 0;
+      margin: 34px 0 48px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.54);
+      overflow: hidden;
+    }
+    .article-code-figure pre {
+      display: block;
+      max-width: 100%;
+      margin: 0;
+      overflow-x: auto;
+      color: var(--text-1);
+      font-size: 14px;
+      line-height: 1.65;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      white-space: pre;
+    }
+    .article-code-figure code {
+      display: block;
+      width: max-content;
+      min-width: 100%;
+    }
+    .article-code-label {
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: var(--fs-annotation);
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .article-image-figure {
+      width: min(980px, 100%);
+      margin: 34px 0 52px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+    .article-image-figure figcaption {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .article-image-figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      display: block;
+    }
+    .value-matrix-tabs {
+      width: 100%;
+    }
+    .value-matrix-tabs input {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .value-matrix-stage {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+    .value-matrix-track {
+      display: flex;
+      width: 200%;
+      transition: transform .28s ease;
+    }
+    .value-matrix-slide {
+      flex: 0 0 50%;
+      min-width: 0;
+    }
+    .article-image-figure .value-matrix-slide img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    #value-matrix-players:checked ~ .value-matrix-stage .value-matrix-track {
+      transform: translateX(-50%);
+    }
+    .value-matrix-nav {
+      position: absolute;
+      top: 50%;
+      z-index: 2;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      inline-size: 34px;
+      block-size: 42px;
+      border: 1px solid rgba(45, 95, 73, .2);
+      border-radius: 999px;
+      color: var(--accent);
+      background: rgba(255, 255, 255, .82);
+      box-shadow: 0 6px 18px rgba(34, 55, 45, .08);
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1;
+      transform: translateY(-50%);
+      cursor: pointer;
+      user-select: none;
+    }
+    .value-nav-prev {
+      left: 12px;
+    }
+    .value-nav-next {
+      right: 12px;
+    }
+    #value-matrix-scenarios:checked ~ .value-matrix-stage .value-nav-next,
+    #value-matrix-players:checked ~ .value-matrix-stage .value-nav-prev {
+      display: flex;
+    }
+    .value-matrix-tabbar {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .value-matrix-tabbar label {
+      min-width: 132px;
+      padding: 7px 14px;
+      border: 1px solid rgba(45, 95, 73, .18);
+      border-radius: 999px;
+      color: var(--text-2);
+      background: rgba(255, 255, 255, .62);
+      font-size: var(--fs-ui);
+      font-weight: 700;
+      line-height: 1.2;
+      text-align: center;
+      cursor: pointer;
+      transition: background .18s ease, border-color .18s ease, color .18s ease;
+    }
+    #value-matrix-scenarios:checked ~ .value-matrix-tabbar label[for="value-matrix-scenarios"],
+    #value-matrix-players:checked ~ .value-matrix-tabbar label[for="value-matrix-players"] {
+      border-color: rgba(45, 95, 73, .42);
+      color: var(--accent);
+      background: rgba(231, 241, 235, .86);
+    }
+    .final-map-tabs input {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .final-map-stage {
+      width: 100%;
+    }
+    .final-map-slide {
+      display: none;
+    }
+    #final-map-step-1:checked ~ .final-map-stage .final-step-1,
+    #final-map-step-2:checked ~ .final-map-stage .final-step-2,
+    #final-map-step-3:checked ~ .final-map-stage .final-step-3,
+    #final-map-step-4:checked ~ .final-map-stage .final-step-4 {
+      display: block;
+    }
+    .article-image-figure .final-map-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .final-map-slide p {
+      margin: 12px 0 0;
+      color: var(--text-2);
+      font-size: var(--fs-ui);
+      line-height: 1.65;
+    }
+    .final-map-slide p strong {
+      color: var(--accent);
+    }
+    .final-map-tabbar {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .final-map-tabbar label {
+      padding: 8px 10px;
+      border: 1px solid rgba(45, 95, 73, .18);
+      border-radius: 999px;
+      color: var(--text-2);
+      background: rgba(255, 255, 255, .62);
+      font-size: var(--fs-ui);
+      font-weight: 700;
+      line-height: 1.2;
+      text-align: center;
+      cursor: pointer;
+      transition: background .18s ease, border-color .18s ease, color .18s ease;
+    }
+    #final-map-step-1:checked ~ .final-map-tabbar label[for="final-map-step-1"],
+    #final-map-step-2:checked ~ .final-map-tabbar label[for="final-map-step-2"],
+    #final-map-step-3:checked ~ .final-map-tabbar label[for="final-map-step-3"],
+    #final-map-step-4:checked ~ .final-map-tabbar label[for="final-map-step-4"] {
+      border-color: rgba(45, 95, 73, .42);
+      color: var(--accent);
+      background: rgba(231, 241, 235, .86);
+    }
+    @media (max-width: 640px) {
+      .final-map-tabbar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    .logic-figure {
+      width: min(980px, 100%);
+      margin: 34px 0 52px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 50% 28%, rgba(255,255,255,.82), transparent 42%),
+        linear-gradient(135deg, rgba(255,255,255,.68), rgba(232,238,231,.42));
+    }
+    .logic-label {
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .logic-figure figcaption {
+      margin: 0 0 14px;
+      color: var(--text-2);
+      font-size: var(--fs-ui);
+      line-height: 1.6;
+    }
+    .logic-canvas {
+      position: relative;
+      height: 640px;
+      border-radius: var(--radius);
+      background: transparent;
+      overflow: hidden;
+    }
+    .logic-image-title {
+      position: absolute;
+      top: 18px;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      color: var(--accent);
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      text-align: center;
+    }
+    .logic-lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .logic-line {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: .7;
+    }
+    .logic-line.dashed {
+      stroke-dasharray: 8 8;
+    }
+    .logic-line.faint {
+      opacity: .24;
+      stroke-width: 1.7;
+    }
+    .logic-line.green { color: #2A6048; }
+    .logic-line.blue { color: #537791; }
+    .logic-line.brown { color: #8E735B; }
+    .logic-line.red { color: #A76F63; }
+    .logic-line.support { color: rgba(24,28,23,.50); stroke-width: 1.45; }
+    .logic-line.progression { color: rgba(24,28,23,.58); stroke-width: 1.5; }
+    .logic-line.feedback { color: rgba(24,28,23,.48); stroke-width: 1.4; }
+    .logic-line.risk { color: rgba(24,28,23,.62); stroke-width: 1.55; }
+    .logic-node {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      z-index: 2;
+      width: var(--w);
+      min-height: var(--h);
+      padding: 12px 14px;
+      border: 1px solid rgba(24,28,23,.16);
+      border-radius: 10px;
+      background: rgba(255,255,255,.74);
+      box-shadow: none;
+      color: var(--text-1);
+    }
+    .logic-node::before {
+      content: none;
+    }
+    .logic-node strong,
+    .logic-node span,
+    .logic-node small,
+    .logic-node em {
+      display: block;
+    }
+    .logic-node strong {
+      color: var(--text-1);
+      font-size: 17px;
+      line-height: 1.2;
+      font-weight: 700;
+    }
+    .logic-stage strong {
+      font-size: 16px;
+    }
+    .logic-node span {
+      margin-top: 6px;
+      color: var(--text-2);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .logic-node small {
+      margin-top: 3px;
+      color: var(--text-2);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+    .logic-node em {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      color: currentColor;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 700;
+    }
+    .logic-kicker {
+      color: var(--text-3);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .09em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+    .logic-low {
+      color: #5B55A6;
+      background: rgba(255,255,255,.76);
+      border-color: rgba(91,85,166,.42);
+    }
+    .logic-mid,
+    .logic-data {
+      color: #537791;
+      background: rgba(255,255,255,.76);
+      border-color: rgba(83,119,145,.42);
+    }
+    .logic-high {
+      color: #8E4D3B;
+      background: rgba(255,255,255,.76);
+      border-color: rgba(142,77,59,.40);
+    }
+    .logic-core,
+    .logic-governance {
+      color: #8E4D3B;
+      background: rgba(255,255,255,.76);
+      border-color: rgba(142,77,59,.40);
+    }
+    .logic-axis-label {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 210px;
+      z-index: 2;
+      color: var(--text-2);
+      font-size: 13px;
+      font-weight: 650;
+      text-align: center;
+    }
+    .risk-low {
+      color: #5B55A6;
+      background: rgba(247,246,255,.72);
+      border-color: rgba(91,85,166,.42);
+    }
+    .risk-high {
+      color: #8E4D3B;
+      background: rgba(255,246,241,.72);
+      border-color: rgba(142,77,59,.40);
+    }
+    .logic-governance {
+      color: rgba(24,28,23,.58);
+      background: rgba(255,255,255,.76);
+      border-color: rgba(24,28,23,.32);
+    }
+    .logic-legend {
+      position: absolute;
+      left: 120px;
+      right: 120px;
+      bottom: 26px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 26px;
+      color: var(--text-2);
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .logic-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .legend-line {
+      display: inline-block;
+      width: 28px;
+      height: 0;
+      border-top: 1.5px solid rgba(24,28,23,.56);
+    }
+    .legend-line.dashed {
+      border-top-style: dashed;
+    }
+    .legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+    .legend-swatch.low {
+      background: rgba(247,246,255,.9);
+      border: 1px solid rgba(91,85,166,.30);
+    }
+    .legend-swatch.high {
+      background: rgba(255,246,241,.9);
+      border: 1px solid rgba(142,77,59,.28);
+    }
+    .logic-risk-axis-label {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 32px;
+      z-index: 2;
+      color: var(--text-2);
+      font-size: 13px;
+      font-weight: 650;
+      text-align: center;
+    }
+    .sketch-figure {
+      width: min(980px, 100%);
+      margin: 34px 0 52px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.48);
+    }
+    .sketch-label {
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .sketch-figure figcaption {
+      margin: 0 0 14px;
+      color: var(--text-2);
+      font-size: var(--fs-ui);
+      line-height: 1.6;
+    }
+    .sketch-canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 50% 28%, rgba(255,255,255,.82), transparent 42%),
+        linear-gradient(135deg, rgba(255,255,255,.68), rgba(232,238,231,.42));
+      overflow: visible;
+    }
+    .sketch-bg {
+      fill: rgba(255,255,255,.18);
+      stroke: rgba(42,96,72,.12);
+      stroke-width: 1.3;
+    }
+    .sketch-node rect {
+      stroke-width: 1.7;
+      fill: rgba(255,255,255,.72);
+    }
+    .sketch-node.green rect { stroke: #2A6048; fill: rgba(42,96,72,.12); }
+    .sketch-node.blue rect { stroke: #537791; fill: rgba(83,119,145,.14); }
+    .sketch-node.brown rect { stroke: #8E735B; fill: rgba(142,115,91,.16); }
+    .sketch-node.red rect { stroke: #A76F63; fill: rgba(167,111,99,.14); }
+    .sketch-node.olive rect { stroke: #628458; fill: rgba(98,132,88,.14); }
+    .sketch-rough {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 3;
+      stroke-linecap: round;
+      opacity: .85;
+    }
+    .sketch-node.green { color: #2A6048; }
+    .sketch-node.blue { color: #537791; }
+    .sketch-node.brown { color: #8E735B; }
+    .sketch-node.red { color: #A76F63; }
+    .sketch-node.olive { color: #628458; }
+    .sketch-title {
+      fill: var(--text-1);
+      font-family: var(--font-sans);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    .sketch-title.big {
+      font-size: 22px;
+    }
+    .sketch-text {
+      fill: var(--text-2);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+    .sketch-note,
+    .sketch-band {
+      fill: var(--text-2);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 650;
+    }
+    .sketch-band {
+      fill: var(--accent);
+      letter-spacing: .02em;
+    }
+    .sketch-arrow,
+    .sketch-band-line,
+    .sketch-axis {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: .72;
+    }
+    .sketch-arrow.dashed,
+    .sketch-band-line {
+      stroke-dasharray: 8 8;
+    }
+    .sketch-arrow.green,
+    .sketch-band-line.green { color: #2A6048; }
+    .sketch-arrow.blue,
+    .sketch-band-line.blue { color: #537791; }
+    .sketch-arrow.brown,
+    .sketch-band-line.brown { color: #8E735B; }
+    .sketch-arrow.red,
+    .sketch-band-line.red { color: #A76F63; }
+    .sketch-grid {
+      fill: none;
+      stroke: rgba(42,96,72,.14);
+      stroke-width: 1;
+    }
+    .sketch-axis {
+      color: rgba(24,28,23,.58);
+      stroke-width: 2;
+    }
+    .sketch-emphasis {
+      fill: rgba(142,115,91,.05);
+      stroke: rgba(142,115,91,.36);
+      stroke-width: 2;
+      stroke-dasharray: 10 8;
+    }
+    .ai-figure {
+      --ai-bg: var(--bg);
+      --ai-green: #2A6048;
+      --ai-bluegrey: #537791;
+      --ai-brown: #8E735B;
+      --ai-olive: #628458;
+      --ai-red: #A76F63;
+      --ai-ink: var(--text-1);
+      --ai-muted: var(--text-2);
+      --ai-soft: var(--text-3);
+      --ai-line: var(--border);
+      width: min(980px, 100%);
+      margin: 34px 0 52px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 50% 28%, rgba(255,255,255,.78), transparent 42%),
+        linear-gradient(135deg, rgba(255,255,255,.64), rgba(232,238,231,.46));
+      color: var(--ai-ink);
+      overflow: hidden;
+    }
+    .ai-figure-meta {
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .ai-figure figcaption {
+      margin: 0 0 20px;
+      color: var(--ai-muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .ai-layer {
+      padding: 18px 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.52);
+    }
+    .ai-layer.compact {
+      padding: 14px 16px;
+    }
+    .ai-layer-data {
+      border-color: color-mix(in srgb, var(--ai-bluegrey) 36%, var(--border));
+      background: rgba(83,119,145,.11);
+    }
+    .ai-layer-governance {
+      border-color: color-mix(in srgb, var(--ai-red) 38%, var(--border));
+      background: rgba(167,111,99,.11);
+    }
+    .ai-layer-kicker {
+      margin-bottom: 4px;
+      color: var(--ai-muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .ai-layer-title {
+      color: var(--ai-ink);
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    .ai-layer-body {
+      margin-top: 5px;
+      color: var(--ai-muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .ai-stage-track {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin: 22px 0;
+    }
+    .ai-stage-track::before,
+    .final-flow::before {
+      content: "";
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      top: 50%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--ai-green), var(--ai-bluegrey), var(--ai-brown), var(--ai-red));
+      transform: translateY(-50%);
+      z-index: 0;
+    }
+    .ai-stage {
+      position: relative;
+      z-index: 1;
+      min-height: 154px;
+      padding: 16px;
+      border: 1px solid rgba(24,28,23,.16);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.56);
+      box-shadow: var(--shadow-sm);
+    }
+    .ai-stage-label {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--stage-color, var(--accent)) 14%, white);
+      color: var(--stage-color, var(--accent));
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .ai-stage-title {
+      margin-top: 16px;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    .ai-stage-body {
+      margin-top: 8px;
+      color: var(--ai-muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .risk-low { --stage-color: var(--ai-green); }
+    .risk-mid { --stage-color: var(--ai-bluegrey); }
+    .risk-high { --stage-color: var(--ai-brown); }
+    .risk-critical { --stage-color: var(--ai-red); }
+    .ai-player-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+    }
+    .ai-player {
+      position: relative;
+      padding: 16px;
+      border: 1px solid rgba(24,28,23,.16);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.56);
+      box-shadow: var(--shadow-sm);
+      min-height: 150px;
+    }
+    .ai-player::before {
+      content: "";
+      display: block;
+      width: 30px;
+      height: 4px;
+      margin-bottom: 14px;
+      border-radius: 999px;
+      background: var(--player-color, var(--accent));
+    }
+    .ai-player-name {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.25;
+      word-break: break-word;
+    }
+    .ai-player-role {
+      margin-top: 5px;
+      color: var(--player-color, var(--accent));
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .ai-player-body {
+      margin-top: 9px;
+      color: var(--ai-muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .microsoft { --player-color: var(--ai-bluegrey); }
+    .servicenow { --player-color: var(--ai-green); }
+    .sap { --player-color: var(--ai-brown); }
+    .salesforce { --player-color: #2A7A70; }
+    .workday { --player-color: var(--ai-olive); }
+    .oracle { --player-color: var(--ai-red); }
+    .matrix {
+      position: relative;
+      padding: 38px 18px 18px 52px;
+    }
+    .matrix-grid {
+      position: relative;
+      min-height: 520px;
+      border-left: 1px solid rgba(24,28,23,.32);
+      border-bottom: 1px solid rgba(24,28,23,.32);
+      background:
+        linear-gradient(90deg, rgba(42,96,72,.10) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(42,96,72,.10) 1px, transparent 1px),
+        rgba(255,255,255,.34);
+      background-size: 25% 100%, 100% 25%, auto;
+    }
+    .matrix-axis {
+      position: absolute;
+      color: var(--ai-muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+    .matrix-axis-x {
+      right: 18px;
+      top: 8px;
+    }
+    .matrix-axis-y {
+      left: -42px;
+      top: 250px;
+      transform: rotate(-90deg);
+      transform-origin: left top;
+    }
+    .matrix-card {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: min(178px, 28%);
+      padding: 13px;
+      border: 1px solid rgba(24,28,23,.16);
+      border-top: 4px solid var(--player-color, var(--accent));
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.72);
+      transform: translate(-50%, -50%);
+      box-shadow: var(--shadow-sm);
+    }
+    .matrix-card.highlight {
+      border-color: color-mix(in srgb, var(--ai-brown) 45%, var(--border));
+      box-shadow: var(--shadow-md);
+    }
+    .matrix-card strong,
+    .matrix-card span,
+    .matrix-card em {
+      display: block;
+    }
+    .matrix-card strong {
+      font-size: 15px;
+      line-height: 1.25;
+    }
+    .matrix-card span {
+      margin-top: 3px;
+      color: var(--player-color, var(--accent));
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .matrix-card em {
+      margin-top: 7px;
+      color: var(--ai-muted);
+      font-size: 12px;
+      font-style: normal;
+      line-height: 1.45;
+    }
+    .matrix-corner {
+      margin-top: 12px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-align: right;
+    }
+    .card-table {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.50);
+    }
+    .card-table-head,
+    .card-table-row {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr 1.7fr 1.7fr 1.6fr;
+      min-width: 820px;
+    }
+    .card-table-head {
+      background: rgba(42,96,72,.10);
+      color: var(--ai-muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .card-table-head span,
+    .card-table-row div {
+      padding: 14px;
+      border-right: 1px solid var(--ai-line);
+    }
+    .card-table-head span:last-child,
+    .card-table-row div:last-child {
+      border-right: 0;
+    }
+    .card-table-row {
+      border-top: 1px solid var(--ai-line);
+      color: var(--ai-muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .card-table-row div:first-child,
+    .card-table-row div:nth-child(2) {
+      color: var(--ai-ink);
+      font-weight: 700;
+    }
+    .final-flow {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin: 22px 0 18px;
+    }
+    .final-flow .ai-player {
+      z-index: 1;
+      min-height: 180px;
+    }
+    .final-flow .highlight {
+      border-color: color-mix(in srgb, var(--ai-brown) 42%, var(--border));
+      box-shadow: 0 10px 24px rgba(15,23,42,.08);
+    }
+    .final-secondary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .final-secondary span {
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--tag-bg);
+      color: var(--ai-muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .article-comparison-table {
+      width: 100%;
+      margin: 34px 0 42px;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-family: var(--font-sans);
+    }
+    .article-comparison-table thead {
+      border-bottom: 1px solid color-mix(in srgb, var(--text-1) 22%, transparent);
+    }
+    .article-comparison-table th {
+      padding: 0 28px 16px 0;
+      color: var(--text-1);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.45;
+      text-align: left;
+      letter-spacing: 0;
+    }
+    .article-comparison-table td {
+      padding: 18px 28px 18px 0;
+      border-bottom: 1px solid color-mix(in srgb, var(--text-2) 18%, transparent);
+      color: var(--text-1);
+      font-size: 16px;
+      line-height: 1.65;
+      vertical-align: top;
+    }
+    .article-comparison-table tbody tr:last-child td {
+      border-bottom-color: color-mix(in srgb, var(--text-1) 22%, transparent);
+    }
+    .article-comparison-table th:first-child,
+    .article-comparison-table td:first-child {
+      width: 36%;
+      color: color-mix(in srgb, var(--text-1) 78%, var(--accent));
+      font-weight: 650;
+    }
+    .article-comparison-table th:first-child {
+      font-weight: 700;
+    }
+    .article-comparison-table th:last-child,
+    .article-comparison-table td:last-child {
+      padding-right: 0;
+    }
+    .article-comparison-table th:nth-child(1):nth-last-child(3),
+    .article-comparison-table th:nth-child(1):nth-last-child(3) ~ th,
+    .article-comparison-table td:nth-child(1):nth-last-child(3),
+    .article-comparison-table td:nth-child(1):nth-last-child(3) ~ td {
+      width: auto;
+    }
+    .article-comparison-table th:nth-child(1):nth-last-child(3),
+    .article-comparison-table td:nth-child(1):nth-last-child(3) {
+      width: 27%;
+    }
+    .article-comparison-table th:nth-child(2):nth-last-child(2),
+    .article-comparison-table td:nth-child(2):nth-last-child(2) {
+      width: 36%;
+    }
+    .article-comparison-table th:nth-child(3):nth-last-child(1),
+    .article-comparison-table td:nth-child(3):nth-last-child(1) {
+      width: 37%;
+    }
+    @media (max-width: 720px) {
+      .conclusion-list {
+        padding-left: 18px;
+        gap: 22px;
+      }
+      .conclusion-item {
+        grid-template-columns: 34px minmax(0, 1fr);
+        gap: 14px;
+      }
+      .conclusion-code {
+        font-size: 14px;
+      }
+      .article-section-divider {
+        width: 48px;
+        margin: 100px auto;
+      }
+      .article-comparison-table {
+        margin: 28px 0 36px;
+      }
+      .article-code-figure {
+        padding: 14px;
+      }
+      .article-code-figure pre {
+        font-size: 12px;
+      }
+      .logic-canvas {
+        height: auto;
+        min-height: 760px;
+        padding: 14px;
+        display: grid;
+        gap: 12px;
+      }
+      .logic-lines,
+      .logic-axis {
+        display: none;
+      }
+      .logic-node {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 100%;
+        min-height: auto;
+      }
+      .ai-figure {
+        padding: 16px;
+      }
+      .ai-stage-track,
+      .ai-player-grid,
+      .final-flow {
+        grid-template-columns: 1fr;
+      }
+      .ai-stage-track::before,
+      .final-flow::before {
+        left: 26px;
+        right: auto;
+        top: 20px;
+        bottom: 20px;
+        width: 2px;
+        height: auto;
+        background: linear-gradient(180deg, var(--ai-green), var(--ai-bluegrey), var(--ai-brown), var(--ai-red));
+        transform: none;
+      }
+      .ai-stage {
+        min-height: auto;
+        padding-left: 58px;
+      }
+      .ai-stage-label {
+        position: absolute;
+        left: 14px;
+        top: 16px;
+      }
+      .ai-player {
+        min-height: auto;
+      }
+      .matrix {
+        padding: 34px 0 0 0;
+      }
+      .matrix-grid {
+        min-height: 620px;
+      }
+      .matrix-axis-y {
+        left: -8px;
+        top: 360px;
+      }
+      .matrix-axis-x {
+        right: 0;
+      }
+      .matrix-card {
+        width: 70%;
+      }
+      .matrix-card.microsoft { --x: 48% !important; --y: 58% !important; }
+      .matrix-card.servicenow { --x: 52% !important; --y: 38% !important; }
+      .matrix-card.sap { --x: 58% !important; --y: 17% !important; }
+      .matrix-card.salesforce { --x: 55% !important; --y: 76% !important; }
+      .matrix-card.workday { --x: 50% !important; --y: 92% !important; }
+      .article-comparison-table th,
+      .article-comparison-table td {
+        padding-right: 16px;
+      }
+      .article-comparison-table th {
+        font-size: 14px;
+        padding-bottom: 14px;
+      }
+      .article-comparison-table td {
+        padding-top: 16px;
+        padding-bottom: 16px;
+        font-size: 15px;
+      }
+      .article-comparison-table th:first-child,
+      .article-comparison-table td:first-child {
+        width: 38%;
+      }
+      .article-comparison-table th:nth-child(1):nth-last-child(3),
+      .article-comparison-table td:nth-child(1):nth-last-child(3) {
+        width: 30%;
+      }
+      .article-comparison-table th:nth-child(2):nth-last-child(2),
+      .article-comparison-table td:nth-child(2):nth-last-child(2) {
+        width: 34%;
+      }
+      .article-comparison-table th:nth-child(3):nth-last-child(1),
+      .article-comparison-table td:nth-child(3):nth-last-child(1) {
+        width: 36%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-mount"></div>
+
+  <div class="page-layout">
+
+    <aside class="global-sidebar" id="sidebar-mount"></aside>
+
+    <div class="page-content">
+  <div class="article-wrap">
+
+    <div class="breadcrumb">
+      <a href="../index.html">SAP Research</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>AI War Map · Germany</span>
+    </div>
+
+    <header class="article-header">
+      <div class="article-topic-label">Topic 08 · Enterprise AI</div>
+      <h1 class="article-title">SAP, Microsoft, and ServiceNow Are All Building Enterprise AI: A Map of What They Are Really Competing For</h1>
+      <p class="article-subtitle">What SAP, Microsoft, and ServiceNow are really competing for.</p>
+      <div class="article-meta">
+        <span class="article-meta-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          2026-06-12
+        </span>
+        <span class="article-meta-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          20 min read
+        </span>
+        <span class="tag">Enterprise AI</span>
+        <span class="tag">Germany</span>
+        <span class="tag">Execution Control</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+      <div class="article-content">
+
+<p>At the beginning of 2026, several enterprise software conferences suddenly seemed to tell the same story.</p>
+
+<p>SAP talked about the Autonomous Enterprise. Microsoft talked about Copilot and agents. ServiceNow talked about an AI Control Tower. Salesforce talked about Agentforce. Oracle and Workday were also embedding AI agents deeper into their enterprise applications.</p>
+
+<p>If you only listen to the vocabulary, they all appear to be saying the same thing: enterprises will have more AI, work will become more automated, and business processes will become smarter.</p>
+
+<p>But are they really talking about the same thing?</p>
+
+<p>Is a Copilot that summarizes a meeting the same kind of AI as an SAP agent that handles a procurement exception?</p>
+
+<p>Do a customer service agent, an HR agent, a finance closing agent, and a cross-system workflow agent carry the same value, risk, and control logic?</p>
+
+<p>This article is not another list of product announcements. It is trying to answer a more basic question:</p>
+
+<blockquote><p>When all these major vendors say they are building enterprise AI, what position are they trying to occupy inside the enterprise? Which positions are more likely to create value? Which ones are closer to long-term commercial control? Who is sitting at the stronger table?</p></blockquote>
+
+<p>To answer that, we will follow a chain of reasoning:</p>
+
+<ol>
+  <li><strong>Start from demand.</strong> What are the common entry points for enterprise AI?</li>
+  <li><strong>Place the players on the map.</strong> Where does each vendor naturally stand?</li>
+  <li><strong>Judge the value of each position.</strong> Which positions matter more in the current AI competition?</li>
+  <li><strong>Analyze the strategic hand.</strong> If each vendor's AI narrative is to become real, what resources does it need? What cards does it already hold? Which missing cards are in someone else's hand? Which parts are feasible, which require specific conditions, and which are genuinely difficult?</li>
+  <li><strong>Turn it into a final map.</strong> Where is enterprise AI actually being contested, which players occupy each area, and how can this map help you evaluate any new enterprise AI narrative?</li>
+</ol>
+
+<p>The point is not to tell you who has already won. The point is to give you a tool for judging the next enterprise AI story you hear.</p>
+
+<h2 id="1-the-main-entry-points-for-enterprise-ai">1. The Main Entry Points for Enterprise AI</h2>
+
+<p>Enterprises do not &quot;adopt AI&quot; in the abstract. The real situation is always more specific: someone uses AI in email, someone uses AI in customer service, someone experiments with AI in finance. All of these are called enterprise AI, but their risk levels are completely different.</p>
+
+<p>That risk level determines the entry requirements, implementation speed, and long-term value of each position.</p>
+
+<h3 id="start-with-risk">Start With Risk</h3>
+
+<p>We can arrange the depth of AI's contact with enterprise work into four positions, from lowest to highest risk.</p>
+
+<p><strong>Position 1: Helping one person work.</strong></p>
+
+<p>The risk is close to zero.</p>
+
+<p>You sit in front of a computer writing emails, joining meetings, drafting documents, organizing spreadsheets, or looking up information. AI sits beside you as a tool. It drafts, summarizes, extracts, and organizes. You remain the main actor and decision-maker. If AI writes something wrong, you edit it.</p>
+
+<p><strong>Position 2: Helping one department work.</strong></p>
+
+<p>The risk is low and measurable.</p>
+
+<p>AI enters sales, customer service, HR, or finance. It helps customer service reply automatically, helps sales generate follow-up suggestions, helps HR screen resumes, and helps finance detect anomalies. AI performs repetitive work inside one department and mainly handles that department's own data. If it makes a mistake, the error is usually contained within that department.</p>
+
+<p><strong>Position 3: Coordinating across departments.</strong></p>
+
+<p>The risk is medium.</p>
+
+<p>An order gets stuck. AI needs to check customer information in CRM, inventory in ERP, credit limits in finance, and delivery status in logistics. Then it needs to decide who should handle the issue, whether it should be escalated, and whether an approval process should be triggered.</p>
+
+<p>At this point, AI is working across systems. It passes signals and coordinates processes. If it fails, the result is often an efficiency loss, such as an order that remains unresolved. But it has not yet directly changed the real state of business data.</p>
+
+<p><strong>Position 4: Directly touching core transaction data.</strong></p>
+
+<p>This is the highest-risk position.</p>
+
+<p>AI is no longer just suggesting or coordinating. It starts to execute actions: creating purchase orders, releasing payments, matching invoices, adjusting inventory, or updating employee master data.</p>
+
+<p>These actions directly change the operating state of the enterprise. If something goes wrong, money may leave the company, goods may be shipped incorrectly, or the audit may fail. <strong>This is not a user experience problem. It is an operational incident.</strong></p>
+
+<h3 id="to-go-deeper-ai-needs-two-additional-conditions">To Go Deeper, AI Needs Two Additional Conditions</h3>
+
+<p><strong>The first condition: AI needs to understand the enterprise's data language.</strong></p>
+
+<p>When AI enters cross-department coordination and core transactions, it cannot read data from only one system.</p>
+
+<p>It needs to understand that an &quot;account&quot; in CRM, a &quot;customer&quot; in ERP, and a &quot;debtor&quot; in finance may refer to the same business object.</p>
+
+<p>It also needs to connect data from multiple systems, such as inventory trends, supplier risk, and order anomalies, and then generate forecasts or analysis.</p>
+
+<p>This is the <strong>data intelligence layer</strong>. It does two things:</p>
+
+<ul>
+  <li><strong>Master data alignment, or the semantic layer:</strong> helping AI understand the enterprise's data language and establish shared business meaning across systems.</li>
+  <li><strong>Prediction and insight, or the analytics layer:</strong> aggregating cross-system data for dashboards, anomaly detection, and trend forecasting.</li>
+</ul>
+
+<p>This layer does not directly create the value of AI action. But it gives other agents, such as process orchestration agents and core execution agents, the data foundation they need. <strong>Without this layer, AI is blind in cross-system scenarios.</strong></p>
+
+<p><strong>The second condition: the enterprise must dare to let AI act.</strong></p>
+
+<p>When AI moves from suggestion to execution, the enterprise has to answer several questions. Who authorized it? What data can it access? What action did it perform? Who is accountable if something goes wrong? How can it be stopped?</p>
+
+<p>This is the <strong>governance and security layer</strong>: permissions, approvals, audit trails, rollback, accountability, and compliance. It is not one specific AI use case. It is the entry requirement for any AI that wants to move into execution.</p>
+
+<h3 id="the-complete-enterprise-ai-map">The Complete Enterprise AI Map</h3>
+
+<figure class="article-image-figure">
+  <figcaption>Figure: six scenarios of enterprise using AI</figcaption>
+  <img src="../assets/images/enterprise-ai-six-scenarios.png" alt="The Six Scenarios of Enterprise AI diagram">
+</figure>
+
+<p>The meaning of this map is simple: <strong>enterprise AI is not one market. It is four execution positions plus two foundational layers. Each position has a different value logic, and each foundation requires different capabilities. They should not be discussed as one thing.</strong></p>
+
+<h2 id="2-who-are-the-players-and-where-do-they-stand">2. Who Are the Players, and Where Do They Stand?</h2>
+
+<p>Now that we have the map, we can place the players inside it.</p>
+
+<h3 id="the-main-players">The Main Players</h3>
+
+<p>In the German enterprise software market, six major vendors are especially worth watching in the AI narrative: <strong>SAP, Microsoft, ServiceNow, Salesforce, Oracle, and Workday</strong>.</p>
+
+<p>They are not moving in the same direction, and they are not fighting for exactly the same thing. So we need one distinction first.</p>
+
+<h3 id="platform-players-vs-scenario-players">Platform Players vs. Scenario Players</h3>
+
+<p><strong>Platform players</strong> are not merely trying to optimize one department with AI. They want to become enterprise AI infrastructure. They want to control where AI runs, who governs it, and what it is allowed to execute. <strong>If their systems are removed, core business processes may get stuck.</strong></p>
+
+<p><strong>Scenario players</strong> use AI to improve efficiency in a specific business area, such as customer revenue, human capital management, or a particular business domain. <strong>If their systems are removed, the enterprise can still operate, but efficiency declines.</strong></p>
+
+<p>Because this article asks who is competing for process execution rights, platform players are the main characters. Scenario players still matter, but we can locate them more quickly.</p>
+
+<h3 id="the-three-platform-players">The Three Platform Players</h3>
+
+<p><strong>SAP: starting from core execution.</strong></p>
+
+<p>SAP's AI narrative is built around the <strong>Autonomous Enterprise</strong>. It uses <strong>Joule</strong>, <strong>Knowledge Graph</strong>, and <strong>Business Semantics</strong> to support controlled process execution.</p>
+
+<p>If we map these terms to SAP's native position, the picture becomes clear. SAP's native position is ERP: procurement, finance, supply chain, manufacturing, and inventory.</p>
+
+<p>SAP's original advantage is not the entry point, nor usage frequency. Its advantage is that it holds many of the enterprise's core transaction facts. Where is the order? How much inventory is available? Who is the supplier? SAP is often the default answer.</p>
+
+<p>In plain language, SAP's AI narrative says: let AI directly touch these core business objects under controlled conditions.</p>
+
+<p>On the four-layer map, SAP's main battlefield is <strong>core execution</strong>, while it also extends upward into the <strong>data intelligence layer</strong>. The governance and security layer is also natural for SAP, because ERP permissions and audit controls have accumulated over decades.</p>
+
+<p><strong>Microsoft: starting from the entry point.</strong></p>
+
+<p>Microsoft's AI narrative is built around <strong>Copilot</strong>: <strong>Microsoft 365 Copilot</strong>, <strong>Copilot Studio</strong>, <strong>Copilot for Sales and Service</strong>, and the cross-data intelligence layer called <strong>Microsoft IQ</strong>.</p>
+
+<p>Its native position is the work entry point: Outlook, Teams, Office, Azure, and Entra. When employees start their day, they usually do not open a business system first. They open the Microsoft suite. Microsoft's greatest asset is not the depth of a business process. It is <strong>where people work every day</strong>.</p>
+
+<p>In plain language: Microsoft wants AI to become the default work interface for employees.</p>
+
+<p>On the four-layer map, Microsoft's main battlefield is the <strong>personal assistant</strong> layer. It expands into <strong>departmental tasks</strong> and also reaches upward into the <strong>data intelligence layer</strong>. Governance and security are also strengths, built on Entra identity and permission infrastructure.</p>
+
+<p>Microsoft's advantage is that the entry barrier at the interface layer is almost zero. But to move to the right side of the map, it needs to connect with business systems such as SAP and ServiceNow. <strong>It is farther away from core execution than SAP is.</strong></p>
+
+<p><strong>ServiceNow: starting from process orchestration.</strong></p>
+
+<p>ServiceNow's AI narrative is built around the <strong>AI Control Tower</strong>. Its core claim is that when an enterprise has dozens or hundreds of AI agents, it needs one place to create, approve, monitor, audit, and shut them down. The message is not simply &quot;we can also build agents.&quot; It is &quot;someone needs to manage all these agents.&quot;</p>
+
+<p>Its native position is ITSM and employee services. When a ticket comes in, who handles it, who approves it, who escalates it, and who closes it? These are ServiceNow's familiar workflows.</p>
+
+<p>ServiceNow does not own the core transaction records. But it understands <strong>how a request moves through different systems inside an enterprise</strong>.</p>
+
+<p>On the four-layer map, ServiceNow's main battlefield is <strong>process orchestration</strong>, and it extends upward into <strong>governance and security</strong>. The more agents exist, the more valuable its position becomes.</p>
+
+<p><strong>Oracle also stands on the core execution side</strong>, but it takes a different route. Through <strong>Fusion Agentic Applications</strong>, Oracle connects database, application cloud, and OCI into a full-stack AI agent story. Strategically, this directly competes with SAP's route.</p>
+
+<p>But in large German enterprises, SAP's ERP installed base is very deep. Oracle's core execution narrative is more naturally realized inside its own application cloud customer base. In Germany, it is strategically a platform player, but its practical influence is constrained by the installed base.</p>
+
+<h3 id="locating-the-scenario-players">Locating the Scenario Players</h3>
+
+<p><strong>Salesforce</strong> enters from <strong>departmental tasks</strong>, especially sales, service, and marketing. Its core narrative is <strong>Agentforce</strong> plus <strong>Data Cloud</strong>. In plain language: create visible ROI in the customer front office. Its ceiling is constrained by the difficulty of connecting to back-office transactions such as orders, inventory, and refunds.</p>
+
+<p><strong>Workday</strong> also enters from <strong>departmental tasks</strong>, especially HCM. Its core narrative is <strong>Illuminate</strong> plus <strong>Agent System of Record</strong>. In plain language: optimize AI around people and organizational data. In large German enterprises, it is often covered or constrained by SAP SuccessFactors.</p>
+
+<p>All six players appear on the final map, each occupying a different position:</p>
+
+<figure class="article-image-figure">
+  <figcaption>Figure 02 · Player Positioning</figcaption>
+  <img src="../assets/images/enterprise-ai-player-positioning.svg" alt="Where are these six enterprise AI players positioned">
+</figure>
+
+<p>Microsoft stands on the left at the work entry point. Salesforce and Workday stand in departmental task layers. ServiceNow sits in process orchestration and extends into governance. SAP and Oracle stand on the right at core execution. They do not start from the same place, but all of them are using AI to push their original position further.</p>
+
+<h2 id="3-how-do-we-judge-which-position-is-more-valuable">3. How Do We Judge Which Position Is More Valuable?</h2>
+
+<p>Once the map and the players are in place, how do we compare the value of their positions?</p>
+
+<h3 id="we-need-a-better-framework">We Need a Better Framework</h3>
+
+<p>If we rank them by &quot;who monetizes first,&quot; we fall into a trap. The entry layer spreads fastest and can generate short-term revenue quickly. The core execution layer scales much more slowly. Ranking by short-term ROI can misread the long-term structure.</p>
+
+<p>Looking at &quot;who is most irreplaceable&quot; is closer to the truth, but it misses another key factor: <strong>even if you are important, how much is the enterprise willing to pay you?</strong></p>
+
+<p>The value of a position ultimately depends on the product of two things:</p>
+
+<h3 id="profit-pool-x-switching-cost">Profit Pool x Switching Cost</h3>
+
+<p><strong>Profit pool:</strong> How much is an enterprise willing to pay for AI in this position?</p>
+
+<ul>
+  <li>Directly connected to sales performance: the enterprise is willing to pay more.</li>
+  <li>Improves personal productivity but does not directly tie to performance: the enterprise may pay, but not much.</li>
+  <li>Solves must-have problems such as compliance and audit: the enterprise is willing to pay, but budgets may be constrained.</li>
+</ul>
+
+<p><strong>Switching cost, or difficulty of replacement:</strong> How hard is it for someone else to replace you?</p>
+
+<ul>
+  <li>Data exclusivity, integration depth, migration cost, ecosystem lock-in, and accumulated trust.</li>
+</ul>
+
+<p>So the matrix has two layers.</p>
+
+<p>First, place the six positions from the first map into the matrix: personal assistants, departmental tasks, process orchestration, core execution, data intelligence, and governance and security.</p>
+
+<p>Second, place the players on the same matrix. A company is not strong or weak in the abstract. It is strong because it occupies a position with a specific profit pool and replacement barrier.</p>
+
+<figure class="article-image-figure value-matrix-figure">
+  <figcaption>Figure 03 · Value Matrix</figcaption>
+  <div class="value-matrix-tabs">
+    <input type="radio" name="value-matrix-view" id="value-matrix-scenarios" checked>
+    <input type="radio" name="value-matrix-view" id="value-matrix-players">
+    <div class="value-matrix-stage">
+      <div class="value-matrix-track">
+        <div class="value-matrix-slide">
+          <img src="../assets/images/enterprise-ai-value-scenarios.svg" alt="The value of six enterprise AI scenarios mapped by profit pool and switching cost">
+        </div>
+        <div class="value-matrix-slide">
+          <img src="../assets/images/enterprise-ai-value-players.svg" alt="Enterprise AI players mapped by profit pool and switching cost">
+        </div>
+      </div>
+      <label class="value-matrix-nav value-nav-prev" for="value-matrix-scenarios" aria-label="Show scenario value view">‹</label>
+      <label class="value-matrix-nav value-nav-next" for="value-matrix-players" aria-label="Show player position view">›</label>
+    </div>
+    <div class="value-matrix-tabbar" aria-label="Value matrix views">
+      <label for="value-matrix-scenarios">Step 1 · Scenario Value</label>
+      <label for="value-matrix-players">Step 2 · Player Positioning</label>
+    </div>
+  </div>
+</figure>
+
+<p><strong>The upper-right corner, where profit pool is large and moat is deep, has the highest long-term commercial value.</strong></p>
+
+<h3 id="position-by-position">Position by Position</h3>
+
+<p><strong>SAP, in core execution</strong></p>
+
+<ul>
+  <li>Profit pool: high. Enterprises already pay heavily for ERP, and AI execution can be added as a premium layer. But implementation cost is also high.</li>
+  <li>Moat: extremely high. ERP replacement cost is enormous, business semantics are hard to replicate, and trust is accumulated over decades.</li>
+  <li>Conclusion: one of the highest long-term commercial value positions, but monetization will take time.</li>
+</ul>
+
+<p><strong>Microsoft, at the entry layer</strong></p>
+
+<ul>
+  <li>Profit pool: uncertain. Copilot pricing is still being tested in the market. There is more than a year of commercial data, but the sustainability of enterprise renewal rates and pricing premium is not fully transparent. The entry point has scale, but unit price may be compressed.</li>
+  <li>Moat: medium to high. Office and Teams are deeply embedded in work habits. GitHub, VS Code, and Copilot Studio create a strong developer ecosystem at the entry and departmental task layers, allowing employees and IT teams to deploy prebuilt agent templates quickly. But this ecosystem advantage weakens in process orchestration and core execution, because enterprises will not let community-built agents touch payments and inventory.</li>
+  <li>Conclusion: fastest to diffuse, but its profit pool and moat are weaker than the execution layer. Its real advantage is that it can try to move rightward.</li>
+</ul>
+
+<p><strong>ServiceNow, in process orchestration and governance</strong></p>
+
+<ul>
+  <li>Profit pool: medium to high. ITSM and workflow are already part of enterprise budgets. Agent governance is becoming a must-have.</li>
+  <li>Moat: medium to high. Workflow integrations are deep, and the real moat is that the more agents an enterprise has, the more it needs a control plane. Demand density is rising.</li>
+  <li>Conclusion: the player whose position is rising the fastest.</li>
+</ul>
+
+<p><strong>Salesforce, as a scenario player in customer revenue</strong></p>
+
+<ul>
+  <li>Profit pool: very high. Sales AI is directly tied to revenue, making this a high-cash-flow position.</li>
+  <li>Moat: high. CRM data accumulation and sales process integration are deeply embedded.</li>
+  <li>Conclusion: extremely valuable on its own battlefield, but it needs to connect to the back office to enter the larger map.</li>
+</ul>
+
+<p><strong>Workday, as a scenario player in HCM</strong></p>
+
+<ul>
+  <li>Profit pool: high. HCM is a core system and contains sensitive data.</li>
+  <li>Moat: high. Organizational data is sensitive, and replacement cost is high.</li>
+  <li>Conclusion: a high-value local player, very stable within its own domain.</li>
+</ul>
+
+<h2 id="4-can-their-narratives-actually-become-real">4. Can Their Narratives Actually Become Real?</h2>
+
+<p>With the map and position valuation in place, we can move to the final layer: <strong>when each vendor's AI narrative is placed against the market and competitors' moves, which parts are feasible, which require specific conditions, and which may not hold?</strong></p>
+
+<h3 id="sap-trying-to-become-the-controlled-core-execution-layer">SAP: Trying to Become the Controlled Core Execution Layer</h3>
+
+<p><strong>Narrative:</strong> Autonomous Enterprise. Let AI touch core business objects such as orders, invoices, and inventory under controlled conditions.</p>
+
+<p><strong>Cards SAP holds and cards SAP lacks:</strong></p>
+
+<ul>
+  <li>Holds: core transaction data, including orders, invoices, inventory, and suppliers. This is the scarcest asset.</li>
+  <li>Holds: enterprise semantic layer through Knowledge Graph, understanding relationships among business objects.</li>
+  <li>Holds: governance and audit infrastructure, plus customer trust.</li>
+  <li>Lacks: the daily employee entry point, which is in <strong>Microsoft's</strong> hands.</li>
+  <li>Lacks: cross-system connection power. The front office sits with <strong>Salesforce</strong>, and workflow sits with <strong>ServiceNow</strong>.</li>
+  <li>Lacks: a culture of fast iteration.</li>
+</ul>
+
+<p><strong>Feasibility:</strong></p>
+
+<ul>
+  <li><strong>Feasible:</strong> the baseline of &quot;AI touching core business objects&quot; is realistic. No other company can replace SAP's core transaction data in many enterprises.</li>
+  <li><strong>Conditional:</strong> becoming the default enterprise AI execution layer requires SAP to fill gaps in entry point and cross-system connectivity. It can do this through open APIs, deep integrations, and acquisitions, but it will take time.</li>
+  <li><strong>Difficult:</strong> for enterprises that are not strongly bound to SAP, SAP needs to borrow Microsoft's entry point to reach users. Employees will not naturally open SAP just to use AI. But among SAP installed-base customers, especially large German enterprises, employees using AI through Fiori, SAP Start, or Joule is a real scenario. The entry problem matters less inside the installed base, but it is a structural obstacle for new customer acquisition.</li>
+</ul>
+
+<p><strong>Judgment: the core base is solid (high), but expansion is limited by speed and entry-point dependency (medium-low).</strong></p>
+
+<h3 id="microsoft-trying-to-become-the-default-ai-entry-point-and-horizontal-agent-platform">Microsoft: Trying to Become the Default AI Entry Point and Horizontal Agent Platform</h3>
+
+<p><strong>Narrative:</strong> Copilot. Make AI the employee's work interface, and use Copilot Studio to become the enterprise agent platform.</p>
+
+<p><strong>Cards Microsoft holds and cards Microsoft lacks:</strong></p>
+
+<ul>
+  <li>Holds: employee usage frequency. People work every day in Outlook, Teams, and Office.</li>
+  <li>Holds: identity security through Entra, cloud through Azure, and a developer ecosystem through GitHub, VS Code, and Copilot Studio.</li>
+  <li>Holds: data platforms such as Fabric and Purview, plus pricing leverage through Office 365 subscriptions.</li>
+  <li>Lacks: core business facts, which are in <strong>SAP's</strong> hands.</li>
+  <li>Lacks: process execution governance authority, where <strong>ServiceNow</strong> is strong.</li>
+  <li>Lacks: deep semantics in specific business domains, especially where <strong>SAP</strong> dominates.</li>
+</ul>
+
+<p><strong>Microsoft's developer ecosystem deserves its own note.</strong></p>
+
+<p>GitHub, VS Code, and Copilot Studio cover not only enterprise IT departments, but also independent developers around the world. At the entry and departmental task layers, this is a moat other vendors cannot easily match.</p>
+
+<p>The advantage is concrete: employees can find agent templates themselves, and IT departments can quickly deploy preconfigured workflows.</p>
+
+<p>But once we move into process orchestration and core execution, the value of the third-party ecosystem declines sharply. Enterprises will not allow community-developed agents to touch payments and inventory.</p>
+
+<p><strong>Feasibility:</strong></p>
+
+<ul>
+  <li><strong>Feasible:</strong> AI becoming the default work entry point is almost certain. The entry barrier at the interface layer is close to zero.</li>
+  <li><strong>Conditional:</strong> becoming a horizontal agent platform depends on whether Microsoft can connect deeply to SAP and ServiceNow data and processes. Microsoft can borrow data through APIs and integrations, but whether the other side wants to open up is the real question. SAP has little incentive to let Microsoft become its AI entry point.</li>
+  <li><strong>Difficult:</strong> giving AI execution authority over core transaction data. There is not yet a public customer case showing Microsoft agents directly operating core financial or supply chain processes. This gap may gradually narrow through deeper partnerships, and SAP and Microsoft have explored agent-to-agent interoperability. But we should not assume the gap will close automatically, because SAP has limited incentive to open execution authority. If core facts and permissions remain with SAP, Microsoft's agent platform is an interface built on someone else's foundation. The entry point has value, but the entry point is not control.</li>
+</ul>
+
+<p><strong>Judgment: the entry point will work (high), the agent platform depends on integration depth (medium), and execution authority is still unproven (low to medium, depending on partnership depth). The profit pool remains uncertain.</strong></p>
+
+<h3 id="servicenow-trying-to-become-the-control-tower-for-agent-governance">ServiceNow: Trying to Become the Control Tower for Agent Governance</h3>
+
+<p><strong>Narrative:</strong> AI Control Tower. When enterprises have dozens or hundreds of agents, someone needs to create, approve, monitor, audit, and shut them down.</p>
+
+<p><strong>Cards ServiceNow holds and cards ServiceNow lacks:</strong></p>
+
+<ul>
+  <li>Holds: the full request-to-approval-to-audit chain, naturally suited to managing agents.</li>
+  <li>Holds: ITSM, employee services, and cross-system workflow visibility.</li>
+  <li>Holds: a position that becomes more valuable as the number of agents grows.</li>
+  <li>Lacks: core transaction records, which are in <strong>SAP's</strong> hands.</li>
+  <li>Lacks: user stickiness at the entry layer.</li>
+  <li>Lacks: definition of agent identity, roles, and budget, an area <strong>Workday</strong> is also contesting. Public information on Workday is still limited, so this judgment has medium confidence and should be tracked.</li>
+</ul>
+
+<p><strong>Feasibility:</strong></p>
+
+<ul>
+  <li><strong>Feasible:</strong> managing agents. When an enterprise moves from 10 agents to 1,000 agents, someone has to govern them. This is a real need.</li>
+  <li><strong>Conditional:</strong> cross-system agent governance requires deep connection to SAP's core transaction data. This depends on how open SAP is willing to be.</li>
+  <li><strong>Difficult:</strong> competing with Workday for the right to define agent identity. Workday's Agent System of Record extends HCM logic into agents. If it succeeds, the two companies will directly compete over who decides what an agent is allowed to do.</li>
+</ul>
+
+<p>Among the three platform players, ServiceNow has the clearest short-term path over the next two to three years. It does not need to take cards away from someone else. It only needs the trend of agent governance becoming a must-have to become real.</p>
+
+<p>But over a five-year horizon, the certainty of this trend declines, because Workday and Microsoft may enter the same market in parallel.</p>
+
+<p>ServiceNow's core challenge is not whether the narrative can work. It is <strong>whether ServiceNow can define the governance layer standard before Workday or Microsoft absorbs part of the market</strong>.</p>
+
+<p><strong>Judgment: the short-term path is clear (high), long-term uncertainty rises (medium), dependency on SAP openness is material (medium), and Workday is also contesting the space (medium). The position is clearly rising.</strong></p>
+
+<h3 id="strategic-hand-summary">Strategic Hand Summary</h3>
+
+<figure class="article-image-figure">
+  <figcaption>Figure 04 · Strategic Card Table</figcaption>
+  <img src="../assets/images/enterprise-ai-card-game-summary.svg" alt="Strategic card table summary for enterprise AI players">
+</figure>
+
+<p>There is one structural tension running through the whole map: <strong>the more valuable the core execution position is, the harder it is to obtain execution authorization.</strong> This is why Microsoft moves fastest but is more fragile, while SAP moves slowest but is more deeply anchored. Do not use &quot;who runs first&quot; to judge &quot;who can run to the end.&quot;</p>
+
+<p>There is also a Germany-specific factor: <strong>the EU AI Act will be implemented in stages from August 2026</strong>, creating explicit compliance requirements for high-risk AI execution scenarios.</p>
+
+<p>This will raise the entry barrier for the execution layer. In the short term, it favors SAP, because its compliance system is the most mature. In the medium term, it favors ServiceNow, because governance platforms become more important. It has less direct impact on Microsoft's entry layer.</p>
+
+<h2 id="5-the-final-map">5. The Final Map</h2>
+
+<p>Pulling the threads together, the final map should be read in four steps:</p>
+
+<ol>
+  <li>Enterprise AI is not one market. It is multiple execution positions layered on top of one another.</li>
+  <li>Players do not start from the same place. They expand outward from their native advantages.</li>
+  <li>Use <strong>profit pool x switching cost</strong> to judge which position has more long-term value.</li>
+  <li>Return to the strategic hand: who holds which cards, who is missing which cards, who needs authorization from others, and who benefits from higher regulatory barriers?</li>
+</ol>
+
+<figure class="article-image-figure final-map-deck">
+  <figcaption>Figure 05 · Final Reasoning Map</figcaption>
+  <div class="final-map-tabs">
+    <input type="radio" name="final-map-view" id="final-map-step-1" checked>
+    <input type="radio" name="final-map-view" id="final-map-step-2">
+    <input type="radio" name="final-map-view" id="final-map-step-3">
+    <input type="radio" name="final-map-view" id="final-map-step-4">
+    <div class="final-map-stage">
+      <section class="final-map-slide final-step-1">
+        <img src="../assets/images/enterprise-ai-six-scenarios.png" alt="The six scenarios of enterprise AI">
+        <p><strong>Step 1.</strong> First, split the market: enterprise AI is not one entry-point market, but four execution positions plus two foundations.</p>
+      </section>
+      <section class="final-map-slide final-step-2">
+        <img src="../assets/images/enterprise-ai-player-positioning.svg" alt="Enterprise AI player positioning map">
+        <p><strong>Step 2.</strong> Then place the players: SAP, Microsoft, and ServiceNow do not start from the same track. Each expands outward from its existing system advantage.</p>
+      </section>
+      <section class="final-map-slide final-step-3">
+        <img src="../assets/images/enterprise-ai-value-players.svg" alt="Enterprise AI value matrix by players">
+        <p><strong>Step 3.</strong> Judge value: long-term commercial value depends on the product of profit pool and moat. The upper-right corner is the area to watch.</p>
+      </section>
+      <section class="final-map-slide final-step-4">
+        <img src="../assets/images/enterprise-ai-card-game-summary.svg" alt="Strategic card table summary for enterprise AI players">
+        <p><strong>Step 4.</strong> Return to the strategic hand: the closer a position is to core execution, the more valuable it is, and the more it depends on authorization, governance, audit, and compliance.</p>
+      </section>
+    </div>
+    <div class="final-map-tabbar" aria-label="Final reasoning map views">
+      <label for="final-map-step-1">1 Market Structure</label>
+      <label for="final-map-step-2">2 Player Position</label>
+      <label for="final-map-step-3">3 Value Logic</label>
+      <label for="final-map-step-4">4 Strategic Hand</label>
+    </div>
+  </div>
+</figure>
+
+<p>This map also includes Salesforce in customer revenue processes, Workday in HCM, and Oracle as a full-stack alternative route whose influence in Germany is constrained by SAP's installed base.</p>
+
+<p>They have extremely high value in their own domains, but they are not competing for the whole-enterprise control plane in the same way.</p>
+
+<h3 id="how-to-use-this-map">How to Use This Map</h3>
+
+<p>When you see any new enterprise AI narrative, ask five questions:</p>
+
+<ol>
+  <li><strong>Locate it:</strong> Which layer of the four-position map does it occupy?</li>
+  <li><strong>Assess the profit pool:</strong> How much is the enterprise willing to pay for this scenario?</li>
+  <li><strong>Assess switching cost:</strong> How much data, process, permission structure, integration, and organizational habit would need to move in order to replace this vendor?</li>
+  <li><strong>Judge extensibility:</strong> Can it naturally extend into a more valuable position? Pay attention to the domain of the moat. Being strong in one layer does not mean being strong in another.</li>
+  <li><strong>Check the strategic hand:</strong> What needs to be true for the narrative to become real? What does the company already have? Which missing cards are in someone else's hand? Which parts are feasible, which require specific conditions, and which may not hold?</li>
+</ol>
+
+<p>This map is not a collection of information. It is a judgment tool.</p>
+
+<h2 id="takeaways">Takeaways</h2>
+
+<div class="conclusion-list">
+  <div class="conclusion-item">
+    <div class="conclusion-code">01</div>
+    <div class="conclusion-text"><strong>Enterprise AI is not one market.</strong> Personal assistants, departmental tasks, process orchestration, core execution, data intelligence, and governance and security all have different risk levels, value logic, implementation speeds, and moats.</div>
+  </div>
+  <div class="conclusion-item">
+    <div class="conclusion-code">02</div>
+    <div class="conclusion-text"><strong>Players do not start from the same place.</strong> SAP starts from core execution, Microsoft from the work entry point, and ServiceNow from process orchestration. Their AI narratives use AI to push their original strengths outward. Each narrative has roots in official language: Autonomous Enterprise, Copilot, and AI Control Tower.</div>
+  </div>
+  <div class="conclusion-item">
+    <div class="conclusion-code">03</div>
+    <div class="conclusion-text"><strong>The value standard is profit pool x switching cost.</strong> How much can this position earn, and how hard is it to replace? By that standard, SAP and Salesforce both have very high long-term value in their respective positions, but they are competing for different things.</div>
+  </div>
+  <div class="conclusion-item">
+    <div class="conclusion-code">04</div>
+    <div class="conclusion-text"><strong>The key finding from the strategic hand analysis:</strong> SAP has the most stable core base. Its entry-point weakness matters less among installed-base customers, but it is a structural obstacle for new customers. Microsoft's entry point will work, but execution authority remains unproven, its profit pool is still being tested, and its developer ecosystem is strongest in entry and departmental layers rather than execution. ServiceNow has the clearest short-term path, but long-term uncertainty rises as Workday and Microsoft enter the governance space. The EU AI Act will further raise the barrier for execution-layer AI. The more valuable the execution position is, the harder it is to obtain authorization.</div>
+  </div>
+  <div class="conclusion-item">
+    <div class="conclusion-code">05</div>
+    <div class="conclusion-text"><strong>Several open questions are worth tracking:</strong> the boundary between Workday and ServiceNow in agent management, where public information remains limited and confidence is medium; whether data platform companies will capture the data intelligence layer; and how much pricing power the entry layer truly has.</div>
+  </div>
+  <div class="conclusion-item">
+    <div class="conclusion-code">06</div>
+    <div class="conclusion-text"><strong>In the end, do not watch conference volume. Watch system position:</strong> who holds business facts, who understands business semantics, who enterprises are willing to pay a premium, who can be authorized to execute, and whose missing cards are in someone else's hand. These factors determine who really has a seat at the table.</div>
+  </div>
+</div>
+
+      </div>
+      <aside class="toc-panel">
+        <div class="toc-inner" id="toc"></div>
+      </aside>
+    </div>
+
+  </div>
+    </div>
+
+  </div>
+
+  <script src="../config.js?v=20260607-map-asset"></script>
+  <script src="../assets/script.js?v=20260607-map-asset"></script>
+</body>
+</html>

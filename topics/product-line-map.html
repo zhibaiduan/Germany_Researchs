@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAP 全产品线战略地图 — SAP Research</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .strategy-hero {
+      margin: 0 0 28px;
+    }
+    .asset-component {
+      width: min(1320px, calc(100vw - 48px));
+      margin: -8px 0 46px 50%;
+      transform: translateX(-50%);
+      padding: 0;
+      border: none;
+    }
+    .asset-component > figcaption {
+      margin-top: 9px;
+      font-size: var(--fs-annotation);
+      line-height: 1.55;
+      color: var(--text-3);
+    }
+    .asset-component > .asset-preview-image {
+      display: none !important;
+    }
+    .asset-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+    .asset-title {
+      font-size: var(--fs-annotation);
+      line-height: 1.3;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .asset-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      background: rgba(255,255,255,.58);
+      color: var(--text-2);
+      font-size: var(--fs-annotation);
+      transition: border-color var(--transition), color var(--transition), background var(--transition);
+    }
+    .asset-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-bg);
+    }
+    .map-shell {
+      display: grid;
+      grid-template-columns: minmax(720px, 1fr) minmax(340px, 430px);
+      gap: 18px;
+      align-items: start;
+    }
+    .map-panel,
+    .product-panel,
+    .framework-panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.46);
+    }
+    .map-panel {
+      padding: 16px;
+    }
+    .map-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    .map-title {
+      font-size: var(--fs-heading-sm);
+      line-height: 1.25;
+      font-weight: 700;
+      color: var(--text-1);
+    }
+    .map-subtitle {
+      max-width: 620px;
+      margin-top: 5px;
+      font-size: var(--fs-ui);
+      line-height: 1.6;
+      color: var(--text-2);
+    }
+    .map-controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 7px;
+      max-width: 420px;
+    }
+    .map-filter {
+      min-height: 28px;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 0 10px;
+      background: rgba(255,255,255,.65);
+      color: var(--text-2);
+      font: inherit;
+      font-size: var(--fs-annotation);
+      cursor: pointer;
+      transition: border-color var(--transition), background var(--transition), color var(--transition);
+    }
+    .map-filter:hover,
+    .map-filter.active {
+      border-color: var(--accent);
+      background: var(--accent-bg);
+      color: var(--accent);
+    }
+    .map-stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr);
+      gap: 0;
+      align-items: stretch;
+    }
+    .internal-axis {
+      position: absolute;
+      z-index: 3;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      color: var(--text-3);
+      pointer-events: none;
+      background: rgba(242,245,241,.78);
+      border-radius: 99px;
+      padding: 2px 7px;
+    }
+    .internal-axis-y {
+      top: 50%;
+      left: 14px;
+      transform: translateY(-50%);
+    }
+    .internal-axis-x {
+      left: 50%;
+      bottom: 12px;
+      transform: translateX(-50%);
+    }
+    .strategy-map {
+      grid-row: 1;
+      grid-column: 1;
+      position: relative;
+      height: 680px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(to right, rgba(217,226,214,.68) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(217,226,214,.68) 1px, transparent 1px),
+        linear-gradient(135deg, rgba(255,255,255,.58), rgba(232,238,231,.48));
+      background-size: 25% 100%, 100% 25%, 100% 100%;
+      overflow: hidden;
+    }
+    .map-quadrant {
+      position: absolute;
+      z-index: 0;
+      padding: 10px;
+      font-size: 10px;
+      line-height: 1.35;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      pointer-events: none;
+    }
+    .map-quadrant.core { right: 14px; top: 12px; text-align: right; }
+    .map-quadrant.future { left: 14px; top: 12px; }
+    .map-quadrant.legacy { right: 14px; bottom: 12px; text-align: right; }
+    .map-quadrant.edge { left: 14px; bottom: 12px; }
+    .axis-line-x,
+    .axis-line-y {
+      position: absolute;
+      background: rgba(42,96,72,.16);
+      pointer-events: none;
+    }
+    .axis-line-x { left: 0; right: 0; top: 50%; height: 1px; }
+    .axis-line-y { top: 0; bottom: 0; left: 50%; width: 1px; }
+    .map-node {
+      position: absolute;
+      z-index: 2;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(24,28,23,.16);
+      border-radius: var(--radius);
+      background: var(--node-bg);
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+      color: var(--text-1);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 5px;
+      padding: 9px 10px;
+      text-align: left;
+      font-family: var(--font-sans);
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), opacity var(--transition);
+    }
+    .map-node:hover,
+    .map-node.active {
+      transform: translate(-50%, -50%) translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+    .map-node.dimmed {
+      opacity: .28;
+    }
+    .map-node-title {
+      display: block;
+      font-size: var(--fs-annotation);
+      line-height: 1.18;
+      font-weight: 700;
+      color: var(--text-1);
+    }
+    .map-node-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 10px;
+      line-height: 1.25;
+      color: rgba(24,28,23,.66);
+    }
+    .map-node-role {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .map-node-score {
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+    .map-legend {
+      display: flex;
+      gap: 10px 16px;
+      margin-top: 12px;
+      font-size: var(--fs-annotation);
+      color: var(--text-3);
+    }
+    .legend-scale {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .legend-bar {
+      width: 92px;
+      height: 10px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      background: linear-gradient(90deg, #B66A5D, #B69C46, #2A7A70);
+    }
+    .product-panel {
+      position: sticky;
+      top: calc(var(--nav-h) + 16px);
+      padding: 18px;
+      min-height: 620px;
+    }
+    .detail-kicker {
+      font-size: var(--fs-annotation);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .detail-title {
+      font-family: var(--font-serif);
+      font-size: 30px;
+      line-height: 1.08;
+      font-weight: 400;
+      color: var(--text-1);
+      margin: 0 0 12px;
+    }
+    .detail-summary {
+      font-size: var(--fs-ui);
+      line-height: 1.7;
+      color: var(--text-2);
+      margin: 0 0 16px;
+    }
+    .detail-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: -4px 0 15px;
+    }
+    .detail-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 25px;
+      padding: 4px 9px;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      background: rgba(255,255,255,.56);
+      color: var(--text-2);
+      font-size: var(--fs-annotation);
+      line-height: 1.3;
+    }
+    .detail-badge strong {
+      color: var(--text-1);
+      margin-right: 5px;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .detail-item {
+      border-top: 1px solid var(--border-light);
+      padding-top: 8px;
+    }
+    .detail-item.wide {
+      grid-column: 1 / -1;
+    }
+    .detail-label {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 11px;
+      line-height: 1.25;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .detail-value {
+      display: block;
+      font-size: var(--fs-ui);
+      line-height: 1.5;
+      color: var(--text-1);
+    }
+    .detail-section {
+      border-top: 1px solid var(--border-light);
+      padding-top: 11px;
+      margin-top: 11px;
+    }
+    .detail-section-title {
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 7px;
+    }
+    .detail-note {
+      font-size: var(--fs-ui);
+      line-height: 1.65;
+      color: var(--text-2);
+      margin: 0;
+    }
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .detail-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 23px;
+      padding: 3px 8px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: var(--fs-annotation);
+      line-height: 1.3;
+    }
+    .framework-chapter {
+      margin: 32px 0 38px;
+      padding-top: 2px;
+    }
+    .framework-intro {
+      max-width: 820px;
+      font-size: var(--fs-body);
+      line-height: 1.78;
+      color: var(--text-2);
+      margin: 0 0 18px;
+    }
+    .framework-visual {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.46);
+      padding: 18px;
+      margin: 16px 0 20px;
+    }
+    .framework-visual-title {
+      font-size: var(--fs-annotation);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .architecture-stack {
+      display: grid;
+      gap: 9px;
+    }
+    .architecture-row {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr) minmax(220px, .78fr);
+      gap: 14px;
+      align-items: center;
+      padding: 13px 0;
+      border-top: 1px solid var(--border-light);
+    }
+    .architecture-row:first-of-type {
+      border-top: none;
+    }
+    .architecture-layer {
+      font-size: var(--fs-heading-sm);
+      line-height: 1.25;
+      font-weight: 700;
+      color: var(--text-1);
+    }
+    .architecture-products {
+      font-size: var(--fs-ui);
+      line-height: 1.55;
+      color: var(--text-1);
+    }
+    .architecture-meaning {
+      font-size: var(--fs-annotation);
+      line-height: 1.6;
+      color: var(--text-2);
+    }
+    .framework-callout {
+      border-left: 3px solid var(--accent);
+      padding: 4px 0 4px 14px;
+      margin: 18px 0 0;
+      font-size: var(--fs-ui);
+      line-height: 1.72;
+      color: var(--text-2);
+    }
+    .strategic-layers {
+      display: grid;
+      gap: 10px;
+    }
+    .strategic-layer {
+      display: grid;
+      grid-template-columns: 128px minmax(0, 1fr) minmax(260px, .95fr);
+      gap: 14px;
+      align-items: stretch;
+      min-height: 72px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.38);
+      overflow: hidden;
+    }
+    .strategic-layer-role {
+      display: flex;
+      align-items: center;
+      padding: 12px 14px;
+      color: var(--text-1);
+      font-weight: 700;
+      line-height: 1.35;
+      background: var(--role-bg);
+    }
+    .strategic-layer-products,
+    .strategic-layer-meaning {
+      padding: 12px 0;
+      font-size: var(--fs-ui);
+      line-height: 1.58;
+      color: var(--text-2);
+    }
+    .strategic-layer-products strong,
+    .strategic-layer-meaning strong {
+      color: var(--text-1);
+    }
+    .conclusion-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 20px 0 28px;
+      border-left: 2px solid var(--accent-border);
+    }
+    .conclusion-item {
+      display: flex;
+      gap: 14px;
+      align-items: baseline;
+      padding: 11px 16px;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+    }
+    .conclusion-num {
+      font-size: var(--fs-annotation);
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+      width: 22px;
+      font-family: var(--font-sans);
+    }
+    .conclusion-text {
+      font-size: var(--fs-ui);
+      line-height: 1.65;
+      color: var(--text-1);
+      font-family: var(--font-sans);
+    }
+    .conclusion-text strong {
+      font-size: var(--fs-ui);
+      font-weight: 600;
+    }
+    .compact-table td,
+    .compact-table th {
+      vertical-align: top;
+    }
+    .source-link {
+      color: var(--accent);
+      text-decoration: underline;
+      text-decoration-color: var(--accent-border);
+      text-underline-offset: 2px;
+    }
+    .source-link:hover {
+      color: var(--accent-hover);
+      text-decoration-color: var(--accent);
+    }
+    @media (max-width: 1100px) {
+      .asset-component {
+        width: min(920px, calc(100vw - 32px));
+      }
+      .map-shell {
+        grid-template-columns: 1fr;
+      }
+      .product-panel {
+        position: static;
+        min-height: auto;
+      }
+    }
+    @media (max-width: 760px) {
+      .asset-component {
+        width: calc(100vw - 24px);
+      }
+      .asset-bar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .map-toolbar {
+        flex-direction: column;
+      }
+      .map-controls {
+        justify-content: flex-start;
+      }
+      .map-stage {
+        display: block;
+      }
+      .internal-axis {
+        display: none;
+      }
+      .strategy-map {
+        height: auto;
+        min-height: 0;
+        padding: 12px;
+        display: grid;
+        gap: 9px;
+        overflow: visible;
+      }
+      .axis-line-x,
+      .axis-line-y,
+      .map-quadrant {
+        display: none;
+      }
+      .map-node {
+        position: static;
+        transform: none;
+        width: 100% !important;
+        min-height: 58px !important;
+      }
+      .map-node:hover,
+      .map-node.active {
+        transform: none;
+      }
+      .map-legend,
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+      .architecture-row,
+      .strategic-layer {
+        grid-template-columns: 1fr;
+      }
+      .strategic-layer-products,
+      .strategic-layer-meaning {
+        padding: 0 14px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="nav-mount"></div>
+
+  <div class="page-layout">
+    <div class="page-content">
+      <div class="article-wrap">
+        <header class="article-header">
+          <div class="article-topic-label">专题 P1M3 · Product Strategy Map</div>
+          <h1 class="article-title">SAP 全产品线战略地图</h1>
+          <p class="article-subtitle">SAP 官网的产品线介绍很完整，也很容易让人迷路。这张地图把琳琅满目的产品重新放进一条线：先看位置，再看关系，最后看战略意义。</p>
+          <div class="article-meta">
+            <span class="article-meta-item">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              2026-06-07
+            </span>
+            <span class="article-meta-divider"></span>
+            <span class="article-meta-item">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              交互地图
+            </span>
+          </div>
+        </header>
+
+        <figure class="asset-component article-figure" id="sap-product-strategy-map-asset" data-asset-type="interactive-map">
+          <img class="asset-preview-image" src="../assets/images/sap-product-strategy-map-preview.png" alt="SAP 产品线收入贡献与战略重要度地图预览">
+          <div class="asset-bar">
+            <div class="asset-title">图表 · SAP 产品战略地图</div>
+            <a class="asset-link" id="asset-share-link" href="#sap-product-strategy-map-asset">复制 / 分享图表锚点</a>
+          </div>
+          <section class="map-shell" aria-label="SAP 产品线收入与战略重要度地图">
+            <div class="map-panel">
+              <div class="map-toolbar">
+                <div>
+                  <div class="map-title">收入贡献 × 战略重要度</div>
+                  <div class="map-subtitle">横轴看收入贡献，纵轴看战略影响。卡片位置由两组评分决定，颜色按战略重要度从低到高变化。点击任一产品，右侧查看它解决什么问题、在 SAP 内部的地位和下一步战略方向。</div>
+                </div>
+                <div class="map-controls" id="map-controls" aria-label="筛选产品">
+                  <button class="map-filter active" data-filter="all">全部</button>
+                  <button class="map-filter" data-filter="现金牛">现金牛</button>
+                  <button class="map-filter" data-filter="护城河">护城河</button>
+                  <button class="map-filter" data-filter="平台控制点">平台控制点</button>
+                  <button class="map-filter" data-filter="增长引擎">增长引擎</button>
+                  <button class="map-filter" data-filter="迁移推力">迁移推力</button>
+                </div>
+              </div>
+
+              <div class="map-stage">
+                <div class="strategy-map" id="strategy-map">
+                  <div class="internal-axis internal-axis-y">战略影响</div>
+                  <div class="internal-axis internal-axis-x">收入贡献</div>
+                  <div class="map-quadrant core">高收入 / 高战略<br>当前核心</div>
+                  <div class="map-quadrant future">低收入 / 高战略<br>未来押注</div>
+                  <div class="map-quadrant legacy">高收入 / 战略下降<br>迁移压力</div>
+                  <div class="map-quadrant edge">低收入 / 低战略<br>边缘维持</div>
+                  <div class="axis-line-x"></div>
+                  <div class="axis-line-y"></div>
+                </div>
+              </div>
+
+              <div class="map-legend" aria-label="图例">
+                <div class="legend-scale"><span>颜色：战略重要度</span><span class="legend-bar"></span><span>高</span></div>
+              </div>
+            </div>
+
+            <aside class="product-panel" id="product-detail" aria-live="polite">
+              <div class="detail-kicker" id="detail-layer"></div>
+              <h2 class="detail-title" id="detail-title"></h2>
+              <p class="detail-summary" id="detail-description"></p>
+              <div class="detail-badges">
+                <span class="detail-badge"><strong>收入</strong><span id="detail-revenue-badge"></span></span>
+                <span class="detail-badge"><strong>市场</strong><span id="detail-market-badge"></span></span>
+              </div>
+              <div class="detail-grid">
+                <div class="detail-item">
+                  <span class="detail-label">发布时间</span>
+                  <span class="detail-value" id="detail-launch"></span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">战略角色</span>
+                  <span class="detail-value" id="detail-role"></span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">SAP 地位</span>
+                  <span class="detail-value" id="detail-position"></span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">收入数字 / 披露口径</span>
+                  <span class="detail-value" id="detail-revenue"></span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">市场地位评级</span>
+                  <span class="detail-value" id="detail-market"></span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">战略方向</span>
+                  <span class="detail-value" id="detail-direction"></span>
+                </div>
+              </div>
+              <div class="detail-section">
+                <div class="detail-section-title">产品特点和专长</div>
+                <p class="detail-note" id="detail-features"></p>
+              </div>
+              <div class="detail-section">
+                <div class="detail-section-title">相关子产品 / 能力</div>
+                <div class="chip-list" id="detail-products"></div>
+              </div>
+            </aside>
+          </section>
+          <figcaption>SAP 产品线战略地图：横轴为收入贡献，纵轴为战略重要度，右侧面板解释当前选中产品的收入披露口径与市场地位。</figcaption>
+        </figure>
+
+        <div class="article-body">
+          <div class="article-content">
+            <h2 id="how-to-read">如何读这张地图</h2>
+            <p>SAP 的产品页像一整面货架：ERP、采购、人力、供应链、平台、数据、AI 都摆在一起，看起来都重要，但很难判断哪些是收入核心、哪些是未来押注、哪些只是补充模块。这张图的目的不是再做一份产品目录，而是帮你先建立方向感。</p>
+            <p>读图时只需要记住两件事：横轴看当前收入、客户存量和迁移价值，纵轴看它是否能解释 SAP 的 cloud + AI 转型。越靠右，商业体量越大；越靠上，战略权重越高。点击产品时，再看右侧的收入口径、市场地位和战略方向。</p>
+            <p>地图先解决“这些产品分别站在哪里”。但位置本身还不够：如果不知道产品之间的依赖关系，BTP、BDC、Joule 这些高战略产品就会像突然冒出来的新名词。所以下一章先看架构关系。</p>
+
+            <section class="framework-chapter">
+              <h2 id="architecture-framework">产品架构逻辑：SAP 产品如何协作</h2>
+              <p class="framework-intro">这一章只回答一个问题：SAP 的产品作为一套企业系统，是怎么协作的？它暂时不判断谁更赚钱，而是解释从业务事实、平台扩展、数据语义到 AI 执行的上下游关系。</p>
+
+              <div class="framework-visual">
+                <div class="framework-visual-title">Architecture Logic · 从业务事实到 AI 执行</div>
+                <div class="architecture-stack">
+                  <div class="architecture-row">
+                    <div class="architecture-layer">业务应用层</div>
+                    <div class="architecture-products">Cloud ERP Suite、S/4HANA、Finance、Ariba、SuccessFactors、SCM、CX</div>
+                    <div class="architecture-meaning">不是并列模块，而是按端到端业务流程组织：订单、采购、财务、人力、供应链共同形成企业事实来源。</div>
+                  </div>
+                  <div class="architecture-row">
+                    <div class="architecture-layer">平台层</div>
+                    <div class="architecture-products">BTP、Integration Suite、Build、Signavio、Cloud ALM</div>
+                    <div class="architecture-meaning">不是单一 PaaS，而是把核心系统外的连接、扩展、自动化、流程诊断和运维治理组织起来。</div>
+                  </div>
+                  <div class="architecture-row">
+                    <div class="architecture-layer">数据层</div>
+                    <div class="architecture-products">Business Data Cloud、Datasphere、HANA Cloud、SAP Databricks</div>
+                    <div class="architecture-meaning">不是普通数据仓库，而是把 SAP 业务语义带到开放数据生态，给分析、预测和 AI 提供可信上下文。</div>
+                  </div>
+                  <div class="architecture-row">
+                    <div class="architecture-layer">AI 层</div>
+                    <div class="architecture-products">Business AI、Joule、Joule Agents、Joule Studio、AI Core</div>
+                    <div class="architecture-meaning">不是聊天入口，而是把模型能力包装进 SAP 权限、流程、业务对象和治理框架，逐步进入执行。</div>
+                  </div>
+                </div>
+                <p class="framework-callout">这套架构的价值在于：ERP、采购、人力、供应链不是孤岛，而是共同产生 SAP 可供 BTP、BDC 和 Joule 调用的业务上下文。AI 能不能执行，取决于它能不能读懂这些流程、对象和权限。</p>
+              </div>
+
+              <h3>业务应用层：按端到端流程组织</h3>
+              <p>这一层不是“ERP 旁边放几套 SaaS”。SAP 的组织逻辑是把企业关键流程串成闭环：财务是控制中心，采购和供应链提供外部与实物流，人力提供组织和权限上下文，CX 连接前台客户流程。S/4HANA / Finance 记录核心交易、会计凭证、成本中心、利润中心和集团管控，是很多流程的结算终点；Ariba / Network 把采购、供应商、合同、PO、发票和外部交易伙伴接入 ERP；SuccessFactors 则让业务动作落到具体员工、岗位和组织责任上。</p>
+
+              <h3>平台层：按“核心外置”组织</h3>
+              <p>平台层的内在逻辑是 clean core：核心 ERP 尽量标准化，客户差异化能力放到 BTP 侧，通过集成、扩展、自动化和流程诊断来实现。Integration Suite 负责 SAP 与非 SAP 系统连接，SAP Build 承接低代码应用和流程自动化，Signavio 帮客户先看清流程实际怎么跑，Cloud ALM 则管理实施、运维、监控和变更。</p>
+
+              <h3>数据层：按“语义保留 + 开放连接”组织</h3>
+              <p>数据层的关键不是把所有数据搬进 SAP，而是保住 SAP 数据里的业务含义：订单、供应商、物料、成本中心、员工这些对象之间的关系，必须能被分析系统和 AI 理解。BDC 是新的数据叙事入口，Datasphere 承担语义建模和数据集成，HANA Cloud 提供 SAP 体系内的数据底座，SAP Databricks 则把 SAP 业务语义带到开放 lakehouse / AI 工程生态。</p>
+
+              <h3>AI 层：按“入口、执行、构建、治理”组织</h3>
+              <p>AI 层不是一个模型产品，而是一组能力分工：Joule 是用户入口，Agents 是流程执行单元，Joule Studio 让客户构建自定义工作流，AI Core / Launchpad 负责运行和治理。它们的价值不在“多一个聊天界面”，而在能否进入 SAP 权限、业务对象和流程状态，触发受控动作。</p>
+            </section>
+
+            <p>架构关系解释了“它们如何连在一起”，但还没有回答 SAP 为什么要把资源压在这些地方。下一章换一个视角：不再按技术层看，而是按商业命运看。</p>
+
+            <section class="framework-chapter">
+              <h2 id="strategic-framework">战略意义层：SAP 为什么押注这些产品</h2>
+              <p class="framework-intro">这一章回答另一个问题：这些产品在 SAP 内部到底承担什么战略命运？有些产品直接赚钱，有些产品不一定单独贡献最大收入，但决定客户能否迁移、能否留下、能否继续增购。</p>
+
+              <div class="framework-visual">
+                <div class="framework-visual-title">Strategic Logic · 从 License 到 Cloud + AI</div>
+                <div class="strategic-layers">
+                  <div class="strategic-layer" style="--role-bg: rgba(182,106,93,.18)">
+                    <div class="strategic-layer-role">迁移推力层</div>
+                    <div class="strategic-layer-products"><strong>代表产品：</strong>ECC、S/4HANA on-prem、Business Suite 7、传统 license/support</div>
+                    <div class="strategic-layer-meaning"><strong>战略意义：</strong>仍有存量现金价值，但未来方向不是继续发展它，而是用维护期限、技术代际和 AI/Data 诱因推动客户上云。</div>
+                  </div>
+                  <div class="strategic-layer" style="--role-bg: rgba(42,122,112,.18)">
+                    <div class="strategic-layer-role">收入核心层</div>
+                    <div class="strategic-layer-products"><strong>代表产品：</strong>Cloud ERP Suite、S/4HANA Cloud、RISE with SAP、GROW with SAP</div>
+                    <div class="strategic-layer-meaning"><strong>战略意义：</strong>直接贡献主要云收入，是 SAP 从 license 公司转为云订阅公司的商业基本盘。</div>
+                  </div>
+                  <div class="strategic-layer" style="--role-bg: rgba(98,132,88,.18)">
+                    <div class="strategic-layer-role">护城河层</div>
+                    <div class="strategic-layer-products"><strong>代表产品：</strong>Finance、SCM、Ariba、SuccessFactors、Business Network、MDG</div>
+                    <div class="strategic-layer-meaning"><strong>战略意义：</strong>不只是卖模块，而是把客户关键流程、主数据、合规、供应商网络和切换成本绑得更深。</div>
+                  </div>
+                  <div class="strategic-layer" style="--role-bg: rgba(83,119,145,.16)">
+                    <div class="strategic-layer-role">平台控制层</div>
+                    <div class="strategic-layer-products"><strong>代表产品：</strong>BTP、Integration Suite、Build、Signavio、Cloud ALM</div>
+                    <div class="strategic-layer-meaning"><strong>战略意义：</strong>收入不一定最大，但控制集成、扩展、流程诊断和 clean core 之后的客户生态，是云迁移后的技术控制台。</div>
+                  </div>
+                  <div class="strategic-layer" style="--role-bg: rgba(42,96,72,.22)">
+                    <div class="strategic-layer-role">AI/Data 增长层</div>
+                    <div class="strategic-layer-products"><strong>代表产品：</strong>Business Data Cloud、Datasphere、SAP Databricks、Business AI、Joule、Joule Agents、Joule Studio</div>
+                    <div class="strategic-layer-meaning"><strong>战略意义：</strong>当前收入仍在验证，但战略权重极高，负责提高 ARPU，并支撑 Autonomous Enterprise 叙事。</div>
+                  </div>
+                  <div class="strategic-layer" style="--role-bg: rgba(143,151,136,.18)">
+                    <div class="strategic-layer-role">边缘维持层</div>
+                    <div class="strategic-layer-products"><strong>代表产品：</strong>CX、Business One、ByDesign、Sustainability、EHS、GTS、部分传统行业模块</div>
+                    <div class="strategic-layer-meaning"><strong>战略意义：</strong>可能仍有客户和项目机会，但不是解释 SAP 未来战略的主线，需要按客户场景谨慎看待。</div>
+                  </div>
+                </div>
+                <p class="framework-callout">这套战略分层的核心判断是：SAP 不是平均用力经营所有产品，而是把 Legacy 压力转成云订阅，把核心流程变成护城河，再用平台、数据和 AI 提高长期客单价。</p>
+              </div>
+            </section>
+
+            <h2 id="key-judgements">研究结论</h2>
+            <p>读完地图、架构和战略分层后，可以把 SAP 产品线压缩成下面六个判断。它们不是新的产品介绍，而是这页希望帮你形成的研究结论：</p>
+            <div class="conclusion-list">
+              <div class="conclusion-item">
+                <div class="conclusion-num">C1</div>
+                <div class="conclusion-text"><strong>SAP 的商业核心仍然是 ERP 云订阅，而不是某个单点 SaaS。</strong> Cloud ERP Suite 是 SAP 从 license 公司转向云订阅公司的收入主轴；RISE/GROW、BTP、BDC、Joule 都在围绕它增强。</div>
+              </div>
+              <div class="conclusion-item">
+                <div class="conclusion-num">C2</div>
+                <div class="conclusion-text"><strong>BTP 的价值不在“开发平台”本身，而在于控制 clean core 之后的集成、扩展和自动化路径。</strong> 云迁移后，客户不能再大量改核心 ERP；差异化能力会转移到平台侧，所以 BTP 是云时代的生态控制台。</div>
+              </div>
+              <div class="conclusion-item">
+                <div class="conclusion-num">C3</div>
+                <div class="conclusion-text"><strong>BDC 是 SAP 对数据平台竞争的防线，目标是保住业务语义。</strong> AI 需要的不只是数据表，而是订单、物料、供应商、成本中心之间的业务关系；BDC 的价值是把这层语义带到开放数据生态。</div>
+              </div>
+              <div class="conclusion-item">
+                <div class="conclusion-num">C4</div>
+                <div class="conclusion-text"><strong>Joule / Business AI 更像云套件的增购加速器，而不是独立的新产品线。</strong> Joule 的差异化不在聊天界面，而在能否基于 SAP 权限、流程和业务对象触发动作；它会推动客户更深地使用云套件和数据层。</div>
+              </div>
+              <div class="conclusion-item">
+                <div class="conclusion-num">C5</div>
+                <div class="conclusion-text"><strong>ECC / on-prem 仍有存量现金价值，但它在战略上已经从“发展对象”变成“迁移推力”。</strong> ECC 仍解释 SAP 的存量基础，但不再解释未来创新；维护期限、clean core 和 AI/Data 诱因共同把客户推向 S/4HANA Cloud。</div>
+              </div>
+              <div class="conclusion-item">
+                <div class="conclusion-num">C6</div>
+                <div class="conclusion-text"><strong>CX、Business One、ByDesign 等产品仍有客户和项目价值，但不能解释 SAP 最重要的未来叙事。</strong> 判断产品重要性不能只看它是否存在客户，而要看它是否拉动云迁移、平台控制、数据语义和 AI 增购。</div>
+              </div>
+            </div>
+
+            <div class="article-end">
+              <div class="article-end-section">
+                <div class="article-end-label">信息来源与可信度评估</div>
+                <table class="data-table">
+                  <thead><tr><th>来源</th><th>用途</th><th>评价</th></tr></thead>
+                  <tbody>
+                    <tr><td><a class="source-link" href="https://www.sap.com/integrated-reports/2025/en/datahub/financial-data/five-year-summary.html">SAP 2025 Integrated Report / Five-Year Summary</a></td><td>Cloud、Cloud ERP Suite、总收入等财务口径</td><td>官方一手资料</td></tr>
+                    <tr><td><a class="source-link" href="https://www.sap.com/products/business-suite.html">SAP Business Suite 官方产品页</a></td><td>Business Suite 组成与定位</td><td>官方产品资料</td></tr>
+                    <tr><td><a class="source-link" href="https://news.sap.com/2026/04/sap-business-ai-release-highlights-q1-2026/">SAP Business AI Q1 2026 Release Highlights</a></td><td>Joule agents 与 skills 数量</td><td>官方新闻资料</td></tr>
+                    <tr><td><a class="source-link" href="https://news.sap.com/2025/02/sap-business-data-cloud-databricks-turbocharge-business-ai/">SAP Business Data Cloud launch announcement</a></td><td>BDC 与 Databricks 定位</td><td>官方新闻资料</td></tr>
+                    <tr><td><a class="source-link" href="https://support.sap.com/en/release-upgrade-maintenance/maintenance-information/maintenance-strategy/s4hana-business-suite7.html">SAP maintenance strategy for Business Suite 7</a></td><td>ECC / Business Suite 7 维护期限</td><td>官方支持资料</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <aside class="toc-panel">
+            <div class="toc-inner"></div>
+          </aside>
+        </div>
+      </div>
+
+      <div id="footer-mount"></div>
+    </div>
+  </div>
+
+  <script src="../config.js"></script>
+  <script src="../assets/script.js"></script>
+  <script>
+  (() => {
+    const SAP_PRODUCTS = [
+      {
+        id: 'cloud-erp',
+        name: 'Cloud ERP Suite',
+        shortName: 'Cloud ERP',
+        revenueScore: 96,
+        strategicScore: 96,
+        revenueScale: 5,
+        architectureLayer: '业务应用层',
+        strategicRole: '现金牛',
+        launchTime: 'S/4HANA 2015；RISE with SAP 2021；Cloud ERP Suite 作为 2025 后核心财务口径强化',
+        description: '解决大型企业核心经营流程的统一记录、控制、结算和执行问题，是 SAP 把 ECC / on-prem 存量客户迁到云订阅的主通道。',
+        features: '标准化云 ERP、clean core、Public/Private Edition 双路径、与 BTP、BDC、Joule 深度绑定。',
+        sapPosition: 'SAP 的收入和迁移命脉，所有新战略几乎都围绕它展开。',
+        revenueContribution: '2025 年 Cloud ERP Suite 收入 EUR 18.119B，占 SAP Cloud 收入大部分。',
+        marketPosition: '大型企业 ERP 头部玩家，强在复杂行业流程和全球集团管控。',
+        strategicDirection: 'ECC -> S/4HANA，on-prem -> cloud，核心交易系统成为 AI 和数据层的事实来源。',
+        products: ['S/4HANA Cloud Public Edition', 'S/4HANA Cloud Private Edition', 'RISE with SAP', 'GROW with SAP', 'S/4HANA Finance']
+      },
+      {
+        id: 'ecc',
+        name: 'ECC / On-premise',
+        shortName: 'ECC',
+        revenueScore: 74,
+        strategicScore: 28,
+        revenueScale: 4,
+        architectureLayer: 'Legacy 层',
+        strategicRole: '迁移推力',
+        launchTime: 'ECC 属于 Business Suite 7 / SAP ERP 6.0 时代；主流维护到 2027 年底，可选扩展维护到 2030 年底',
+        description: '解决上一代企业核心流程管理问题，存量巨大，但越来越成为客户上云前必须处理的历史系统。',
+        features: '高度定制、强行业沉淀、接口复杂、报表和权限体系深，迁移风险高。',
+        sapPosition: '短期仍有现金和服务价值，长期战略地位下降。',
+        revenueContribution: '传统 license/support 仍贡献现金流，但不再是 SAP 未来增长口径。',
+        marketPosition: '全球大型企业存量极深，尤其制造、能源、零售、金融等复杂行业。',
+        strategicDirection: '通过维护期限、RISE、clean core 和 AI/Data 诱因推动客户迁移到 S/4HANA Cloud。',
+        products: ['SAP ECC', 'SAP ERP 6.0', 'S/4HANA on-premise', '传统 license/support']
+      },
+      {
+        id: 'finance',
+        name: 'Financial Management',
+        shortName: 'Finance',
+        revenueScore: 82,
+        strategicScore: 86,
+        revenueScale: 4,
+        architectureLayer: '业务应用层',
+        strategicRole: '护城河',
+        launchTime: '长期核心模块；S/4HANA Finance 随 S/4HANA 时代强化',
+        description: '解决记账、合并、预算计划、营运资本、资金风险、税务合规和管理报表问题。',
+        features: '与 ERP 主数据、集团合并、税务、现金和权限体系绑定最深，是 SAP 迁移项目中最敏感的核心区。',
+        sapPosition: 'ERP 核心中的核心，决定客户是否真正把 SAP 当作经营系统。',
+        revenueContribution: '通常包含在 Cloud ERP Suite 和 S/4HANA 迁移项目中，不适合简单拆成独立收入线。',
+        marketPosition: '大型企业财务、集团合并、税务和管控场景非常强。',
+        strategicDirection: '从记录型财务走向自动月结、异常解释、现金流优化和 agent 辅助管控。',
+        products: ['S/4HANA Finance', 'Treasury and Risk Management', 'SAP Analytics Cloud Planning', 'Document and Reporting Compliance']
+      },
+      {
+        id: 'spend',
+        name: 'Spend Management',
+        shortName: 'Spend',
+        revenueScore: 72,
+        strategicScore: 78,
+        revenueScale: 4,
+        architectureLayer: '业务应用层',
+        strategicRole: '护城河',
+        launchTime: 'Ariba 2012 收购；Concur 2014 收购；Fieldglass 2014 收购',
+        description: '解决寻源、采购、供应商协作、采购订单、发票、付款、差旅费用和外部劳动力管理问题。',
+        features: '采购流程深、供应商网络强、跨财务和供应链，适合 AI 做合同、发票和供应商风险自动化。',
+        sapPosition: 'SAP 云应用外围主力，是 ERP 之外最值得关注的产品群之一。',
+        revenueContribution: '未完整单独披露，但 Spend 是 Cloud ERP Suite 周边重要贡献源。',
+        marketPosition: 'Ariba / Business Network 在大型采购网络强；Concur 在差旅费控强，但中小企业端受新 SaaS 挑战。',
+        strategicDirection: '从采购软件走向 Business Network，并叠加 AI agent 自动化采购和供应商风险。',
+        products: ['SAP Ariba', 'SAP Concur', 'SAP Fieldglass', 'Strategic Sourcing', 'Procurement']
+      },
+      {
+        id: 'hcm',
+        name: 'SuccessFactors / HCM',
+        shortName: 'HCM',
+        revenueScore: 66,
+        strategicScore: 74,
+        revenueScale: 3,
+        architectureLayer: '业务应用层',
+        strategicRole: '护城河',
+        launchTime: 'SuccessFactors 2011 收购',
+        description: '解决员工生命周期管理：招聘、入职、岗位变化、绩效学习、薪资和离职，尤其是员工主数据与组织结构统一。',
+        features: '与 ERP、财务、成本中心、权限和全球合规连接，形成 hire-to-retire 流程闭环。',
+        sapPosition: 'SAP 云收入支柱之一，也是与 Workday 正面竞争的核心产品。',
+        revenueContribution: '未完整单独披露，属于 SAP 核心云应用组合。',
+        marketPosition: '全球 HCM 云第一梯队，主要对手是 Workday。',
+        strategicDirection: '强化员工主数据、组织结构、薪资和财务权限的跨域自动化。',
+        products: ['Employee Central', 'Recruiting', 'Learning', 'Performance & Goals', 'Compensation', 'Payroll']
+      },
+      {
+        id: 'supply-chain',
+        name: 'Supply Chain Management',
+        shortName: 'SCM',
+        revenueScore: 62,
+        strategicScore: 80,
+        revenueScale: 3,
+        architectureLayer: '业务应用层',
+        strategicRole: '护城河',
+        launchTime: '长期核心行业能力；IBP、EWM、TM、Digital Manufacturing 在云时代持续强化',
+        description: '解决需求预测、库存计划、仓库执行、运输协同、制造执行和设备维护等问题。',
+        features: '与 SAP 工业客户基础强绑定，价值来自 ERP、工厂、采购、物流和计划数据的联动。',
+        sapPosition: '不是最亮眼的云增长叙事，但对制造业和德国 B2B 语境非常重要。',
+        revenueContribution: '未单独完整披露，常嵌入大型 S/4HANA 与行业转型项目。',
+        marketPosition: '企业供应链流程位置稳固，计划侧面对 Kinaxis、Blue Yonder 等竞争。',
+        strategicDirection: '与 BDC 和 Business AI 连接，做预测异常解释、库存风险和生产执行优化。',
+        products: ['SAP IBP', 'SAP EWM', 'SAP TM', 'Digital Manufacturing', 'Asset Management']
+      },
+      {
+        id: 'btp',
+        name: 'Business Technology Platform',
+        shortName: 'BTP',
+        revenueScore: 56,
+        strategicScore: 92,
+        revenueScale: 3,
+        architectureLayer: '平台层',
+        strategicRole: '平台控制点',
+        launchTime: 'BTP 品牌在 2021 前后整合强化',
+        description: '解决 SAP 与非 SAP 系统连接、流程扩展、API/事件集成、应用开发、自动化和 AI 治理问题。',
+        features: '承接 clean core 后的集成、扩展和自动化，把客户的新定制从核心 ERP 移到平台层。',
+        sapPosition: '云时代生态控制层，不只是开发平台。',
+        revenueContribution: '未作为单独大收入线完整披露，常被打包进 Business Suite、RISE/GROW 和扩展项目。',
+        marketPosition: '在 SAP 客户内部价值高，通用平台市场面对 hyperscaler 与低代码平台竞争。',
+        strategicDirection: '控制集成、扩展、自动化、AI 接入和生态伙伴解决方案。',
+        products: ['Integration Suite', 'SAP Build', 'HANA Cloud', 'Analytics Cloud', 'AI Core', 'Cloud ALM']
+      },
+      {
+        id: 'bdc',
+        name: 'Business Data Cloud',
+        shortName: 'BDC',
+        revenueScore: 30,
+        strategicScore: 90,
+        revenueScale: 2,
+        architectureLayer: '数据层',
+        strategicRole: '增长引擎',
+        launchTime: '2025 年推出',
+        description: '解决 SAP 数据和非 SAP 数据割裂、企业语义不统一、AI 缺少可信业务上下文的问题。',
+        features: '通过 SAP Databricks、zero-copy 连接和数据产品，把 SAP 语义带入开放数据生态。',
+        sapPosition: '新战略核心，当前收入小于战略意义。',
+        revenueContribution: '2025 年新推出，当前收入贡献仍低，战略重要性高于当前收入。',
+        marketPosition: '回应 Snowflake、Databricks 和客户现有数据平台对 SAP 数据管道的吸引力。',
+        strategicDirection: '守住 AI 时代的数据控制点，把业务语义和治理带到客户已有数据平台。',
+        products: ['SAP Business Data Cloud', 'SAP Databricks', 'Datasphere', 'Analytics Cloud', 'BDC Connect']
+      },
+      {
+        id: 'business-ai',
+        name: 'Business AI / Joule',
+        shortName: 'Joule',
+        revenueScore: 24,
+        strategicScore: 96,
+        revenueScale: 2,
+        architectureLayer: 'AI 层',
+        strategicRole: '增长引擎',
+        launchTime: 'Joule 2023 发布；2026 年强化 Joule Agents 与 Joule Studio',
+        description: '解决业务用户跨系统找信息、解释异常、生成建议、触发流程动作的问题。',
+        features: '从助手演化为 agent orchestrator，依赖 SAP 权限、业务对象、流程状态和数据语义。',
+        sapPosition: '未来差异化赌注，也是 Autonomous Enterprise 叙事入口。',
+        revenueContribution: '当前直接收入低，很多能力嵌入或绑定在套件里；官方口径已有 30+ specialized agents 和 2,500+ Joule Skills。',
+        marketPosition: '面对 Microsoft Copilot、Salesforce Agentforce、ServiceNow AI Agents 等强竞争。',
+        strategicDirection: '从 embedded AI 到 Joule agents，再到 Joule Studio 自定义 agents 和 agentic workflows。',
+        products: ['Joule', 'Joule Agents', 'Joule Studio', 'AI Core', 'Generative AI Hub', 'AI Launchpad']
+      },
+      {
+        id: 'business-network',
+        name: 'Business Network',
+        shortName: 'Network',
+        revenueScore: 58,
+        strategicScore: 82,
+        revenueScale: 3,
+        architectureLayer: '网络 / 流程层',
+        strategicRole: '护城河',
+        launchTime: '由 Ariba Network、供应链协作和物流网络逐步整合形成',
+        description: '解决跨企业协作：订单、发票、发货、供应商信息、交易伙伴发现和供应风险。',
+        features: '连接买方、供应商、物流伙伴和交易流程，是 SAP 少数具备网络效应的资产。',
+        sapPosition: '采购和供应链云业务的网络效应支撑。',
+        revenueContribution: '收入未单独完整披露，但对 Spend 与供应链云业务有强支撑。',
+        marketPosition: '全球最大的 B2B trading partner platform 之一，覆盖大量企业与交易额。',
+        strategicDirection: '把采购、供应链、物流协作和供应商风险纳入统一网络，再叠加 Business AI。',
+        products: ['Ariba Network', 'Supply Chain Collaboration', 'Logistics Business Network', 'Asset Collaboration']
+      },
+      {
+        id: 'signavio',
+        name: 'SAP Signavio',
+        shortName: 'Signavio',
+        revenueScore: 32,
+        strategicScore: 70,
+        revenueScale: 2,
+        architectureLayer: '流程转型层',
+        strategicRole: '平台控制点',
+        launchTime: '2021 年收购 Signavio',
+        description: '解决企业不知道真实流程怎么跑、哪里低效、哪些定制阻碍迁移、哪些流程适合自动化的问题。',
+        features: '流程挖掘、流程建模、旅程建模和流程洞察，是 S/4HANA 迁移和 clean core 的前置诊断层。',
+        sapPosition: '不是最大收入线，但对迁移、标准化和流程自动化很关键。',
+        revenueContribution: '收入贡献中低，战略价值体现在转型项目前置和 BTP 自动化入口。',
+        marketPosition: '流程挖掘和 BPM 领域面对 Celonis、ServiceNow、Microsoft 等竞争。',
+        strategicDirection: '把流程洞察接入 S/4HANA 转型、BTP 自动化和 AI agents 的流程治理。',
+        products: ['Signavio Process Intelligence', 'Signavio Process Manager', 'Journey Modeler', 'Process Insights']
+      },
+      {
+        id: 'sustainability',
+        name: 'Sustainability Management',
+        shortName: 'Sustainability',
+        revenueScore: 22,
+        strategicScore: 58,
+        revenueScale: 1,
+        architectureLayer: '业务应用层',
+        strategicRole: '法规驱动线',
+        launchTime: '2020 年代随 ESG、CSRD 和碳核算需求强化',
+        description: '解决碳足迹、产品足迹、供应链合规、包装责任和可持续报表的数据收集与计算问题。',
+        features: '优势不在单独 ESG 工具，而在接入 ERP、采购、生产和供应链数据。',
+        sapPosition: '长期法规驱动线，短期不是最大收入主线。',
+        revenueContribution: '当前收入贡献较低，但法规会持续制造需求。',
+        marketPosition: 'ESG 软件竞争分散，SAP 的优势是能直接接入核心业务数据。',
+        strategicDirection: '把可持续披露从手工报表变成嵌入业务流程的数据产品。',
+        products: ['Product Footprint Management', 'Sustainability Control Tower', 'Responsible Design and Production']
+      },
+      {
+        id: 'cx',
+        name: 'Customer Experience',
+        shortName: 'CX',
+        revenueScore: 36,
+        strategicScore: 38,
+        revenueScale: 2,
+        architectureLayer: '业务应用层',
+        strategicRole: '边缘维持',
+        launchTime: 'Hybris 2013 收购；后续整合为 SAP Customer Experience',
+        description: '解决销售自动化、客户服务、电商交易和客户互动管理问题。',
+        features: '更依赖 SAP 老客户交叉销售，独立产品体验和生态叙事弱于前台软件强者。',
+        sapPosition: '非核心，更多作为 Business Suite 的业务域补充。',
+        revenueContribution: '未单独披露完整收入，相比 ERP、Spend、HCM 和 BTP 战略权重较弱。',
+        marketPosition: '面对 Salesforce、HubSpot、Shopify 等强势生态，独立获客难度大。',
+        strategicDirection: '服务 SAP 老客户端到端流程，而非成为独立增长中心。',
+        products: ['Sales Cloud', 'Service Cloud', 'Commerce Cloud', 'Emarsys']
+      },
+      {
+        id: 'sme',
+        name: 'SME Products',
+        shortName: 'SME',
+        revenueScore: 28,
+        strategicScore: 30,
+        revenueScale: 1,
+        architectureLayer: 'SME / 边缘层',
+        strategicRole: '边缘维持',
+        launchTime: 'Business One 2002 收购；ByDesign 2007 发布；GROW with SAP 2023 强化',
+        description: '解决中小企业财务、采购、库存、销售、生产和基础运营管理问题。',
+        features: '有存量客户和伙伴生态，但正在被 GROW with SAP 和 S/4HANA Public Cloud 重新包装。',
+        sapPosition: '解释 SAP 的下沉路径，但不是未来主线。',
+        revenueContribution: '收入贡献低到中低，部分产品有稳定客户。',
+        marketPosition: '在特定客户群仍有存在感，但被现代云 ERP 和中端 SaaS 挤压。',
+        strategicDirection: '用 GROW with SAP、public cloud first 和伙伴生态覆盖中端市场。',
+        products: ['SAP Business One', 'SAP Business ByDesign', 'GROW with SAP']
+      }
+    ];
+
+    const REVENUE_MARKET = {
+      'cloud-erp': {
+        revenueLabel: '€18.119B',
+        revenueDisclosure: '官方披露，2025 Cloud ERP Suite',
+        marketTier: '第一梯队 / 复杂企业 ERP 领先',
+        marketNote: '不是垄断；Oracle、Microsoft Dynamics、Workday/ServiceNow 在相邻场景持续竞争。SAP 强在大型企业、复杂流程和全球集团管控。'
+      },
+      ecc: {
+        revenueLabel: '未单列',
+        revenueDisclosure: '传统 license/support 为公司级口径，不能直接拆到 ECC',
+        marketTier: '存量近似垄断 / 新增战略下降',
+        marketNote: '在老 SAP 客户现场极深，但不是未来新增市场的主线；战略作用主要是迁移推力。'
+      },
+      finance: {
+        revenueLabel: '未单列',
+        revenueDisclosure: '通常并入 Cloud ERP Suite / S/4HANA 合同',
+        marketTier: '第一梯队 / 与 Oracle 接近',
+        marketNote: '大型企业财务核心系统里 SAP 和 Oracle 都强，SAP 优势在 ERP、制造和供应链联动。'
+      },
+      spend: {
+        revenueLabel: '未单列',
+        revenueDisclosure: 'Ariba、Concur、Fieldglass 不再按产品完整披露',
+        marketTier: '细分第一 / 但第二梯队很强',
+        marketNote: 'Ariba 在采购、Concur 在差旅费控均属强势领导者；Coupa、Ivalua、GEP、Ramp、Brex、Navan 等在不同客群追赶。'
+      },
+      hcm: {
+        revenueLabel: '未单列',
+        revenueDisclosure: 'SuccessFactors 属于核心云应用组合，SAP 不完整拆分收入',
+        marketTier: '第一梯队 / 常被 Workday 压一头',
+        marketNote: 'SuccessFactors 与 Workday、Oracle HCM 同属企业 HCM 第一梯队；北美高端叙事 Workday 更强，SAP 优势在 ERP 联动。'
+      },
+      'supply-chain': {
+        revenueLabel: '未单列',
+        revenueDisclosure: 'SCM 模块通常嵌入行业转型和 S/4HANA 项目',
+        marketTier: '第一梯队 / 多强竞争',
+        marketNote: 'SAP、Oracle、Blue Yonder、Kinaxis 等分场景竞争；SAP 强在制造业 ERP 联动和执行层。'
+      },
+      btp: {
+        revenueLabel: '未单列',
+        revenueDisclosure: 'BTP 多数能力随 RISE/GROW、Business Suite 和扩展项目销售',
+        marketTier: 'SAP 生态内强势 / 通用平台不领先',
+        marketNote: '在 SAP 客户里是控制点；若放到通用开发、数据、低代码平台市场，则面对 hyperscaler 和专业平台。'
+      },
+      bdc: {
+        revenueLabel: '早期',
+        revenueDisclosure: '2025 推出，尚无可用独立收入数字',
+        marketTier: '新进入 / 追赶 Snowflake、Databricks',
+        marketNote: '战略重要度高，但市场地位仍需验证；优势在 SAP 业务语义，不在通用数据平台规模。'
+      },
+      'business-ai': {
+        revenueLabel: '早期',
+        revenueDisclosure: 'Joule/Agents 多嵌入套件或按高级能力变现',
+        marketTier: '新进入 / 追赶 Copilot 等',
+        marketNote: '不是独立 AI 市场领导者；差异化取决于能否在 SAP 流程、权限和数据语义中执行动作。'
+      },
+      'business-network': {
+        revenueLabel: '未单列',
+        revenueDisclosure: '网络收入未完整披露，通常支撑 Spend 与供应链云业务',
+        marketTier: 'B2B 网络第一梯队',
+        marketNote: '具备网络效应，强在采购、供应商、物流和交易协作；体验和灵活性仍常被挑战。'
+      },
+      signavio: {
+        revenueLabel: '未单列',
+        revenueDisclosure: '2021 收购后收入不作为主要独立口径披露',
+        marketTier: '第二梯队 / 追赶 Celonis',
+        marketNote: '流程挖掘和流程智能里 Celonis 更强；Signavio 的优势是接入 SAP 转型和 clean core。'
+      },
+      sustainability: {
+        revenueLabel: '小',
+        revenueDisclosure: '未单列，当前收入贡献较低',
+        marketTier: '分散市场 / 未形成垄断',
+        marketNote: 'ESG/碳核算市场分散；SAP 的优势来自 ERP、采购、生产和供应链数据。'
+      },
+      cx: {
+        revenueLabel: '未单列',
+        revenueDisclosure: 'CX 收入不作为 SAP 核心增长口径突出披露',
+        marketTier: '弱于第一梯队',
+        marketNote: 'Salesforce 明显领先，HubSpot、Shopify 等在不同场景强；SAP CX 更像老客户补充模块。'
+      },
+      sme: {
+        revenueLabel: '未单列',
+        revenueDisclosure: 'Business One / ByDesign / GROW 未按这个组合披露',
+        marketTier: '区域/客群型竞争',
+        marketNote: '中小企业 ERP 市场非常分散，Microsoft、Sage、NetSuite、本地厂商都强；SAP 不是绝对主导。'
+      }
+    };
+
+    function productWithMarket(product) {
+      return { ...product, ...(REVENUE_MARKET[product.id] || {}) };
+    }
+
+    function mixColor(a, b, amount) {
+      const ah = Number(a.replace('#', '0x'));
+      const bh = Number(b.replace('#', '0x'));
+      const ar = ah >> 16;
+      const ag = (ah >> 8) & 0xff;
+      const ab = ah & 0xff;
+      const br = bh >> 16;
+      const bg = (bh >> 8) & 0xff;
+      const bb = bh & 0xff;
+      const rr = ar + amount * (br - ar);
+      const rg = ag + amount * (bg - ag);
+      const rb = ab + amount * (bb - ab);
+      return '#' + ((1 << 24) + (rr << 16) + (rg << 8) + rb | 0).toString(16).slice(1);
+    }
+
+    function strategicColor(score) {
+      if (score < 55) return mixColor('#B66A5D', '#B69C46', score / 55);
+      return mixColor('#B69C46', '#2A7A70', (score - 55) / 45);
+    }
+
+    function nodeSize(product) {
+      const base = 78 + product.revenueScale * 12;
+      return {
+        width: Math.min(168, base + product.revenueScore * .24),
+        height: Math.min(68, 38 + product.revenueScale * 6)
+      };
+    }
+
+    const DISPLAY_OFFSETS = {
+      'cloud-erp': { x: -2, y: 0 },
+      'finance': { x: -6, y: 9 },
+      'spend': { x: -9, y: 34 },
+      'hcm': { x: -24, y: 30 },
+      'supply-chain': { x: 13, y: 18 },
+      'btp': { x: -4, y: -7 },
+      'bdc': { x: 2, y: 11 },
+      'business-ai': { x: -4, y: -3 },
+      'business-network': { x: -3, y: 9 },
+      'signavio': { x: 2, y: 8 },
+      'sustainability': { x: -8, y: 0 },
+      'cx': { x: -6, y: 10 },
+      'sme': { x: 7, y: 14 },
+      'ecc': { x: 7, y: 20 }
+    };
+
+    function renderMap() {
+      const map = document.getElementById('strategy-map');
+      if (!map) return;
+      map.querySelectorAll('.map-node').forEach(node => node.remove());
+      SAP_PRODUCTS.forEach(baseProduct => {
+        const product = productWithMarket(baseProduct);
+        const button = document.createElement('button');
+        const size = nodeSize(product);
+        const offset = DISPLAY_OFFSETS[product.id] || { x: 0, y: 0 };
+        const left = Math.max(8, Math.min(92, 8 + product.revenueScore * .84 + offset.x));
+        const top = Math.max(7, Math.min(92, 92 - product.strategicScore * .84 + offset.y));
+        button.type = 'button';
+        button.className = 'map-node';
+        button.dataset.product = product.id;
+        button.dataset.role = product.strategicRole;
+        button.style.left = left + '%';
+        button.style.top = top + '%';
+        button.style.width = size.width + 'px';
+        button.style.minHeight = size.height + 'px';
+        button.style.setProperty('--node-bg', strategicColor(product.strategicScore) + '33');
+        button.innerHTML = `
+          <span class="map-node-title">${product.shortName}</span>
+          <span class="map-node-meta">
+            <span class="map-node-role">${product.strategicRole}</span>
+            <span class="map-node-score">${product.revenueLabel || `${product.revenueScore}/${product.strategicScore}`}</span>
+          </span>`;
+        button.addEventListener('click', () => renderProductDetail(product.id));
+        map.appendChild(button);
+      });
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value || '';
+    }
+
+    function renderProductDetail(id) {
+      const product = productWithMarket(SAP_PRODUCTS.find(item => item.id === id) || SAP_PRODUCTS[0]);
+      setText('detail-layer', product.architectureLayer);
+      setText('detail-title', product.name);
+      setText('detail-description', product.description);
+      setText('detail-revenue-badge', product.revenueLabel || '未标注');
+      setText('detail-market-badge', product.marketTier || '待判断');
+      setText('detail-launch', product.launchTime);
+      setText('detail-role', product.strategicRole);
+      setText('detail-position', product.sapPosition);
+      setText('detail-revenue', `${product.revenueLabel || '未标注'}。${product.revenueDisclosure || ''}。${product.revenueContribution}`);
+      setText('detail-market', `${product.marketTier || '待判断'}。${product.marketNote || product.marketPosition}`);
+      setText('detail-direction', product.strategicDirection);
+      setText('detail-features', product.features);
+      const products = document.getElementById('detail-products');
+      if (products) {
+        products.innerHTML = product.products.map(item => `<span class="detail-chip">${item}</span>`).join('');
+      }
+      document.querySelectorAll('.map-node').forEach(node => {
+        const active = node.dataset.product === id;
+        node.classList.toggle('active', active);
+        node.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    }
+
+    function initFilters() {
+      document.querySelectorAll('.map-filter').forEach(filter => {
+        filter.addEventListener('click', () => {
+          const value = filter.dataset.filter;
+          document.querySelectorAll('.map-filter').forEach(item => item.classList.toggle('active', item === filter));
+          document.querySelectorAll('.map-node').forEach(node => {
+            node.classList.toggle('dimmed', value !== 'all' && node.dataset.role !== value);
+          });
+        });
+      });
+    }
+
+    function initAssetShareLink() {
+      const link = document.getElementById('asset-share-link');
+      const asset = document.getElementById('sap-product-strategy-map-asset');
+      if (!link || !asset) return;
+      const shareUrl = `${window.location.origin}${window.location.pathname}#${asset.id}`;
+      link.href = shareUrl;
+      link.addEventListener('click', async event => {
+        if (!navigator.clipboard) return;
+        event.preventDefault();
+        await navigator.clipboard.writeText(shareUrl);
+        const oldText = link.textContent;
+        link.textContent = '已复制组件链接';
+        setTimeout(() => { link.textContent = oldText; }, 1400);
+      });
+    }
+
+    function initStrategyMap() {
+      renderMap();
+      initFilters();
+      initAssetShareLink();
+      renderProductDetail('cloud-erp');
+    }
+
+    (async function () {
+      try {
+        if (window.location.protocol !== 'file:') {
+          await loadSiteContext();
+          const lang = getActiveLang();
+          const navMount = document.getElementById('nav-mount');
+          const footerMount = document.getElementById('footer-mount');
+          if (navMount) navMount.innerHTML = renderNav();
+          if (footerMount) footerMount.innerHTML = renderFooter(lang);
+        }
+      } catch (error) {
+        console.warn('Standalone navigation/footer skipped:', error);
+      }
+      initStrategyMap();
+    })().catch(console.error);
+  })();
+  </script>
+</body>
+</html>

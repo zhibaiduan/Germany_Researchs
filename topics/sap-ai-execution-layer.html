@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>企业 AI 的战争地图 — SAP Research</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .key-strong {
+      padding: 0 3px;
+      border-radius: 3px;
+      background: color-mix(in srgb, var(--accent-bg) 82%, transparent);
+      color: color-mix(in srgb, var(--text-1) 70%, var(--accent));
+      font-weight: 800;
+    }
+    .player-name {
+      color: color-mix(in srgb, var(--text-1) 76%, var(--accent));
+      font-weight: 800;
+    }
+    .stage-label {
+      margin-top: 30px !important;
+      margin-bottom: 10px !important;
+      color: var(--accent);
+      font-size: 17px !important;
+      line-height: 1.45 !important;
+      font-weight: 800;
+    }
+    .stage-label + p {
+      margin-top: 0 !important;
+    }
+    .stage-summary {
+      margin: 34px 0 52px !important;
+      padding: 16px 20px;
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      background: rgba(235,244,239,.64);
+      color: var(--text-1);
+      font-size: 17px !important;
+      line-height: 1.72 !important;
+      font-weight: 700;
+    }
+    .key-quote {
+      border-left-color: var(--accent) !important;
+      background: rgba(235,244,239,.58);
+    }
+    .war-map-diagram {
+      width: min(980px, 100%);
+      max-width: 100%;
+      min-width: 0;
+      margin: 34px 0 48px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.54);
+      overflow: hidden;
+    }
+    .war-map-diagram pre {
+      display: block;
+      max-width: 100%;
+      margin: 0;
+      overflow-x: auto;
+      color: var(--text-1);
+      font-size: 14px;
+      line-height: 1.65;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      white-space: pre;
+    }
+    .war-map-diagram code {
+      display: block;
+      width: max-content;
+      min-width: 100%;
+    }
+    .war-map-diagram figcaption {
+      margin-top: 12px;
+      color: var(--text-3);
+      font-size: var(--fs-annotation);
+      line-height: 1.55;
+    }
+    .diagram-label {
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: var(--fs-annotation);
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    @media (max-width: 720px) {
+      .article-content {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+      }
+      .stage-label {
+        font-size: 16px !important;
+      }
+      .stage-summary {
+        padding: 14px 16px;
+        font-size: 16px !important;
+      }
+      .war-map-diagram {
+        padding: 14px;
+      }
+      .war-map-diagram pre {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-mount"></div>
+
+  <div class="page-layout">
+
+    <aside class="global-sidebar" id="sidebar-mount"></aside>
+
+    <div class="page-content">
+  <div class="article-wrap">
+
+    <div class="breadcrumb">
+      <a href="../index.html">SAP Research</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Enterprise AI 战争地图</span>
+    </div>
+
+    <header class="article-header">
+      <div class="article-topic-label">专题 07 · Enterprise AI</div>
+      <h1 class="article-title">企业 AI 的战争地图</h1>
+      <p class="article-subtitle">谁在争夺流程执行权？</p>
+      <div class="article-meta">
+        <span class="article-meta-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          2026-06-12
+        </span>
+        <span class="article-meta-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          18 分钟阅读
+        </span>
+        <span class="tag">Enterprise AI</span>
+        <span class="tag">流程执行权</span>
+        <span class="tag">AI 战略</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+      <div class="article-content">
+<p>2026 年 5 月前后，几场企业软件发布会突然讲起了同一个故事。</p>
+
+<p><strong class="player-name">SAP</strong> 在 Sapphire 上提出 Autonomous Enterprise，<strong class="player-name">Microsoft</strong> 在 Build 上继续推进 Copilot 和 agent-first，<strong class="player-name">ServiceNow</strong> 在 Knowledge 上强调 AI Control Tower 和 autonomous workflow，<strong class="player-name">Salesforce</strong> 把 Agentforce 放到更核心的位置，<strong class="player-name">Oracle</strong> 和 <strong class="player-name">Workday</strong> 也都在把 AI agent 嵌进自己的企业应用。</p>
+
+<p>如果只听发布会，它们听起来几乎都在说同一件事：</p>
+
+<p>企业会有更多 AI agent。 工作会更自动化。 流程会更智能。 人会从重复劳动里解放出来。</p>
+
+<p>但问题也正在这里。</p>
+
+<p>当所有公司都说自己在做 enterprise AI 时，它们真的在做同一件事吗？</p>
+
+<p>一个帮员工总结会议的 Copilot，和一个处理采购异常的 <strong class="player-name">SAP</strong> agent，是同一种 AI 吗？一个客服 agent、一个 HR agent、一个财务关账 agent、一个跨系统 workflow agent，它们背后的价值、风险和控制权是一样的吗？</p>
+
+<p>这篇文章想往下挖一层。</p>
+
+<p>它不急着比较谁发布了更多功能，也不急着判断谁的 AI 战略最强。它想先回答一个更基础的问题：</p>
+
+<blockquote class="key-quote"><p>企业 AI 这场仗，到底是在争什么？</p></blockquote>
+
+<p>为了回答这个问题，文章会依次讨论四件事：</p>
+
+<ol>
+  <li>企业采用 AI 时，通常会从哪些场景切入？</li>
+  <li>Enterprise AI 领域里，主要有哪些代表玩家？</li>
+  <li>这些玩家原本占据什么位置，现在又想往哪里打？</li>
+  <li>哪些战役只是局部机会，哪些战役会影响长期格局，最终的决胜条件是什么？</li>
+</ol>
+
+<p>读完这篇文章，你不会只知道“六家公司都在做 AI agent”。</p>
+
+<p>你会更清楚地看到：<strong class="player-name">Microsoft</strong>、<strong class="player-name">SAP</strong>、<strong class="player-name">Salesforce</strong>、<strong class="player-name">ServiceNow</strong>、<strong class="player-name">Oracle</strong>、<strong class="player-name">Workday</strong> 其实是从不同地盘出发，带着不同优势，向企业 AI 的不同战场推进。</p>
+
+<p>而这张地图，才是理解企业 AI 竞争格局的起点。</p>
+
+<h2 id="一-企业-ai-的六类切入口">一、企业 AI 的六类切入口</h2>
+
+<p>企业不会抽象地“上 AI”。它们通常会从六类场景开始。</p>
+
+<p class="stage-label">第一类是个人效率。</p>
+
+<p>员工用 AI 写邮件、总结会议、生成文档、查找资料、整理表格。这是最容易扩散的一类，因为它通常不需要改造企业系统，也不直接触碰高风险业务流程。</p>
+
+<p class="stage-label">第二类是部门效率。</p>
+
+<p>销售、客服、HR、财务、采购，各自把一部分重复工作交给 AI。例如客服自动回答问题，销售自动生成跟进建议，HR 自动筛简历，财务自动解释异常，采购自动整理供应商信息。</p>
+
+<p class="stage-label">第三类是流程自动化。</p>
+
+<p>这里 AI 不再只是帮一个人或一个部门，而是开始跨系统、跨角色推动流程。例如一个订单卡住了，AI 需要查 CRM、ERP、库存、信用额度、付款状态、物流信息，再判断下一步应该找谁处理。</p>
+
+<p class="stage-label">第四类是核心业务执行。</p>
+
+<p>AI 开始接触订单、发票、合同、付款、库存、供应商、员工主数据和成本中心。这一层最难，因为企业不会轻易让 AI 动这些东西。它未必在每个企业里都是“单次价值最高”的场景，但它一旦进入，就会产生很强的锁定效应：企业如果允许某个平台进入核心流程执行层，之后就不会轻易换掉。</p>
+
+<p class="stage-label">第五类是数据智能。</p>
+
+<p>企业把 AI 用在数据理解、预测、异常识别、管理分析和知识图谱上。它可以是独立场景，例如 BI、预测、经营分析；也可以成为其他 AI agent 的上下文底座。</p>
+
+<p class="stage-label">第六类是治理安全。</p>
+
+<p>这里不是说企业会单独买一个“治理 AI”来替自己做业务，而是说：只要 AI 想进入流程自动化和核心业务执行，就必须有权限、审计、合规、责任、成本控制和人工审批机制。治理安全更像高价值 AI 的准入层。</p>
+
+<p>介绍完这六类场景后，我们会发现：它们不是等价值并列的六个市场。</p>
+
+<p>它们更像一张有主线、有底座、有进入门槛的关系图。</p>
+
+<figure class="article-figure war-map-diagram">
+  <div class="diagram-label">Figure 01</div>
+  <pre><code>              数据智能
+    提供上下文、预测、解释、语义
+                  │
+个人效率 → 部门效率 → 流程自动化 → 核心业务执行
+低价值/高扩散                         高价值/高控制
+                  │
+              治理安全
+    权限、审计、合规、责任、成本控制</code></pre>
+  <figcaption>图：企业 AI 的六类切入口，从个人效率走向核心业务执行。</figcaption>
+</figure>
+
+<p>这张图里，横向递进的是 AI 从“辅助个人”走向“推动业务流程”的主线。</p>
+
+<p>个人效率扩散最快，但替代成本低，供应商也多。部门效率开始有更清楚的 ROI。流程自动化进入真正的企业运营。核心业务执行最难，但一旦被某个平台拿下，客户迁移成本会非常高。</p>
+
+<p>下方的治理安全要单独拎出来，是因为它不是某一个部门的效率工具，而是 AI 能不能进入深层流程的前提。</p>
+
+<p>一个 AI 可以帮人写邮件，企业不太紧张；但如果它要创建采购订单、放行付款、修改员工记录、调整库存，那企业一定会问：谁批准的？能不能回滚？出了错谁负责？审计日志在哪里？所以治理安全更像一条底线：越往流程自动化和核心业务执行走，越需要权限、审计、合规、责任和人工介入机制。</p>
+
+<p>上方的数据智能则是另一种东西。它可以单独创造价值，比如做经营分析、预测、异常识别、流程诊断；但当 AI 想进入更复杂的业务流程时，数据智能就不只是“看数据”，而是要帮助 AI 理解业务。</p>
+
+<p>也就是说，AI 不只是知道“这里有一张表”，而是要知道客户、订单、合同、供应商、物料、成本中心之间是什么关系。没有这层理解，它可以做报表和总结，但很难可靠地进入跨部门、跨系统的复杂流程。</p>
+
+<p class="stage-summary"><strong class="key-strong">所以，企业 AI 的价值不是平均分布的。</strong></p>
+
+<h2 id="二-enterprise-ai的六个玩家">二、Enterprise AI的六个玩家</h2>
+
+<p>理解完企业可能从哪些场景采用 AI，下一步是看玩家。</p>
+
+<p>如果你不是企业软件行业里的人，面对 Enterprise AI 这个市场，第一反应很可能是：这里到底有哪些主要玩家？</p>
+
+<p>这篇文章先选六个最重要的企业软件玩家：<strong class="player-name">Microsoft</strong>、<strong class="player-name">SAP</strong>、<strong class="player-name">Salesforce</strong>、<strong class="player-name">ServiceNow</strong>、<strong class="player-name">Oracle</strong>、<strong class="player-name">Workday</strong>。</p>
+
+<p>它们不是所有玩家，也不覆盖所有 AI 公司。但如果我们想理解大型企业采用 AI 时的主战场，这六家公司基本代表了几个最关键的入口：办公协同、ERP、CRM、workflow、数据库/云应用、HCM。</p>
+
+<p>先让它们出场。</p>
+
+<p><strong class="player-name">Microsoft</strong> 像办公楼里的总入口管理员，也像企业的云基础设施商。员工每天打开 Office、Teams、Outlook、Excel、GitHub，很多企业的开发和数据能力也跑在 Azure 上。所以 <strong class="player-name">Microsoft</strong> 最接近“人每天在哪里工作”这个入口。它的天然优势是工作入口、协同、云和开发者生态。天然短板是，它不直接掌握深层 ERP、供应链和制造流程里的业务事实。</p>
+
+<p><strong class="player-name">SAP</strong> 像企业后场的总账本和流程总管。很多大企业的财务、采购、供应链、制造、库存事实都在 <strong class="player-name">SAP</strong> 里。<strong class="player-name">SAP</strong> 的优势不是入口，而是“真实业务世界的底账”：订单、物料、供应商、发票、成本中心、审批和审计。但它的短板也明显：员工日常入口弱，体验重，迁云和流程标准化都很慢。</p>
+
+<p><strong class="player-name">Salesforce</strong> 像企业前台的客户关系和收入流程指挥官。销售、客服、营销、客户成功，这些收入前台流程大量发生在 <strong class="player-name">Salesforce</strong> 体系里。它最懂客户交互、销售服务数据和收入流程；但它离财务、库存、制造、供应链这些后场核心流程较远。</p>
+
+<p><strong class="player-name">ServiceNow</strong> 像企业内部工单和流程调度中心。IT 工单、员工服务、安全事件、变更管理、跨部门 workflow，是它的强项。它不一定拥有核心交易记录，但它很懂“一个请求如何被分派、处理、升级、关闭和审计”。</p>
+
+<p><strong class="player-name">Oracle</strong> 像数据库堡垒加全栈应用云。它长期拥有 <strong class="player-name">Oracle</strong> Database，也有 Fusion Apps 和 OCI。它的逻辑是：数据库、企业应用、云基础设施都在自己体系里，AI 可以在数据所在的位置推理和执行。它的优势是数据库、财务云、应用和云闭环；难点是，在 <strong class="player-name">SAP</strong> 已经深度占据的大型 ERP 存量里，替换成本很高。</p>
+
+<p><strong class="player-name">Workday</strong> 像人力和组织数据管家。它最强的是 HCM，也就是人力资本管理：招聘、入职、组织架构、薪酬、绩效、人才、排班、离职。后来它也扩展到部分财务管理。<strong class="player-name">Workday</strong> 不一定能成为完整企业运行层，但在人、组织和部分财务场景里，它的数据很有价值。</p>
+
+<p>介绍完它们之后，我们再把它们横向拉起来看，就会发现：它们并不是站在同一个起跑线上。</p>
+
+<p>如果把六家公司的原始地盘画成一张图，大概是这样：</p>
+
+<figure class="article-figure war-map-diagram">
+  <div class="diagram-label">Figure 02</div>
+  <pre><code>               Microsoft
+          工作入口 / 云 / 开发者
+
+Salesforce                              ServiceNow
+客户流程 / 收入前台                  工单 / 服务 / workflow
+
+                 SAP
+    ERP / 财务 / 供应链 / 制造核心流程
+
+Oracle                                  Workday
+数据库 / 云 / 应用闭环                人力 / 组织 / 财务局部</code></pre>
+  <figcaption>图：六个 Enterprise AI 玩家原始地盘示意。</figcaption>
+</figure>
+
+<p>这就是后续判断的起点：每家公司的 AI 战略，都在放大自己的原始优势，也都在试图跨过自己的原始短板。</p>
+
+<h2 id="三-六个玩家都想做什么">三、六个玩家都想做什么？</h2>
+
+<p>接下来，假设这六个玩家都已经站上舞台。</p>
+
+<p>我们可以像采访它们一样问同一个问题：</p>
+
+<blockquote class="key-quote"><p>你现在讲的 AI 战略，到底想做什么？</p></blockquote>
+
+<p><strong><strong class="player-name">Microsoft</strong> 会说：</strong>“我先不和你争 ERP。你每天早上打开电脑，先进的是 Outlook、Teams、Word、Excel、SharePoint；开发者写代码，用的是 GitHub 和 VS Code；企业跑应用和数据，很多也在 Azure 上。所以我的问题不是‘AI 能不能进入一个系统’，而是‘AI 能不能出现在每个人每天工作的地方’。Copilot 是入口，Work IQ 负责理解邮件、会议、文档、人员关系这些工作上下文，Copilot Studio 和 Foundry 让企业自己造 agent。等这些 agent 站稳了，我再通过 Graph、Fabric 和连接器，往你的业务流程里走。”</p>
+
+<p>这很像 <strong class="player-name">Microsoft</strong> 的性格：先占入口，再铺平台，再让开发者和生态把触角伸出去。它不会说自己比 <strong class="player-name">SAP</strong> 更懂采购订单，但它会说自己更懂“工作发生在哪里”。</p>
+
+<p><strong><strong class="player-name">SAP</strong> 会说：</strong>“企业 AI 不能只靠模型，也不能只靠聊天框。我的客户跑的是财务、采购、供应链、制造、库存和合规流程，‘差不多答对’是不够的。我要做的是让 agent 拿到真正的 business context。Business Data Cloud 管受治理的数据底座，Knowledge Graph 给 agent 一张业务实体、流程和关系的地图，Domain Models 让 AI 理解 <strong class="player-name">SAP</strong> 里的业务对象，Joule Studio 让企业构建自己的 agent，Autonomous Suite 则把这些 agent 放进 Finance、Spend、Supply Chain、HCM、CX 这些真实流程里。”</p>
+
+<p>这也很 <strong class="player-name">SAP</strong>：它不从“我有一个更聪明的助手”开始，而是从“我掌握业务语义、流程、权限和审计”开始。它要证明的是，企业 AI 的关键不只是生成答案，而是理解上下文之后能不能安全地执行。</p>
+
+<p><strong><strong class="player-name">Salesforce</strong> 会说：</strong>“我最关心客户。你的销售怎么跟进线索，客服怎么解决问题，营销怎么触达客户，客户成功怎么续约，这些都在我的世界里。Agentforce 360 不是一个孤立机器人，而是把 humans、apps、agents、data 连在一起。Customer 360 是客户记录，Data 360 和 Intelligent Context 让 agent 拿到结构化和非结构化上下文，Agentforce Builder 让团队构建 agent，Agent Script 让行为更可控，Agentforce Voice 让它进入电话和客服场景。还有 Slack，我希望它成为人和 agent 一起工作的地方。”</p>
+
+<p><strong class="player-name">Salesforce</strong> 的语气通常更接近增长、客户体验和前台收入流程。它不需要一开始就进入制造和库存，它先要证明：销售、客服、营销这些离收入最近的场景，可以最快看到 agent 的价值。</p>
+
+<p><strong><strong class="player-name">ServiceNow</strong> 会说：</strong>“你们都在造 agent，但企业真正会遇到的问题是：谁知道这些 agent 有多少？谁批准它们？谁看它们做了什么？谁能在出问题时停掉它们？现在很多企业已经有 shadow AI，部门自己用工具，IT 不知道，合规也看不见。我想做的不是某一个业务应用，而是把 AI chaos 变成 control。AI Control Tower、Universal AI Gateway、Agent Registry、Agent Testing &amp; Evaluation、Agent Observability，这些东西的目的，是让企业能在一个统一视图里治理模型、agent、数据源和工作流。”</p>
+
+<p>这很像 <strong class="player-name">ServiceNow</strong>：它不急着宣称自己拥有所有业务数据，而是把自己放在 workflow 和控制塔的位置。它要赢的不是“哪个 agent 最聪明”，而是“企业多 agent 之后，谁来编排和治理”。</p>
+
+<p><strong><strong class="player-name">Oracle</strong> 会说：</strong>“我不想把 AI 做成外挂。我做的是 Fusion Agentic Applications。我的 agent 生在 <strong class="player-name">Oracle</strong> Fusion Cloud Applications 里面，可以直接访问企业数据、workflow、policy、approval hierarchy、permissions 和 transactional context。它们不是只建议下一步，而是围绕一个业务目标，在既有安全框架里推进 Finance、HR、Supply Chain、CX 等流程。再加上 <strong class="player-name">Oracle</strong> Database、OCI 和 AI Agent Studio，客户可以在同一套体系里构建、运行和衡量 agentic applications。”</p>
+
+<p><strong class="player-name">Oracle</strong> 的口吻会很工程化，也很全栈。它的核心论点是：AI 如果原生嵌在交易系统里，比外挂 copilot 更接近执行。但它也绕不开一个现实：很多企业的核心 ERP 存量并不在 <strong class="player-name">Oracle</strong>，尤其在 <strong class="player-name">SAP</strong> 很深的行业里。</p>
+
+<p><strong><strong class="player-name">Workday</strong> 会说：</strong>“我不需要覆盖企业的一切。我先把 people 和 money 管好。<strong class="player-name">Workday</strong> 每年处理超过 1 trillion transactions，里面有员工、岗位、技能、绩效、薪酬、组织结构、成本和财务流程。Illuminate 要把这些 HR 和 Finance 上下文变成 purpose-built agents，帮你做招聘、人才流动、排班、薪酬、财务审计、合同和计划。Agent System of Record 则把 agent 当成一种新的 workforce 来管理：它是谁，能做什么，访问什么数据，成本多少，ROI 如何，是否合规。”</p>
+
+<p><strong class="player-name">Workday</strong> 的叙事很聚焦：人、组织、财务，以及未来人与 agent 共存的 workforce 管理。它不会假装自己是全企业运行层，但它会强调：在人和组织这块数据上，它比别人更干净、更深。</p>
+
+<p>六家公司说完，差异就出来了。</p>
+
+<p><strong class="player-name">Microsoft</strong> 从员工入口和开发者生态出发，最容易先吃个人效率、部门效率和轻量流程自动化；<strong class="player-name">SAP</strong> 从核心业务流程和业务语义出发，最自然地进入流程自动化和核心业务执行；<strong class="player-name">Salesforce</strong> 从客户前台和收入流程出发，先吃销售、客服、营销；<strong class="player-name">ServiceNow</strong> 从 workflow 和治理出发，想做多 agent 世界里的调度与控制；<strong class="player-name">Oracle</strong> 从数据库、应用、云的闭环出发，想证明原生嵌入交易系统的 agent 更适合执行；<strong class="player-name">Workday</strong> 从 HCM 和 Finance 出发，守住人、组织和部分财务这块局部高价值地盘。</p>
+
+<p>把这些路线放到一张沙盘图里，可以想象成每个玩家都有自己的根据地，也都有自己的进攻箭头：</p>
+
+<figure class="article-figure war-map-diagram">
+  <div class="diagram-label">Figure 03</div>
+  <pre><code>外层：工作入口
+Microsoft Teams / Office / Copilot
+Salesforce Slack
+SAP Joule Work
+ServiceNow Employee Center
+
+    ↓ 向内打
+
+中层：Agent 构建与流程编排
+Copilot Studio / Agentforce / Joule Studio
+ServiceNow AI Agents / Oracle AI Agent Studio
+
+    ↓ 向高价值流程打
+
+内层：业务流程与核心记录
+SAP ERP / Oracle Fusion / Salesforce CRM / Workday HCM / ServiceNow ITSM
+
+    ↓
+
+核心：受控流程执行权
+订单、库存、合同、发票、付款、员工、供应商、成本中心</code></pre>
+  <figcaption>图：Enterprise AI 玩家从各自根据地向流程执行权推进。</figcaption>
+</figure>
+
+<p><strong class="player-name">Microsoft</strong> 是从外层入口往里打，想把个人效率和办公协同变成更深的业务流程入口。</p>
+
+<p><strong class="player-name">SAP</strong> 是从内核往外打，想把 ERP 流程、业务语义和权限审计包装成 autonomous enterprise。</p>
+
+<p><strong class="player-name">Salesforce</strong> 从客户流程往收入执行打，想把 CRM 场景里的部门效率升级成客户流程控制层。</p>
+
+<p><strong class="player-name">ServiceNow</strong> 从 workflow 往企业流程控制层打，想让企业里不同 agent、不同服务请求、不同系统动作都经过它的调度和治理。</p>
+
+<p><strong class="player-name">Oracle</strong> 从数据库、应用和云的闭环往 AI 执行打，想证明全栈一体化能让 AI 更安全、更接近数据、更容易落地。</p>
+
+<p><strong class="player-name">Workday</strong> 则守住 HCM 和 Finance 的局部高地，想证明人和组织数据本身就是一个足够深的 AI 战场。</p>
+
+<p class="stage-summary"><strong class="key-strong">Enterprise AI 的竞争，不是所有人打一场仗，而是很多场局部战役叠在一起。</strong></p>
+
+<h2 id="四-哪些战役已经打响-哪些会决定总战争">四、哪些战役已经打响，哪些会决定总战争</h2>
+
+<p>现在已经能看到几场战役打响了。</p>
+
+<p><strong>第一场，是 AI 工作入口战。</strong></p>
+
+<p>这场仗打的是：企业员工每天在哪里和 AI 一起工作。<strong class="player-name">Microsoft</strong> 最强，因为 Office、Teams、Outlook、Excel、GitHub 本来就是知识工作者的日常入口。<strong class="player-name">Salesforce</strong> 有 Slack，<strong class="player-name">SAP</strong> 有 Joule，<strong class="player-name">ServiceNow</strong> 也有 Employee Center 和 workflow 入口。</p>
+
+<p>这是一场高扩散战役，但不是最终战役。入口决定 adoption，却不自动等于流程控制。员工每天在 Teams 里问 Copilot，并不代表 <strong class="player-name">Microsoft</strong> 自动掌握了采购、库存、付款和关账流程。</p>
+
+<p><strong>第二场，是 Agent 构建平台战。</strong></p>
+
+<p>这场仗打的是：企业和生态伙伴会在哪里开发、部署和管理自己的 agent。</p>
+
+<p><strong class="player-name">Microsoft</strong> 有 Copilot Studio 和 Azure AI Foundry，<strong class="player-name">Salesforce</strong> 有 Agentforce，<strong class="player-name">SAP</strong> 有 Joule Studio，<strong class="player-name">Oracle</strong> 有 AI Agent Studio，<strong class="player-name">ServiceNow</strong> 也在做自己的 agent 与 workflow 编排能力。</p>
+
+<p>它的性质是生态战。但这里也有“凑热闹”的成分：今天几乎每个企业软件厂商都必须说自己有 agent builder。真正要看的不是有没有 builder，而是客户和 SI 伙伴是否真的用它构建生产级 agent，这些 agent 是否能接入真实权限、数据、流程和审计。</p>
+
+<p><strong>第三场，是客户交互 agent 战。</strong></p>
+
+<p>这场仗打的是销售、客服、营销和客户成功。<strong class="player-name">Salesforce</strong> 是最自然的核心玩家，<strong class="player-name">Microsoft</strong> 会通过 Dynamics、Teams 和 Copilot 参与，<strong class="player-name">ServiceNow</strong> 会在客服、服务请求和 workflow 上重叠，<strong class="player-name">SAP</strong> CX 也会参与。</p>
+
+<p>这场战役最容易证明 ROI：客服降本、销售提效、营销提升转化，业务部门也更容易买单。但它卖的是效果，竞争和替换也会更快。它是局部高价值战役，不一定是长期总战役。</p>
+
+<p><strong>第四场，是数据语义战。</strong></p>
+
+<p>这场仗打的是：AI 到底懂不懂企业业务。</p>
+
+<p><strong class="player-name">SAP</strong> 会强调 Business Data Cloud、Knowledge Graph 和业务对象语义；<strong class="player-name">Microsoft</strong> 会强调 Graph、Fabric 和企业知识上下文；<strong class="player-name">Salesforce</strong> 有 Data 360；<strong class="player-name">ServiceNow</strong> 有 Workflow Data Fabric；<strong class="player-name">Oracle</strong> 则会强调 <strong class="player-name">Oracle</strong> Database、Fusion Apps 和 OCI 里的数据闭环。</p>
+
+<p>数据语义战不如入口战显眼，却是底座战役。没有业务语义，AI 可以总结、问答、写文档，但很难可靠地进入复杂流程。</p>
+
+<p><strong>第五场，是治理与审计战。</strong></p>
+
+<p>这场仗打的是：企业敢不敢让 AI 进入高风险场景。</p>
+
+<p>当 AI 只是帮人写邮件时，治理不是最大问题。但当 AI 要放行付款、改库存、处理合同、修改员工记录、触发审批时，企业一定会问：谁授权的？做了什么？能不能回滚？出了错谁负责？审计日志在哪里？</p>
+
+<p>所以治理与审计是准入战役。<strong class="player-name">ServiceNow</strong> 会很积极，<strong class="player-name">Microsoft</strong>、<strong class="player-name">SAP</strong>、<strong class="player-name">Oracle</strong>、<strong class="player-name">Workday</strong> 也都会强调权限、合规、审计、责任和 agent 管理。</p>
+
+<p><strong>第六场，是核心业务流程执行战。</strong></p>
+
+<p class="stage-summary"><strong class="key-strong">这才是最关键的一场。</strong></p>
+
+<p><strong class="key-strong">它打的是：谁能让 AI 在企业真实流程里触发动作、修改状态、推进审批、处理异常，并留下可审计的记录。</strong></p>
+
+<p><strong class="player-name">SAP</strong> 和 <strong class="player-name">Oracle</strong> 是最天然的核心玩家，因为它们原本就掌握 ERP、财务、供应链、采购、库存这些后场流程。<strong class="player-name">ServiceNow</strong> 会从 workflow 和跨系统编排切入。<strong class="player-name">Salesforce</strong> 会从客户流程往订单、服务和收入流程延伸。<strong class="player-name">Microsoft</strong> 会从入口、开发者生态和连接器往里打。</p>
+
+<p>这场战役最难、最慢，但商业质量最高。因为它不再只是“帮员工提高效率”，而是变成企业运行机制的一部分。</p>
+
+<p><strong>第七场，是 HCM 和组织智能战。</strong></p>
+
+<p>这场仗集中在人、组织、岗位、技能、薪酬、绩效、招聘、排班和部分财务流程。<strong class="player-name">Workday</strong> 是最典型的玩家，<strong class="player-name">SAP</strong> SuccessFactors、<strong class="player-name">Oracle</strong> HCM、<strong class="player-name">Microsoft</strong> 也会参与。</p>
+
+<p>它不像 ERP 那样覆盖整个企业运行层，但人和组织数据敏感、稳定、难替换，所以这是一个局部高价值战场。</p>
+
+<p>这些战役不能平铺理解。它们之间有层级关系。</p>
+
+<p>最高层是总战役：高价值流程执行权。关键词不是“回答”，而是“执行”：触发动作、修改状态、推进审批、生成记录、处理异常。它之所以重要，是因为它同时影响经营结果、替换成本、数据吸附能力和战略控制。</p>
+
+<p>支撑它的是几类关键战役：业务事实与语义、治理与审计、工作入口、实施生态。它们本身重要，但意义在于让 AI 有能力、被允许、被使用，并最终落到生产环境。</p>
+
+<p>客户交互、HCM、IT 工单、办公效率、BI 问答这些则是局部战役。它们可能最先产生 ROI，也可能形成部门级优势，但上限取决于能不能接近流程执行层。</p>
+
+<p>数据智能相对独立。它可以单独创造价值，比如 BI、经营分析、预测、流程挖掘、数据治理；但越靠近流程执行，越需要业务语义。</p>
+
+<p>所以，战役关系可以画成这样：</p>
+
+<figure class="article-figure war-map-diagram">
+  <div class="diagram-label">Figure 04</div>
+  <pre><code>                     总战役
+             高价值流程执行权
+    触发动作 / 修改状态 / 推进审批 / 处理异常
+
+        ↑             ↑             ↑
+    支撑战役       支撑战役       支撑战役
+  业务事实语义     治理与审计     工作入口
+        ↑             ↑             ↑
+             实施生态贯穿其中
+
+    局部战役：客服 / 销售 / HR / IT / 办公 / BI
+    相对独立战役：数据智能，但越深入执行越需要业务语义</code></pre>
+  <figcaption>图：战役关系图，总战役是高价值流程执行权。</figcaption>
+</figure>
+
+<h2 id="五-什么决定胜负-主战场与支撑战场的资源条件">五、什么决定胜负：主战场与支撑战场的资源条件</h2>
+
+<p>上一节里，我们把 Enterprise AI 的战役分成了几类：主战场是高价值流程执行权，支撑战场是数据语义、治理审计、工作入口、agent 构建平台和实施生态，客户交互、HCM、IT workflow 则更像局部高价值战场。</p>
+
+<p>定义完战场之后，还需要继续问一个问题：</p>
+
+<blockquote class="key-quote"><p>如果主战场是受控的流程执行权，那么什么样的玩家，才有资格赢下这个主战场？</p></blockquote>
+
+<p>答案不能只看模型、界面或发布了多少 agent。</p>
+
+<p>因为 enterprise AI 一旦进入流程执行层，它面对的就不再只是软件体验问题，而是企业运营问题。一个总结会议的 agent，主要看模型能力、入口位置和交互体验；但一个处理采购异常、推进付款审批、修改库存状态或调整员工主数据的 agent，必须回答另一组问题。</p>
+
+<p>第一，它能不能执行高价值动作。</p>
+
+<p>企业系统里真正有价值的动作，往往是创建订单、放行付款、匹配发票、触发审批、修改库存、更新员工记录、处理合同异常。这些动作会影响收入、成本、现金流、合规和客户交付。谁能让 AI 被授权做这些事，谁就不只是占了一个功能点，而是进入了企业运行机制。</p>
+
+<p>第二，它懂不懂业务事实与语义。</p>
+
+<p>订单、发票、供应商、物料、合同、库存、成本中心、员工，不是普通字段，而是企业运行里的真实对象。AI 如果不理解这些对象之间的关系，最多只能总结、问答、推荐，很难可靠执行。所以 system of record 玩家会有天然优势，因为它们掌握的是业务事实本身。</p>
+
+<p>第三，企业敢不敢让它执行。</p>
+
+<p>越接近核心流程，企业越关心权限、审批、回滚、审计、责任和合规。治理不是附加功能，而是流程执行的准入条件。没有治理，AI 越强，企业越不敢放它进核心流程。</p>
+
+<p>第四，它有没有入口和实施能力。</p>
+
+<p>入口决定 AI 能不能被员工看见、使用和信任；实施生态决定它能不能从 demo 进入生产。大企业 AI 通常涉及数据治理、权限设计、流程重组、系统集成、审计规则和变更管理，不是开通一个功能就结束了。</p>
+
+<p>第五，模型和界面体验重要，但更多是入场券。</p>
+
+<p>模型会被替换，界面会被模仿，单点能力会被平台吸收。真正难复制的是业务事实、权限体系、审计机制、流程嵌入和客户既有系统里的位置。</p>
+
+<p>这也解释了前端 agent 和流程执行 agent 的差别：销售、客服、营销 agent 卖的是增量效果，效果好就有人付费，但竞争和替换也会更快；流程执行 agent 卖的是运营依赖，一旦嵌进关键流程，就更容易形成高续费、高客单价和高替换成本。</p>
+
+<p>把这些条件放在一起看，可以得到一张粗略的资源图。这里不是精确打分，而是看每个玩家在主战场和支撑战场上有什么天然优势、哪里还需要补课。</p>
+
+<figure class="article-figure war-map-diagram">
+  <div class="diagram-label">Figure 05</div>
+  <pre><code>玩家          流程执行权   业务语义     治理审计     入口采用     实施生态     主战场位置
+
+SAP           强          强          强          弱-中       强          主战场核心玩家
+Oracle        强          强          中-强       中          中-强       主战场核心玩家
+Microsoft     中          中          强          强          强          从入口进攻主战场
+Salesforce    中          中-强       中          强          强          客户流程强玩家
+ServiceNow    中-强       中          强          中          强          workflow/治理强玩家
+Workday       中          强          中          中          中          HCM 局部高地玩家</code></pre>
+  <figcaption>表：玩家在主战场和支撑战场上的资源条件。</figcaption>
+</figure>
+
+<p>这张图的重点不是谁比谁多半分，而是让我们看见不同玩家的“天时地利人和”。</p>
+
+<p><strong class="player-name">SAP</strong> 和 <strong class="player-name">Oracle</strong> 最接近主战场，因为它们离 ERP、财务、采购、供应链、制造、库存这些业务内核最近。<strong class="player-name">SAP</strong> 的挑战是入口弱、体验重、迁云慢；<strong class="player-name">Oracle</strong> 的挑战是 <strong class="player-name">SAP</strong> 存量、客户既有系统和实施生态惯性。</p>
+
+<p><strong class="player-name">Microsoft</strong> 的位置最特殊。它不是从业务内核出发，而是从工作入口、云、开发者和生态往里打。它的扩散能力最强，但业务事实不一定在它手里。</p>
+
+<p><strong class="player-name">Salesforce</strong>、<strong class="player-name">ServiceNow</strong>、<strong class="player-name">Workday</strong> 更像局部高地玩家。<strong class="player-name">Salesforce</strong> 强在客户交互和收入流程，<strong class="player-name">ServiceNow</strong> 强在 workflow、治理和跨系统编排，<strong class="player-name">Workday</strong> 强在人、组织和部分财务数据。它们未必赢下整个主战场，但都可能在自己的高价值区域形成很深的利润池。</p>
+
+<p>如果再把这些玩家放回上一节的战场分类里，态势大概是这样：</p>
+
+<figure class="article-figure war-map-diagram">
+  <div class="diagram-label">Figure 06</div>
+  <pre><code>主战场：受控的高价值流程执行权
+核心竞争者：SAP、Oracle、Microsoft
+边缘进攻者：Salesforce、ServiceNow
+
+支撑战场一：业务事实与语义
+领先者：SAP、Oracle、Workday、Salesforce
+追赶者：Microsoft、ServiceNow
+
+支撑战场二：治理与审计
+领先者：ServiceNow、SAP、Microsoft、Oracle
+局部玩家：Workday、Salesforce
+
+支撑战场三：入口与采用
+领先者：Microsoft
+局部强者：Salesforce/Slack、ServiceNow、SAP Joule、Workday
+
+支撑战场四：实施生态
+领先者：Microsoft、SAP、Salesforce、ServiceNow
+强参与者：Oracle、Workday
+
+局部高价值战场
+客户交互：Salesforce、Microsoft、ServiceNow
+HCM/组织智能：Workday、SAP、Oracle、Microsoft
+IT/员工服务 workflow：ServiceNow、Microsoft</code></pre>
+  <figcaption>图：主战场、支撑战场与局部高价值战场分布。</figcaption>
+</figure>
+
+<p>所以 Enterprise AI 不太可能是单一玩家赢家通吃。</p>
+
+<p>大企业本来就是混合架构：<strong class="player-name">SAP</strong> + <strong class="player-name">Microsoft</strong> + <strong class="player-name">Salesforce</strong> + <strong class="player-name">Workday</strong> + <strong class="player-name">ServiceNow</strong> + <strong class="player-name">Oracle</strong> + Excel + 自研系统。不同流程的 system of record 不同，AI agent 要执行动作，必须跨系统协作。治理责任、数据主权和合规要求，也会让企业保留多供应商结构。</p>
+
+<p>更可能出现的格局是：<strong>主战场核心玩家、支撑战场控制者和局部高地赢家并存。</strong></p>
+
+<p>如果只看主战场，<strong class="player-name">SAP</strong> 和 <strong class="player-name">Oracle</strong> 最接近业务内核，<strong class="player-name">Microsoft</strong> 最有能力从入口和生态向内打。</p>
+
+<p>如果看支撑战场，<strong class="player-name">ServiceNow</strong> 在治理和 workflow 上可能非常关键，<strong class="player-name">Microsoft</strong>、<strong class="player-name">SAP</strong>、<strong class="player-name">Oracle</strong> 也都会在这里加码。</p>
+
+<p>如果看局部高价值战场，<strong class="player-name">Salesforce</strong> 和 <strong class="player-name">Workday</strong> 仍然可能形成很深的利润池。</p>
+
+<p>所以，Enterprise AI 的竞争不会只有一个赢家。但它也不是没有主线。</p>
+
+<p class="stage-summary"><strong class="key-strong">主线仍然是：谁能被企业授权，在受控条件下执行高价值流程。</strong></p>
+
+<h2 id="结论-企业-ai-的胜负-不在最吵的地方">结论：企业 AI 的胜负，不在最吵的地方</h2>
+
+<p><strong class="key-strong">Enterprise AI 最热闹的地方，是入口和发布会。</strong></p>
+
+<p><strong class="key-strong">但最值钱的地方，往往更安静：订单、发票、库存、合同、付款、员工、供应商、成本中心，以及这些对象背后的权限、审计、流程和责任。</strong></p>
+
+<p>个人效率会最快普及。部门效率会最早产生可见 ROI。客户服务、销售、IT 工单会率先出现大量 agent 用例。</p>
+
+<p>但决定长期格局的，是更深的东西：谁掌握业务事实，谁理解流程语义，谁能被授权执行，谁能被审计和追责，谁有生态把它落到复杂企业里。</p>
+
+<p>所以，Enterprise AI 的竞争不会简单变成“模型大战”，也不会只是“办公入口大战”。它更像一场从不同方向争夺企业流程执行权的战争。</p>
+
+<p>最后可能没有一个绝对赢家。但一定会有高价值地盘。</p>
+
+<p>而那块地盘的名字，可能不是“AI 助手”，而是：</p>
+
+<blockquote class="key-quote"><p><strong class="key-strong">受控的企业流程执行权。</strong></p></blockquote>
+
+      </div>
+      <aside class="toc-panel">
+        <div class="toc-inner" id="toc"></div>
+      </aside>
+    </div>
+
+  </div>
+    </div>
+
+  </div>
+
+  <script src="../config.js?v=20260607-map-asset"></script>
+  <script src="../assets/script.js?v=20260607-map-asset"></script>
+</body>
+</html>

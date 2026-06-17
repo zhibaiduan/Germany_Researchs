@@ -159,6 +159,14 @@ async function collectGalleryItems(lang) {
   lang = lang || getActiveLang();
   const cfg = RESEARCH_CONFIG;
 
+  const explicitItems = (cfg.galleryAssets || []).map(item => ({
+    src: item.src,
+    alt: loc(item.alt, lang) || '',
+    caption: loc(item.caption, lang) || '',
+    slug: item.slug,
+    articleTitle: loc(item.articleTitle, lang) || item.slug
+  }));
+
   const published = cfg.topics.filter(t => t.status === 'published');
 
   const perTopic = await Promise.all(published.map(async t => {
@@ -196,7 +204,12 @@ async function collectGalleryItems(lang) {
   }));
 
   // flatten in topic order
-  return perTopic.flat();
+  const scannedItems = perTopic.flat();
+  const explicitSrcs = new Set(explicitItems.map(item => item.src));
+  return [
+    ...explicitItems,
+    ...scannedItems.filter(item => !explicitSrcs.has(item.src))
+  ];
 }
 
 Router.init().catch(err => {

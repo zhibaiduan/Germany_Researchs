@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820">
+  <defs>
+    <filter id="paper">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="9" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.08"/>
+      </feComponentTransfer>
+      <feBlend in="SourceGraphic" mode="multiply"/>
+    </filter>
+    <filter id="wobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="2" seed="14" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <style>
+      .bg { fill: #fbf7ec; }
+      .ink { stroke: #263238; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+      .thin { stroke-width: 2.4; }
+      .data-fill { fill: #d9ebff; }
+      .middle-fill { fill: #fff7d8; }
+      .base-fill { fill: #dff1e4; }
+      .arrow { stroke: #334155; stroke-width: 3.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .title {
+        font-family: "Kaiti SC", "STKaiti", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        font-size: 34px;
+        font-weight: 700;
+        fill: #1f2933;
+      }
+      .subtitle {
+        font-family: "Kaiti SC", "STKaiti", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        font-size: 24px;
+        fill: #1f2933;
+      }
+      .label {
+        font-family: "Kaiti SC", "STKaiti", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        font-size: 30px;
+        font-weight: 700;
+        fill: #1f2933;
+      }
+      .small {
+        font-family: "Kaiti SC", "STKaiti", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        font-size: 22px;
+        fill: #334155;
+      }
+      .note {
+        font-family: "Kaiti SC", "STKaiti", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        font-size: 20px;
+        fill: #52616b;
+      }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1400" height="820"/>
+  <rect x="24" y="24" width="1352" height="772" rx="22" fill="none" stroke="#d8cdb7" stroke-width="2.5" stroke-dasharray="9 12" filter="url(#wobble)"/>
+
+  <g filter="url(#paper)">
+    <!-- Top cover: data intelligence layer -->
+    <g transform="rotate(-1.2 700 170)" filter="url(#wobble)">
+      <path class="data-fill" d="M236 86 C378 70, 514 74, 675 80 C852 87, 1025 74, 1164 93 C1190 97, 1206 116, 1204 141 L1192 270 C1189 302, 1166 317, 1133 314 C990 304, 838 304, 687 309 C527 314, 374 305, 226 317 C194 320, 172 300, 174 268 L183 138 C185 110, 204 90, 236 86 Z"/>
+      <path class="ink" d="M236 86 C378 70, 514 74, 675 80 C852 87, 1025 74, 1164 93 C1190 97, 1206 116, 1204 141 L1192 270 C1189 302, 1166 317, 1133 314 C990 304, 838 304, 687 309 C527 314, 374 305, 226 317 C194 320, 172 300, 174 268 L183 138 C185 110, 204 90, 236 86 Z"/>
+      <path class="ink thin" d="M213 120 C354 100, 527 103, 695 109 C846 114, 1015 103, 1160 119"/>
+      <text class="title" x="700" y="158" text-anchor="middle">数据智能层</text>
+      <text class="subtitle" x="700" y="204" text-anchor="middle">语义对齐 + 预测洞察</text>
+      <text class="note" x="700" y="243" text-anchor="middle">像一层“智能顶盖”，为下面所有执行层提供上下文</text>
+    </g>
+
+    <!-- Context arrows from top layer -->
+    <g filter="url(#wobble)">
+      <path class="arrow" d="M360 316 C360 342, 360 359, 360 382"/>
+      <path class="arrow" d="M585 314 C585 344, 585 360, 585 382"/>
+      <path class="arrow" d="M815 314 C815 344, 815 361, 815 382"/>
+      <path class="arrow" d="M1040 316 C1040 344, 1040 360, 1040 382"/>
+      <path class="arrow" d="M352 374 L360 389 L369 374"/>
+      <path class="arrow" d="M577 374 L585 389 L594 374"/>
+      <path class="arrow" d="M807 374 L815 389 L824 374"/>
+      <path class="arrow" d="M1032 374 L1040 389 L1049 374"/>
+    </g>
+
+    <!-- Middle progressive framework -->
+    <g filter="url(#wobble)">
+      <g transform="rotate(-0.8 285 448)">
+        <path class="middle-fill" d="M210 390 C258 382, 316 383, 369 389 C391 391, 402 405, 399 427 L393 512 C391 537, 376 548, 349 545 C305 541, 257 541, 216 546 C190 549, 174 535, 177 509 L185 425 C187 405, 191 393, 210 390 Z"/>
+        <path class="ink" d="M210 390 C258 382, 316 383, 369 389 C391 391, 402 405, 399 427 L393 512 C391 537, 376 548, 349 545 C305 541, 257 541, 216 546 C190 549, 174 535, 177 509 L185 425 C187 405, 191 393, 210 390 Z"/>
+        <text class="label" x="288" y="458" text-anchor="middle">个人助手</text>
+        <text class="small" x="288" y="499" text-anchor="middle">个体效率入口</text>
+      </g>
+
+      <g transform="rotate(0.7 515 448)">
+        <path class="middle-fill" d="M438 389 C490 383, 549 383, 600 390 C621 393, 632 406, 630 428 L623 513 C621 537, 605 548, 578 545 C534 541, 488 541, 444 546 C418 549, 403 535, 406 510 L413 425 C415 404, 420 392, 438 389 Z"/>
+        <path class="ink" d="M438 389 C490 383, 549 383, 600 390 C621 393, 632 406, 630 428 L623 513 C621 537, 605 548, 578 545 C534 541, 488 541, 444 546 C418 549, 403 535, 406 510 L413 425 C415 404, 420 392, 438 389 Z"/>
+        <text class="label" x="518" y="458" text-anchor="middle">部门任务</text>
+        <text class="small" x="518" y="499" text-anchor="middle">团队协作单元</text>
+      </g>
+
+      <g transform="rotate(-0.5 745 448)">
+        <path class="middle-fill" d="M668 389 C718 383, 779 383, 830 389 C851 392, 863 406, 860 429 L854 513 C852 536, 835 548, 809 546 C764 541, 718 542, 674 546 C648 549, 633 535, 636 510 L644 425 C646 405, 650 392, 668 389 Z"/>
+        <path class="ink" d="M668 389 C718 383, 779 383, 830 389 C851 392, 863 406, 860 429 L854 513 C852 536, 835 548, 809 546 C764 541, 718 542, 674 546 C648 549, 633 535, 636 510 L644 425 C646 405, 650 392, 668 389 Z"/>
+        <text class="label" x="748" y="458" text-anchor="middle">流程协调</text>
+        <text class="small" x="748" y="499" text-anchor="middle">跨部门编排</text>
+      </g>
+
+      <g transform="rotate(0.9 975 448)">
+        <path class="middle-fill" d="M899 389 C949 383, 1010 383, 1060 390 C1082 393, 1093 406, 1090 429 L1084 513 C1082 536, 1065 548, 1039 545 C994 541, 948 542, 904 546 C878 549, 863 535, 866 510 L873 425 C875 405, 880 392, 899 389 Z"/>
+        <path class="ink" d="M899 389 C949 383, 1010 383, 1060 390 C1082 393, 1093 406, 1090 429 L1084 513 C1082 536, 1065 548, 1039 545 C994 541, 948 542, 904 546 C878 549, 863 535, 866 510 L873 425 C875 405, 880 392, 899 389 Z"/>
+        <text class="label" x="978" y="458" text-anchor="middle">核心执行</text>
+        <text class="small" x="978" y="499" text-anchor="middle">业务结果落地</text>
+      </g>
+
+      <path class="arrow" d="M404 465 C426 459, 435 460, 456 465"/>
+      <path class="arrow" d="M449 454 L465 466 L448 477"/>
+      <path class="arrow" d="M635 465 C657 459, 666 460, 687 465"/>
+      <path class="arrow" d="M680 454 L696 466 L679 477"/>
+      <path class="arrow" d="M864 465 C887 459, 896 460, 917 465"/>
+      <path class="arrow" d="M910 454 L926 466 L909 477"/>
+      <text class="note" x="650" y="580" text-anchor="middle">从个人能力，递进到部门协同、流程编排，最后进入企业核心执行</text>
+    </g>
+
+    <!-- Bottom base: governance and safety layer -->
+    <g transform="rotate(0.8 700 660)" filter="url(#wobble)">
+      <path class="base-fill" d="M184 609 C340 588, 520 596, 697 600 C879 604, 1056 589, 1215 610 C1249 615, 1272 633, 1268 663 L1255 718 C1250 746, 1226 761, 1190 758 C1028 746, 867 749, 702 753 C536 757, 366 746, 207 759 C172 762, 147 744, 152 713 L164 659 C169 633, 150 615, 184 609 Z"/>
+      <path class="ink" d="M184 609 C340 588, 520 596, 697 600 C879 604, 1056 589, 1215 610 C1249 615, 1272 633, 1268 663 L1255 718 C1250 746, 1226 761, 1190 758 C1028 746, 867 749, 702 753 C536 757, 366 746, 207 759 C172 762, 147 744, 152 713 L164 659 C169 633, 150 615, 184 609 Z"/>
+      <path class="ink thin" d="M204 627 C358 614, 530 619, 700 623 C878 628, 1046 615, 1205 629"/>
+      <text class="title" x="700" y="676" text-anchor="middle">治理安全层</text>
+      <text class="subtitle" x="700" y="718" text-anchor="middle">权限 / 审计 / 合规 / 回滚</text>
+    </g>
+
+    <!-- Support lines from base -->
+    <g filter="url(#wobble)" opacity="0.85">
+      <path class="arrow thin" d="M310 604 C310 581, 310 565, 310 545"/>
+      <path class="arrow thin" d="M540 604 C540 581, 540 565, 540 545"/>
+      <path class="arrow thin" d="M770 604 C770 581, 770 565, 770 545"/>
+      <path class="arrow thin" d="M1000 604 C1000 581, 1000 565, 1000 545"/>
+    </g>
+  </g>
+</svg>

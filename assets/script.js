@@ -519,7 +519,7 @@ function initNavTitle(scrollHandlers = []) {
 
 // ─── Init (for standalone topic HTML files) ───────────────────
 document.addEventListener('DOMContentLoaded', async () => {
-  if (typeof loadSiteContext === 'function' && !window.RESEARCH_CONFIG) {
+  if (window.location.protocol !== 'file:' && typeof loadSiteContext === 'function' && !window.RESEARCH_CONFIG) {
     try {
       await loadSiteContext();
     } catch (err) {

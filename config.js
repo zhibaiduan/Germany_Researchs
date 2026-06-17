@@ -34,6 +34,7 @@ function _configBaseUrl() {
 
 async function _loadJson(path) {
   const url = new URL(path, _configBaseUrl());
+  url.searchParams.set('v', '20260615-enterprise-ai-en');
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Unable to load ${path}: HTTP ${res.status}`);
   return res.json();
@@ -120,6 +121,8 @@ function _toLegacyConfig(author, project, topicsIndex) {
       zh: _topicLang(topic, 'zh'),
       en: _topicLang(topic, 'en')
     })),
+
+    galleryAssets: project.galleryAssets || [],
 
     site: {
       name: site.name?.en || site.name?.zh || 'Research',

@@ -1,3 +1,17 @@
+---
+title: "SAP's 5 Acquisitions and 10 Partnerships"
+短标题: "M&A & Partnerships"
+description: A timeline of SAP's 5 acquisitions and 10 key partnerships from 2024-2026, assessing the intent and effectiveness of its AI strategy.
+type: ""
+status: published
+category: "M&A & Partnerships"
+tags:
+  - "M&A"
+  - Partnerships
+  - AI Strategy
+created: 2026-05-18
+---
+
 # SAP's 5 Acquisitions and 10 Key Partnerships Over Two Years
 
 **Research window:** 2024.06 – 2026.05  

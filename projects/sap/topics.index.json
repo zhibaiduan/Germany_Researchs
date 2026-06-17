@@ -6,8 +6,14 @@
       "enSlug": "en-01-company-overview",
       "status": "published",
       "canonicalLang": "zh",
-      "availableLangs": ["zh", "en"],
-      "sidebarTitle": { "zh": "公司全景", "en": "Company Overview" },
+      "availableLangs": [
+        "zh",
+        "en"
+      ],
+      "sidebarTitle": {
+        "zh": "公司全景",
+        "en": "Company Overview"
+      },
       "publishDate": "2026-05-18",
       "lastUpdated": "2026-05-18",
       "readingTime": {
@@ -27,8 +33,16 @@
         "en": "SAP's historical evolution, strategic shifts, competitive position, and where it's heading next."
       },
       "tags": {
-        "zh": ["历史", "战略", "商业模式"],
-        "en": ["History", "Strategy", "Business Model"]
+        "zh": [
+          "历史",
+          "战略",
+          "商业模式"
+        ],
+        "en": [
+          "History",
+          "Strategy",
+          "Business Model"
+        ]
       },
       "paths": {
         "zh": "projects/sap/content/topics/company-overview/zh.md",
@@ -44,9 +58,15 @@
       "slug": "phase1-profit-model",
       "enSlug": "en-phase1-profit-model",
       "status": "published",
-      "sidebarTitle": { "zh": "盈利模式", "en": "Profit Model" },
+      "sidebarTitle": {
+        "zh": "盈利模式",
+        "en": "Profit Model"
+      },
       "canonicalLang": "zh",
-      "availableLangs": ["zh", "en"],
+      "availableLangs": [
+        "zh",
+        "en"
+      ],
       "publishDate": "2026-05-14",
       "lastUpdated": "2026-05-18",
       "readingTime": {
@@ -66,8 +86,16 @@
         "en": "Drawing on five years of financial data, this report analyzes SAP's revenue structure evolution, growth divergence within Cloud, and the preconditions for the cloud transition value thesis to hold."
       },
       "tags": {
-        "zh": ["财务", "云转型", "商业模式"],
-        "en": ["Financials", "Cloud Transition", "Business Model"]
+        "zh": [
+          "财务",
+          "云转型",
+          "商业模式"
+        ],
+        "en": [
+          "Financials",
+          "Cloud Transition",
+          "Business Model"
+        ]
       },
       "paths": {
         "zh": "projects/sap/content/topics/profit-model/zh.md",
@@ -83,9 +111,15 @@
       "slug": "ma-partnership",
       "enSlug": "en-ma-partnership",
       "status": "published",
-      "sidebarTitle": { "zh": "收购与合作", "en": "M&A & Partnerships" },
+      "sidebarTitle": {
+        "zh": "收购与合作",
+        "en": "M&A & Partnerships"
+      },
       "canonicalLang": "zh",
-      "availableLangs": ["zh", "en"],
+      "availableLangs": [
+        "zh",
+        "en"
+      ],
       "publishDate": "2026-05-18",
       "lastUpdated": "2026-05-18",
       "readingTime": {
@@ -104,8 +138,16 @@
         "en": "A timeline of SAP's 5 acquisitions and 10 key partnerships from 2024–2026, assessing the intent and effectiveness of its AI strategy."
       },
       "tags": {
-        "zh": ["收购", "合作", "AI 战略"],
-        "en": ["M&A", "Partnerships", "AI Strategy"]
+        "zh": [
+          "收购",
+          "合作",
+          "AI 战略"
+        ],
+        "en": [
+          "M&A",
+          "Partnerships",
+          "AI Strategy"
+        ]
       },
       "paths": {
         "zh": "projects/sap/content/topics/ma-partnership/zh.md",
@@ -121,9 +163,14 @@
       "slug": "product-line-map",
       "enSlug": "en-product-line-map",
       "status": "published",
-      "sidebarTitle": { "zh": "产品线图谱", "en": "Product Line Map" },
+      "sidebarTitle": {
+        "zh": "产品线图谱",
+        "en": "Product Line Map"
+      },
       "canonicalLang": "zh",
-      "availableLangs": ["zh"],
+      "availableLangs": [
+        "zh"
+      ],
       "publishDate": "2026-05-19",
       "lastUpdated": "2026-05-19",
       "readingTime": {
@@ -142,14 +189,175 @@
         "en": "A map of SAP's 2025–2026 product portfolio across ERP, spend, HCM, supply chain, CX, BTP, Business Data Cloud, and Business AI."
       },
       "tags": {
-        "zh": ["产品线", "ERP", "BTP", "AI 战略"],
-        "en": ["Product Portfolio", "ERP", "BTP", "AI Strategy"]
+        "zh": [
+          "产品线",
+          "ERP",
+          "BTP",
+          "AI 战略"
+        ],
+        "en": [
+          "Product Portfolio",
+          "ERP",
+          "BTP",
+          "AI Strategy"
+        ]
       },
       "paths": {
         "zh": "projects/sap/content/topics/product-line-map/zh.md"
       },
       "output": {
         "zh": "topics/product-line-map.html"
+      }
+    },
+    {
+      "id": "P1M4",
+      "slug": "ecosystem-map",
+      "enSlug": "en-ecosystem-map",
+      "status": "published",
+      "sidebarTitle": {
+        "zh": "生态权力地图",
+        "en": "Ecosystem Map"
+      },
+      "canonicalLang": "zh",
+      "availableLangs": [
+        "zh"
+      ],
+      "publishDate": "2026-06-07",
+      "lastUpdated": "2026-06-07",
+      "readingTime": {
+        "zh": 18
+      },
+      "title": {
+        "zh": "SAP 生态系统权力地图",
+        "en": "SAP Ecosystem Power Map"
+      },
+      "subtitle": {
+        "zh": "谁控制预算，谁影响决策，谁负责交付，谁会被 AI 改写",
+        "en": "Who controls budget, who shapes decisions, who delivers projects, and who AI will reshape."
+      },
+      "summary": {
+        "zh": "用一张可交互玩家关系地图理解 SAP 生态：客户、SAP、战略咨询、管理咨询、SI、ISV、云厂商与开发者之间的预算链、权力链、依赖关系和未来变化。",
+        "en": "An interactive player map for understanding the SAP ecosystem: budget flows, power structure, dependencies, and AI-driven shifts across customers, SAP, consultancies, SIs, ISVs, cloud vendors, and developers."
+      },
+      "tags": {
+        "zh": [
+          "生态系统",
+          "权力结构",
+          "AI 影响"
+        ],
+        "en": [
+          "Ecosystem",
+          "Power Structure",
+          "AI Impact"
+        ]
+      },
+      "paths": {
+        "zh": "projects/sap/content/topics/ecosystem-map/zh.md"
+      },
+      "output": {
+        "zh": "topics/ecosystem-map.html"
+      }
+    },
+    {
+      "id": "P1M5",
+      "slug": "autonomous-enterprise",
+      "enSlug": "en-autonomous-enterprise",
+      "status": "published",
+      "sidebarTitle": {
+        "zh": "自主企业",
+        "en": "Autonomous Enterprise"
+      },
+      "canonicalLang": "zh",
+      "availableLangs": [
+        "zh"
+      ],
+      "publishDate": "2026-06-07",
+      "lastUpdated": "2026-06-07",
+      "readingTime": {
+        "zh": 17
+      },
+      "title": {
+        "zh": "SAP 的公司级 AI 自动驾驶",
+        "en": "SAP's Company-Level AI Driver Assistance System"
+      },
+      "subtitle": {
+        "zh": "Autonomous Enterprise 到底是什么？",
+        "en": "What exactly is the Autonomous Enterprise?"
+      },
+      "summary": {
+        "zh": "用“公司级自动驾驶系统”的类比拆解 SAP Autonomous Enterprise：它不是 ERP 聊天机器人，而是 SAP 试图把自己升级为企业 AI 执行层的一次战略表达。",
+        "en": "A plain-language explainer of SAP Autonomous Enterprise through the lens of company-level driver assistance."
+      },
+      "tags": {
+        "zh": [
+          "Autonomous Enterprise",
+          "Business AI",
+          "Joule"
+        ],
+        "en": [
+          "Autonomous Enterprise",
+          "Business AI",
+          "Joule"
+        ]
+      },
+      "paths": {
+        "zh": "projects/sap/content/topics/autonomous-enterprise/zh.md"
+      },
+      "output": {
+        "zh": "topics/autonomous-enterprise.html"
+      }
+    },
+    {
+      "id": "P1M7",
+      "slug": "enterprise-ai-war-map-germany",
+      "enSlug": "en-enterprise-ai-war-map-germany",
+      "status": "published",
+      "sidebarTitle": {
+        "zh": "企业 AI 争夺地图",
+        "en": "AI War Map · Germany"
+      },
+      "canonicalLang": "zh",
+      "availableLangs": [
+        "zh",
+        "en"
+      ],
+      "publishDate": "2026-06-12",
+      "lastUpdated": "2026-06-12",
+      "readingTime": {
+        "zh": 20,
+        "en": 20
+      },
+      "title": {
+        "zh": "SAP、微软、ServiceNow 都在做企业 AI：一张地图看懂它们争的是什么",
+        "en": "Enterprise AI War Map: Germany Edition"
+      },
+      "subtitle": {
+        "zh": "",
+        "en": "What SAP, Microsoft, and ServiceNow are really competing for."
+      },
+      "summary": {
+        "zh": "把企业 AI 拆成个人助手、部门任务、流程协调、核心执行、数据智能和治理安全六个位置，分析 SAP、Microsoft、ServiceNow、Salesforce、Oracle、Workday 在德国市场争夺的长期控制权。",
+        "en": "A Germany-focused map of enterprise AI competition across assistant, departmental, workflow, execution, data intelligence, and governance layers."
+      },
+      "tags": {
+        "zh": [
+          "Enterprise AI",
+          "德国市场",
+          "流程执行权"
+        ],
+        "en": [
+          "Enterprise AI",
+          "Germany",
+          "Execution Control"
+        ]
+      },
+      "paths": {
+        "zh": "projects/sap/content/topics/enterprise-ai-war-map-germany/zh.md",
+        "en": "projects/sap/content/topics/enterprise-ai-war-map-germany/en.md"
+      },
+      "output": {
+        "zh": "topics/enterprise-ai-war-map-germany.html",
+        "en": "topics/en-enterprise-ai-war-map-germany.html"
       }
     }
   ]

@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAP、微软、ServiceNow 都在做企业 AI：一张地图看懂它们争的是什么 · SAP Research</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .conclusion-list {
+      border-left: 2px solid var(--accent);
+      margin: 28px 0 44px;
+      padding: 2px 0 2px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .conclusion-item {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+    .conclusion-code {
+      color: var(--accent);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      line-height: 1.75;
+    }
+    .conclusion-text {
+      color: var(--text-1);
+      font-size: var(--fs-body);
+      line-height: 1.78;
+    }
+    .conclusion-text strong {
+      font-weight: 700;
+      color: var(--text-1);
+    }
+    .article-section-divider {
+      width: 64px;
+      height: 1px;
+      margin: 100px auto;
+      background: linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--accent) 0%, transparent),
+        color-mix(in srgb, var(--accent) 80%, transparent) 50%,
+        color-mix(in srgb, var(--accent) 0%, transparent)
+      );
+    }
+    .article-code-figure {
+      width: min(980px, 100%);
+      max-width: 100%;
+      min-width: 0;
+      margin: 34px 0 48px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.54);
+      overflow: hidden;
+    }
+    .article-code-figure pre {
+      display: block;
+      max-width: 100%;
+      margin: 0;
+      overflow-x: auto;
+      color: var(--text-1);
+      font-size: 14px;
+      line-height: 1.65;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      white-space: pre;
+    }
+    .article-code-figure code {
+      display: block;
+      width: max-content;
+      min-width: 100%;
+    }
+    .article-code-label {
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: var(--fs-annotation);
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .article-image-figure {
+      width: min(980px, 100%);
+      margin: 34px 0 52px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+    .article-image-figure figcaption {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .article-image-figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      display: block;
+    }
+    .value-matrix-tabs {
+      width: 100%;
+    }
+    .value-matrix-tabs input {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .value-matrix-stage {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+    .value-matrix-track {
+      display: flex;
+      width: 200%;
+      transition: transform .28s ease;
+    }
+    .value-matrix-slide {
+      flex: 0 0 50%;
+      min-width: 0;
+    }
+    .article-image-figure .value-matrix-slide img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    #value-matrix-players:checked ~ .value-matrix-stage .value-matrix-track {
+      transform: translateX(-50%);
+    }
+    .value-matrix-nav {
+      position: absolute;
+      top: 50%;
+      z-index: 2;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      inline-size: 34px;
+      block-size: 42px;
+      border: 1px solid rgba(45, 95, 73, .2);
+      border-radius: 999px;
+      color: var(--accent);
+      background: rgba(255, 255, 255, .82);
+      box-shadow: 0 6px 18px rgba(34, 55, 45, .08);
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1;
+      transform: translateY(-50%);
+      cursor: pointer;
+      user-select: none;
+    }
+    .value-nav-prev {
+      left: 12px;
+    }
+    .value-nav-next {
+      right: 12px;
+    }
+    #value-matrix-scenarios:checked ~ .value-matrix-stage .value-nav-next,
+    #value-matrix-players:checked ~ .value-matrix-stage .value-nav-prev {
+      display: flex;
+    }
+    .value-matrix-tabbar {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .value-matrix-tabbar label {
+      min-width: 132px;
+      padding: 7px 14px;
+      border: 1px solid rgba(45, 95, 73, .18);
+      border-radius: 999px;
+      color: var(--text-2);
+      background: rgba(255, 255, 255, .62);
+      font-size: var(--fs-ui);
+      font-weight: 700;
+      line-height: 1.2;
+      text-align: center;
+      cursor: pointer;
+      transition: background .18s ease, border-color .18s ease, color .18s ease;
+    }
+    #value-matrix-scenarios:checked ~ .value-matrix-tabbar label[for="value-matrix-scenarios"],
+    #value-matrix-players:checked ~ .value-matrix-tabbar label[for="value-matrix-players"] {
+      border-color: rgba(45, 95, 73, .42);
+      color: var(--accent);
+      background: rgba(231, 241, 235, .86);
+    }
+    .final-map-tabs input {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .final-map-stage {
+      width: 100%;
+    }
+    .final-map-slide {
+      display: none;
+    }
+    #final-map-step-1:checked ~ .final-map-stage .final-step-1,
+    #final-map-step-2:checked ~ .final-map-stage .final-step-2,
+    #final-map-step-3:checked ~ .final-map-stage .final-step-3,
+    #final-map-step-4:checked ~ .final-map-stage .final-step-4 {
+      display: block;
+    }
+    .article-image-figure .final-map-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .final-map-slide p {
+      margin: 12px 0 0;
+      color: var(--text-2);
+      font-size: var(--fs-ui);
+      line-height: 1.65;
+    }
+    .final-map-slide p strong {
+      color: var(--accent);
+    }
+    .final-map-tabbar {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .final-map-tabbar label {
+      padding: 8px 10px;
+      border: 1px solid rgba(45, 95, 73, .18);
+      border-radius: 999px;
+      color: var(--text-2);
+      background: rgba(255, 255, 255, .62);
+      font-size: var(--fs-ui);
+      font-weight: 700;
+      line-height: 1.2;
+      text-align: center;
+      cursor: pointer;
+      transition: background .18s ease, border-color .18s ease, color .18s ease;
+    }
+    #final-map-step-1:checked ~ .final-map-tabbar label[for="final-map-step-1"],
+    #final-map-step-2:checked ~ .final-map-tabbar label[for="final-map-step-2"],
+    #final-map-step-3:checked ~ .final-map-tabbar label[for="final-map-step-3"],
+    #final-map-step-4:checked ~ .final-map-tabbar label[for="final-map-step-4"] {
+      border-color: rgba(45, 95, 73, .42);
+      color: var(--accent);
+      background: rgba(231, 241, 235, .86);
+    }
+    @media (max-width: 640px) {
+      .final-map-tabbar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    .logic-figure {
+      width: min(980px, 100%);
+      margin: 34px 0 52px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 50% 28%, rgba(255,255,255,.82), transparent 42%),
+        linear-gradient(135deg, rgba(255,255,255,.68), rgba(232,238,231,.42));
+    }
+    .logic-label {
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .logic-figure figcaption {
+      margin: 0 0 14px;
+      color: var(--text-2);
+      font-size: var(--fs-ui);
+      line-height: 1.6;
+    }
+    .logic-canvas {
+      position: relative;
+      height: 640px;
+      border-radius: var(--radius);
+      background: transparent;
+      overflow: hidden;
+    }
+    .logic-image-title {
+      position: absolute;
+      top: 18px;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      color: var(--accent);
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      text-align: center;
+    }
+    .logic-lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .logic-line {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: .7;
+    }
+    .logic-line.dashed {
+      stroke-dasharray: 8 8;
+    }
+    .logic-line.faint {
+      opacity: .24;
+      stroke-width: 1.7;
+    }
+    .logic-line.green { color: #2A6048; }
+    .logic-line.blue { color: #537791; }
+    .logic-line.brown { color: #8E735B; }
+    .logic-line.red { color: #A76F63; }
+    .logic-line.support { color: rgba(24,28,23,.50); stroke-width: 1.45; }
+    .logic-line.progression { color: rgba(24,28,23,.58); stroke-width: 1.5; }
+    .logic-line.feedback { color: rgba(24,28,23,.48); stroke-width: 1.4; }
+    .logic-line.risk { color: rgba(24,28,23,.62); stroke-width: 1.55; }
+    .logic-node {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      z-index: 2;
+      width: var(--w);
+      min-height: var(--h);
+      padding: 12px 14px;
+      border: 1px solid rgba(24,28,23,.16);
+      border-radius: 10px;
+      background: rgba(255,255,255,.74);
+      box-shadow: none;
+      color: var(--text-1);
+    }
+    .logic-node::before {
+      content: none;
+    }
+    .logic-node strong,
+    .logic-node span,
+    .logic-node small,
+    .logic-node em {
+      display: block;
+    }
+    .logic-node strong {
+      color: var(--text-1);
+      font-size: 17px;
+      line-height: 1.2;
+      font-weight: 700;
+    }
+    .logic-stage strong {
+      font-size: 16px;
+    }
+    .logic-node span {
+      margin-top: 6px;
+      color: var(--text-2);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .logic-node small {
+      margin-top: 3px;
+      color: var(--text-2);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+    .logic-node em {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      color: currentColor;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 700;
+    }
+    .logic-kicker {
+      color: var(--text-3);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .09em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+    .logic-low {
+      color: #5B55A6;
+      background: rgba(255,255,255,.76);
+      border-color: rgba(91,85,166,.42);
+    }
+    .logic-mid,
+    .logic-data {
+      color: #537791;
+      background: rgba(255,255,255,.76);
+      border-color: rgba(83,119,145,.42);
+    }
+    .logic-high {
+      color: #8E4D3B;
+      background: rgba(255,255,255,.76);
+      border-color: rgba(142,77,59,.40);
+    }
+    .logic-core,
+    .logic-governance {
+      color: #8E4D3B;
+      background: rgba(255,255,255,.76);
+      border-color: rgba(142,77,59,.40);
+    }
+    .logic-axis-label {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 210px;
+      z-index: 2;
+      color: var(--text-2);
+      font-size: 13px;
+      font-weight: 650;
+      text-align: center;
+    }
+    .risk-low {
+      color: #5B55A6;
+      background: rgba(247,246,255,.72);
+      border-color: rgba(91,85,166,.42);
+    }
+    .risk-high {
+      color: #8E4D3B;
+      background: rgba(255,246,241,.72);
+      border-color: rgba(142,77,59,.40);
+    }
+    .logic-governance {
+      color: rgba(24,28,23,.58);
+      background: rgba(255,255,255,.76);
+      border-color: rgba(24,28,23,.32);
+    }
+    .logic-legend {
+      position: absolute;
+      left: 120px;
+      right: 120px;
+      bottom: 26px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 26px;
+      color: var(--text-2);
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .logic-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .legend-line {
+      display: inline-block;
+      width: 28px;
+      height: 0;
+      border-top: 1.5px solid rgba(24,28,23,.56);
+    }
+    .legend-line.dashed {
+      border-top-style: dashed;
+    }
+    .legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+    .legend-swatch.low {
+      background: rgba(247,246,255,.9);
+      border: 1px solid rgba(91,85,166,.30);
+    }
+    .legend-swatch.high {
+      background: rgba(255,246,241,.9);
+      border: 1px solid rgba(142,77,59,.28);
+    }
+    .logic-risk-axis-label {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 32px;
+      z-index: 2;
+      color: var(--text-2);
+      font-size: 13px;
+      font-weight: 650;
+      text-align: center;
+    }
+    .sketch-figure {
+      width: min(980px, 100%);
+      margin: 34px 0 52px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.48);
+    }
+    .sketch-label {
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .sketch-figure figcaption {
+      margin: 0 0 14px;
+      color: var(--text-2);
+      font-size: var(--fs-ui);
+      line-height: 1.6;
+    }
+    .sketch-canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 50% 28%, rgba(255,255,255,.82), transparent 42%),
+        linear-gradient(135deg, rgba(255,255,255,.68), rgba(232,238,231,.42));
+      overflow: visible;
+    }
+    .sketch-bg {
+      fill: rgba(255,255,255,.18);
+      stroke: rgba(42,96,72,.12);
+      stroke-width: 1.3;
+    }
+    .sketch-node rect {
+      stroke-width: 1.7;
+      fill: rgba(255,255,255,.72);
+    }
+    .sketch-node.green rect { stroke: #2A6048; fill: rgba(42,96,72,.12); }
+    .sketch-node.blue rect { stroke: #537791; fill: rgba(83,119,145,.14); }
+    .sketch-node.brown rect { stroke: #8E735B; fill: rgba(142,115,91,.16); }
+    .sketch-node.red rect { stroke: #A76F63; fill: rgba(167,111,99,.14); }
+    .sketch-node.olive rect { stroke: #628458; fill: rgba(98,132,88,.14); }
+    .sketch-rough {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 3;
+      stroke-linecap: round;
+      opacity: .85;
+    }
+    .sketch-node.green { color: #2A6048; }
+    .sketch-node.blue { color: #537791; }
+    .sketch-node.brown { color: #8E735B; }
+    .sketch-node.red { color: #A76F63; }
+    .sketch-node.olive { color: #628458; }
+    .sketch-title {
+      fill: var(--text-1);
+      font-family: var(--font-sans);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    .sketch-title.big {
+      font-size: 22px;
+    }
+    .sketch-text {
+      fill: var(--text-2);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+    .sketch-note,
+    .sketch-band {
+      fill: var(--text-2);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 650;
+    }
+    .sketch-band {
+      fill: var(--accent);
+      letter-spacing: .02em;
+    }
+    .sketch-arrow,
+    .sketch-band-line,
+    .sketch-axis {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: .72;
+    }
+    .sketch-arrow.dashed,
+    .sketch-band-line {
+      stroke-dasharray: 8 8;
+    }
+    .sketch-arrow.green,
+    .sketch-band-line.green { color: #2A6048; }
+    .sketch-arrow.blue,
+    .sketch-band-line.blue { color: #537791; }
+    .sketch-arrow.brown,
+    .sketch-band-line.brown { color: #8E735B; }
+    .sketch-arrow.red,
+    .sketch-band-line.red { color: #A76F63; }
+    .sketch-grid {
+      fill: none;
+      stroke: rgba(42,96,72,.14);
+      stroke-width: 1;
+    }
+    .sketch-axis {
+      color: rgba(24,28,23,.58);
+      stroke-width: 2;
+    }
+    .sketch-emphasis {
+      fill: rgba(142,115,91,.05);
+      stroke: rgba(142,115,91,.36);
+      stroke-width: 2;
+      stroke-dasharray: 10 8;
+    }
+    .ai-figure {
+      --ai-bg: var(--bg);
+      --ai-green: #2A6048;
+      --ai-bluegrey: #537791;
+      --ai-brown: #8E735B;
+      --ai-olive: #628458;
+      --ai-red: #A76F63;
+      --ai-ink: var(--text-1);
+      --ai-muted: var(--text-2);
+      --ai-soft: var(--text-3);
+      --ai-line: var(--border);
+      width: min(980px, 100%);
+      margin: 34px 0 52px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 50% 28%, rgba(255,255,255,.78), transparent 42%),
+        linear-gradient(135deg, rgba(255,255,255,.64), rgba(232,238,231,.46));
+      color: var(--ai-ink);
+      overflow: hidden;
+    }
+    .ai-figure-meta {
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .ai-figure figcaption {
+      margin: 0 0 20px;
+      color: var(--ai-muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .ai-layer {
+      padding: 18px 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.52);
+    }
+    .ai-layer.compact {
+      padding: 14px 16px;
+    }
+    .ai-layer-data {
+      border-color: color-mix(in srgb, var(--ai-bluegrey) 36%, var(--border));
+      background: rgba(83,119,145,.11);
+    }
+    .ai-layer-governance {
+      border-color: color-mix(in srgb, var(--ai-red) 38%, var(--border));
+      background: rgba(167,111,99,.11);
+    }
+    .ai-layer-kicker {
+      margin-bottom: 4px;
+      color: var(--ai-muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .ai-layer-title {
+      color: var(--ai-ink);
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    .ai-layer-body {
+      margin-top: 5px;
+      color: var(--ai-muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .ai-stage-track {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin: 22px 0;
+    }
+    .ai-stage-track::before,
+    .final-flow::before {
+      content: "";
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      top: 50%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--ai-green), var(--ai-bluegrey), var(--ai-brown), var(--ai-red));
+      transform: translateY(-50%);
+      z-index: 0;
+    }
+    .ai-stage {
+      position: relative;
+      z-index: 1;
+      min-height: 154px;
+      padding: 16px;
+      border: 1px solid rgba(24,28,23,.16);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.56);
+      box-shadow: var(--shadow-sm);
+    }
+    .ai-stage-label {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--stage-color, var(--accent)) 14%, white);
+      color: var(--stage-color, var(--accent));
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .ai-stage-title {
+      margin-top: 16px;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    .ai-stage-body {
+      margin-top: 8px;
+      color: var(--ai-muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .risk-low { --stage-color: var(--ai-green); }
+    .risk-mid { --stage-color: var(--ai-bluegrey); }
+    .risk-high { --stage-color: var(--ai-brown); }
+    .risk-critical { --stage-color: var(--ai-red); }
+    .ai-player-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+    }
+    .ai-player {
+      position: relative;
+      padding: 16px;
+      border: 1px solid rgba(24,28,23,.16);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.56);
+      box-shadow: var(--shadow-sm);
+      min-height: 150px;
+    }
+    .ai-player::before {
+      content: "";
+      display: block;
+      width: 30px;
+      height: 4px;
+      margin-bottom: 14px;
+      border-radius: 999px;
+      background: var(--player-color, var(--accent));
+    }
+    .ai-player-name {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.25;
+      word-break: break-word;
+    }
+    .ai-player-role {
+      margin-top: 5px;
+      color: var(--player-color, var(--accent));
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .ai-player-body {
+      margin-top: 9px;
+      color: var(--ai-muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .microsoft { --player-color: var(--ai-bluegrey); }
+    .servicenow { --player-color: var(--ai-green); }
+    .sap { --player-color: var(--ai-brown); }
+    .salesforce { --player-color: #2A7A70; }
+    .workday { --player-color: var(--ai-olive); }
+    .oracle { --player-color: var(--ai-red); }
+    .matrix {
+      position: relative;
+      padding: 38px 18px 18px 52px;
+    }
+    .matrix-grid {
+      position: relative;
+      min-height: 520px;
+      border-left: 1px solid rgba(24,28,23,.32);
+      border-bottom: 1px solid rgba(24,28,23,.32);
+      background:
+        linear-gradient(90deg, rgba(42,96,72,.10) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(42,96,72,.10) 1px, transparent 1px),
+        rgba(255,255,255,.34);
+      background-size: 25% 100%, 100% 25%, auto;
+    }
+    .matrix-axis {
+      position: absolute;
+      color: var(--ai-muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+    .matrix-axis-x {
+      right: 18px;
+      top: 8px;
+    }
+    .matrix-axis-y {
+      left: -42px;
+      top: 250px;
+      transform: rotate(-90deg);
+      transform-origin: left top;
+    }
+    .matrix-card {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: min(178px, 28%);
+      padding: 13px;
+      border: 1px solid rgba(24,28,23,.16);
+      border-top: 4px solid var(--player-color, var(--accent));
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.72);
+      transform: translate(-50%, -50%);
+      box-shadow: var(--shadow-sm);
+    }
+    .matrix-card.highlight {
+      border-color: color-mix(in srgb, var(--ai-brown) 45%, var(--border));
+      box-shadow: var(--shadow-md);
+    }
+    .matrix-card strong,
+    .matrix-card span,
+    .matrix-card em {
+      display: block;
+    }
+    .matrix-card strong {
+      font-size: 15px;
+      line-height: 1.25;
+    }
+    .matrix-card span {
+      margin-top: 3px;
+      color: var(--player-color, var(--accent));
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .matrix-card em {
+      margin-top: 7px;
+      color: var(--ai-muted);
+      font-size: 12px;
+      font-style: normal;
+      line-height: 1.45;
+    }
+    .matrix-corner {
+      margin-top: 12px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-align: right;
+    }
+    .card-table {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.50);
+    }
+    .card-table-head,
+    .card-table-row {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr 1.7fr 1.7fr 1.6fr;
+      min-width: 820px;
+    }
+    .card-table-head {
+      background: rgba(42,96,72,.10);
+      color: var(--ai-muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .card-table-head span,
+    .card-table-row div {
+      padding: 14px;
+      border-right: 1px solid var(--ai-line);
+    }
+    .card-table-head span:last-child,
+    .card-table-row div:last-child {
+      border-right: 0;
+    }
+    .card-table-row {
+      border-top: 1px solid var(--ai-line);
+      color: var(--ai-muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .card-table-row div:first-child,
+    .card-table-row div:nth-child(2) {
+      color: var(--ai-ink);
+      font-weight: 700;
+    }
+    .final-flow {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin: 22px 0 18px;
+    }
+    .final-flow .ai-player {
+      z-index: 1;
+      min-height: 180px;
+    }
+    .final-flow .highlight {
+      border-color: color-mix(in srgb, var(--ai-brown) 42%, var(--border));
+      box-shadow: 0 10px 24px rgba(15,23,42,.08);
+    }
+    .final-secondary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .final-secondary span {
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--tag-bg);
+      color: var(--ai-muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .article-comparison-table {
+      width: 100%;
+      margin: 34px 0 42px;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-family: var(--font-sans);
+    }
+    .article-comparison-table thead {
+      border-bottom: 1px solid color-mix(in srgb, var(--text-1) 22%, transparent);
+    }
+    .article-comparison-table th {
+      padding: 0 28px 16px 0;
+      color: var(--text-1);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.45;
+      text-align: left;
+      letter-spacing: 0;
+    }
+    .article-comparison-table td {
+      padding: 18px 28px 18px 0;
+      border-bottom: 1px solid color-mix(in srgb, var(--text-2) 18%, transparent);
+      color: var(--text-1);
+      font-size: 16px;
+      line-height: 1.65;
+      vertical-align: top;
+    }
+    .article-comparison-table tbody tr:last-child td {
+      border-bottom-color: color-mix(in srgb, var(--text-1) 22%, transparent);
+    }
+    .article-comparison-table th:first-child,
+    .article-comparison-table td:first-child {
+      width: 36%;
+      color: color-mix(in srgb, var(--text-1) 78%, var(--accent));
+      font-weight: 650;
+    }
+    .article-comparison-table th:first-child {
+      font-weight: 700;
+    }
+    .article-comparison-table th:last-child,
+    .article-comparison-table td:last-child {
+      padding-right: 0;
+    }
+    .article-comparison-table th:nth-child(1):nth-last-child(3),
+    .article-comparison-table th:nth-child(1):nth-last-child(3) ~ th,
+    .article-comparison-table td:nth-child(1):nth-last-child(3),
+    .article-comparison-table td:nth-child(1):nth-last-child(3) ~ td {
+      width: auto;
+    }
+    .article-comparison-table th:nth-child(1):nth-last-child(3),
+    .article-comparison-table td:nth-child(1):nth-last-child(3) {
+      width: 27%;
+    }
+    .article-comparison-table th:nth-child(2):nth-last-child(2),
+    .article-comparison-table td:nth-child(2):nth-last-child(2) {
+      width: 36%;
+    }
+    .article-comparison-table th:nth-child(3):nth-last-child(1),
+    .article-comparison-table td:nth-child(3):nth-last-child(1) {
+      width: 37%;
+    }
+    @media (max-width: 720px) {
+      .conclusion-list {
+        padding-left: 18px;
+        gap: 22px;
+      }
+      .conclusion-item {
+        grid-template-columns: 34px minmax(0, 1fr);
+        gap: 14px;
+      }
+      .conclusion-code {
+        font-size: 14px;
+      }
+      .article-section-divider {
+        width: 48px;
+        margin: 100px auto;
+      }
+      .article-comparison-table {
+        margin: 28px 0 36px;
+      }
+      .article-code-figure {
+        padding: 14px;
+      }
+      .article-code-figure pre {
+        font-size: 12px;
+      }
+      .logic-canvas {
+        height: auto;
+        min-height: 760px;
+        padding: 14px;
+        display: grid;
+        gap: 12px;
+      }
+      .logic-lines,
+      .logic-axis {
+        display: none;
+      }
+      .logic-node {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 100%;
+        min-height: auto;
+      }
+      .ai-figure {
+        padding: 16px;
+      }
+      .ai-stage-track,
+      .ai-player-grid,
+      .final-flow {
+        grid-template-columns: 1fr;
+      }
+      .ai-stage-track::before,
+      .final-flow::before {
+        left: 26px;
+        right: auto;
+        top: 20px;
+        bottom: 20px;
+        width: 2px;
+        height: auto;
+        background: linear-gradient(180deg, var(--ai-green), var(--ai-bluegrey), var(--ai-brown), var(--ai-red));
+        transform: none;
+      }
+      .ai-stage {
+        min-height: auto;
+        padding-left: 58px;
+      }
+      .ai-stage-label {
+        position: absolute;
+        left: 14px;
+        top: 16px;
+      }
+      .ai-player {
+        min-height: auto;
+      }
+      .matrix {
+        padding: 34px 0 0 0;
+      }
+      .matrix-grid {
+        min-height: 620px;
+      }
+      .matrix-axis-y {
+        left: -8px;
+        top: 360px;
+      }
+      .matrix-axis-x {
+        right: 0;
+      }
+      .matrix-card {
+        width: 70%;
+      }
+      .matrix-card.microsoft { --x: 48% !important; --y: 58% !important; }
+      .matrix-card.servicenow { --x: 52% !important; --y: 38% !important; }
+      .matrix-card.sap { --x: 58% !important; --y: 17% !important; }
+      .matrix-card.salesforce { --x: 55% !important; --y: 76% !important; }
+      .matrix-card.workday { --x: 50% !important; --y: 92% !important; }
+      .article-comparison-table th,
+      .article-comparison-table td {
+        padding-right: 16px;
+      }
+      .article-comparison-table th {
+        font-size: 14px;
+        padding-bottom: 14px;
+      }
+      .article-comparison-table td {
+        padding-top: 16px;
+        padding-bottom: 16px;
+        font-size: 15px;
+      }
+      .article-comparison-table th:first-child,
+      .article-comparison-table td:first-child {
+        width: 38%;
+      }
+      .article-comparison-table th:nth-child(1):nth-last-child(3),
+      .article-comparison-table td:nth-child(1):nth-last-child(3) {
+        width: 30%;
+      }
+      .article-comparison-table th:nth-child(2):nth-last-child(2),
+      .article-comparison-table td:nth-child(2):nth-last-child(2) {
+        width: 34%;
+      }
+      .article-comparison-table th:nth-child(3):nth-last-child(1),
+      .article-comparison-table td:nth-child(3):nth-last-child(1) {
+        width: 36%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-mount"></div>
+
+  <div class="page-layout">
+
+    <aside class="global-sidebar" id="sidebar-mount"></aside>
+
+    <div class="page-content">
+  <div class="article-wrap">
+
+    <div class="breadcrumb">
+      <a href="../index.html">SAP Research</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>企业 AI 战争地图</span>
+    </div>
+
+    <header class="article-header">
+      <div class="article-topic-label">专题 08 · Enterprise AI</div>
+      <h1 class="article-title">SAP、微软、ServiceNow 都在做企业 AI：一张地图看懂它们争的是什么</h1>
+      
+      <div class="article-meta">
+        <span class="article-meta-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          2026-06-12
+        </span>
+        <span class="article-meta-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          20 分钟阅读
+        </span>
+        <span class="tag">Enterprise AI</span>
+        <span class="tag">德国市场</span>
+        <span class="tag">流程执行权</span>
+      </div>
+    </header>
+
+    <div class="article-body">
+      <div class="article-content">
+
+<p>2026 年初，几场企业发布会突然讲起了同一个故事。</p>
+
+<p>SAP 在讲 Autonomous Enterprise，Microsoft 在讲 Copilot 和 agent，ServiceNow 在讲 AI Control Tower，Salesforce 在讲 Agentforce，Oracle 和 Workday 也都在把 AI agent 嵌进自己的应用里。</p>
+
+<p>如果只听这些词，它们好像都在说同一件事：企业会有更多 AI，工作会更自动，流程会更智能。</p>
+
+<p>但真的是同一件事吗？</p>
+
+<p>一个帮员工总结会议的 Copilot，和一个能处理采购异常的 SAP agent，是同一种 AI 吗？</p>
+
+<p>一个客服 agent、一个 HR agent、一个处理财务关账的 agent、一个跨系统 workflow agent，它们背后的价值、风险和控制权是一样的吗？</p>
+
+<p>这篇文章不是要再列一遍各家发布了什么。它想回答一个更基础的问题：</p>
+
+<blockquote><p>当所有这些巨头都说自己在做企业 AI 时，它们到底想在企业里占据什么位置？哪些位置更容易产生价值？哪些位置更接近长期的商业控制权？谁坐在更好的牌桌上？</p></blockquote>
+
+<p>要回答这个问题，我们会顺着一条推理链往下走：</p>
+
+<ol>
+  <li><strong>从需求出发。</strong> 看企业 AI 有哪几个常见的切入口。</li>
+  <li><strong>把玩家放进地图。</strong> 看它们各自站在哪个位置。</li>
+  <li><strong>判断位置价值。</strong> 看当前 AI 竞争里，哪些位置更有价值。</li>
+  <li><strong>做牌局分析。</strong> 每家的 AI 叙事如果真的想实现，需要什么资源？手里已经有什么牌？缺的牌在谁手上？哪些部分可以实现，哪些需要特定条件，哪些其实很困难？</li>
+  <li><strong>收束成最终地图。</strong> 企业 AI 到底在哪些领域竞争，每个领域对应哪些玩家，以及你可以怎么用它来判断任何新的企业 AI 叙事。</li>
+</ol>
+
+<p>整条推理链的终点，不是&quot;告诉你谁赢了&quot;，而是让你自己能判断任何新的企业 AI 叙事。</p>
+
+<h2 id="一-企业-ai-的几种切入口">一、企业 AI 的几种切入口</h2>
+
+<p>企业不会抽象地&quot;上 AI&quot;。真实情况总是更具体：有人在邮件里用 AI，有人在客服里用 AI，有人在财务里尝试 AI。这些场景都叫企业 AI，但它们的风险等级完全不同。</p>
+
+<p>而风险等级，决定了准入条件、落地速度和长期价值。</p>
+
+<h3 id="从风险出发-画一条线">从风险出发，画一条线</h3>
+
+<p>我们可以把 AI 在企业里的触碰深度，按风险从低到高排成四个位置：</p>
+
+<p><strong>位置一：帮一个人做事。</strong></p>
+
+<p>风险接近 0。</p>
+
+<p>你坐在电脑前写邮件、开会、写文档、整理表格、查资料。AI 在旁边递工具，帮你写草稿、记纪要、提取信息。你仍然是工作的主体和决策者。如果 AI 写错了，你改一下就行。</p>
+
+<p><strong>位置二：帮一个部门做事。</strong></p>
+
+<p>风险低，可衡量。</p>
+
+<p>AI 进入了销售部、客服部、HR 部、财务部。它帮客服自动回复，帮销售生成跟进建议，帮 HR 筛选简历，帮财务识别异常。AI 在一个部门内部做重复性工作，处理的是这个部门自己的数据。如果 AI 错了，错误局限在这个部门里。</p>
+
+<p><strong>位置三：帮几个部门之间做协调。</strong></p>
+
+<p>风险中等。</p>
+
+<p>一个订单卡住了。AI 需要去 CRM 查客户信息，去 ERP 查库存，去财务查信用额度，去物流查配送状态，然后判断：该找谁处理？要不要升级？要不要触发审批？</p>
+
+<p>这时，AI 开始跨系统工作，传递信号、协调流程。如果错了，后果通常是效率损失，比如订单迟迟没被处理，但它还没有直接改变业务数据的真实状态。</p>
+
+<p><strong>位置四：直接触碰企业的核心交易数据。</strong></p>
+
+<p>风险最高。</p>
+
+<p>AI 不再只是建议或协调，而是开始执行动作：创建采购订单，放行付款，匹配发票，调整库存，更新员工主数据。</p>
+
+<p>这些动作直接改变企业的经营状态。如果错了，钱出去了，货发错了，审计过不去。<strong>这不是体验问题，是经营事故。</strong></p>
+
+<h3 id="ai-要落到更深处-还需要两个条件">AI 要落到更深处，还需要两个条件</h3>
+
+<p><strong>第一个条件：AI 需要理解企业的数据语言。</strong></p>
+
+<p>当 AI 进入&quot;跨部门协调&quot;和&quot;核心交易&quot;时，它不能只读一个系统的数据。</p>
+
+<p>它需要理解：CRM 里的 &quot;account&quot;、ERP 里的 &quot;customer&quot; 和财务里的 &quot;debtor&quot;，可能指向同一个业务对象。</p>
+
+<p>它也需要把多个系统的数据拉在一起，比如库存趋势、供应商风险、订单异常，再做预测和分析。</p>
+
+<p>这一层叫做<strong>数据智能层</strong>，做两件事：</p>
+
+<ul>
+  <li><strong>主数据对齐（语义层）</strong>：让 AI 理解企业的数据语言，在不同系统之间建立统一的业务语义。</li>
+  <li><strong>预测与洞察（分析层）</strong>：跨系统数据的聚合、看板、异常检测、趋势预测。</li>
+</ul>
+
+<p>它本身不直接产生 AI 动作的价值，但它给其他层的 agent（流程协调 agent、核心执行 agent）提供数据基础。<strong>没有这一层，AI 在跨系统场景里是盲的。</strong></p>
+
+<p><strong>第二个条件：企业要敢让 AI 行动。</strong></p>
+
+<p>当 AI 从&quot;建议&quot;进入&quot;执行&quot;，企业必须回答：谁授权它？它有权访问什么数据？它执行了什么动作？出了事怎么追责？怎么停掉它？</p>
+
+<p>这一层叫做<strong>治理安全层</strong>：权限、审批、审计、回滚、责任、合规。它不是 AI 的某一个场景，而是<strong>所有 AI 进入执行层的准入门槛</strong>。</p>
+
+<h3 id="完整的企业-ai-地图">完整的企业 AI 地图</h3>
+
+<figure class="article-image-figure">
+  <figcaption>Figure: six scenarios of enterprise using AI</figcaption>
+  <img src="../assets/images/enterprise-ai-six-scenarios.png" alt="The Six Scenarios of Enterprise AI diagram">
+</figure>
+
+<p>这张地图的意义在于：<strong>企业 AI 不是同一个市场。它是四个不同的执行位置加上两个底座。每个位置的价值逻辑不同，每个底座的能力要求不同。不能放在一起谈。</strong></p>
+
+<h2 id="二-有哪些玩家-谁站在哪个位置">二、有哪些玩家？谁站在哪个位置？</h2>
+
+<p>有了地图，接下来要往里面放人。</p>
+
+<h3 id="场上的主要玩家">场上的主要玩家</h3>
+
+<p>在德国市场，提供企业软件服务的巨头中，有六家在 AI 叙事上最值得关注：<strong>SAP、Microsoft、ServiceNow、Salesforce、Oracle、Workday</strong>。</p>
+
+<p>但它们推的方向不同，争的东西也不同。这里需要做一个区分。</p>
+
+<h3 id="平台型玩家-vs-场景型玩家">平台型玩家 vs 场景型玩家</h3>
+
+<p><strong>平台型玩家</strong>：它们的目标不只是在一个部门里做 AI 优化。它们想成为企业 AI 的基础设施，控制 AI 在哪里运行、谁来管、谁能执行。<strong>去掉它们的系统，企业的核心流程运转会卡住。</strong></p>
+
+<p><strong>场景型玩家</strong>：它们在某个具体的业务场景里用 AI 提升效率，比如客户收入、人力资源管理、特定业务域。<strong>去掉它们的系统，企业还能运转，只是效率下降。</strong></p>
+
+<p>这篇文章要回答的问题是&quot;谁在争夺流程执行权&quot;，所以平台型玩家是我们的主角。场景型玩家我们快速定位一下。</p>
+
+<h3 id="三个平台型玩家">三个平台型玩家</h3>
+
+<p><strong>SAP：从核心执行出发。</strong></p>
+
+<p>SAP 的 AI 叙事围绕 <strong>Autonomous Enterprise</strong> 展开，拿出了 <strong>Joule</strong>（AI 助手）、<strong>Knowledge Graph</strong>（企业知识图谱）和 <strong>Business Semantic</strong>（业务语义层），来支撑&quot;受控流程执行&quot;。</p>
+
+<p>拿这些词去对应 SAP 的原生位置，就非常清楚了。SAP 的原生位置是 ERP：采购、财务、供应链、制造、库存。</p>
+
+<p>SAP 的原始优势不是入口，也不是使用频率，而是<strong>企业核心交易事实的持有者</strong>。订单在哪？库存多少？供应商是谁？SAP 是这些问题的默认答案。</p>
+
+<p>所以 SAP 的 AI 叙事翻译成人话就是：让 AI 在受控条件下直接触碰这些核心业务对象。</p>
+
+<p>在四层地图上，SAP 的主战场是<strong>核心执行</strong>，同时向上延伸到<strong>数据智能层</strong>。治理安全层也天然存在，因为 ERP 的权限和审计是几十年积累出来的。</p>
+
+<p><strong>Microsoft：从入口出发。</strong></p>
+
+<p>Microsoft 的 AI 叙事围绕 <strong>Copilot</strong> 展开：<strong>Microsoft 365 Copilot</strong>、<strong>Copilot Studio</strong>（自定义 agent 平台）、<strong>Copilot for Sales/Service</strong>，以及跨数据智能层 <strong>Microsoft IQ</strong>。</p>
+
+<p>对应到原生位置：工作入口。Outlook、Teams、Office、Azure、Entra。员工每天醒来先打开的不是某个业务系统，而是 Microsoft 套件。Microsoft 最大的资产不是业务流程的深度，而是<strong>人每天在哪里工作的频率</strong>。</p>
+
+<p>翻译成人话：让 AI 变成员工的默认工作界面。</p>
+
+<p>在四层地图上，Microsoft 的主战场是<strong>个人助手</strong>，向<strong>部门任务</strong>扩展，同时向上延伸到<strong>数据智能层</strong>。治理安全层也是强项，基础是 Entra 身份和权限基础设施。</p>
+
+<p>Microsoft 的优势是：入口层的准入成本几乎为零。但它要往右走，需要连接到 SAP、ServiceNow 这些业务系统。<strong>它离核心执行比 SAP 远。</strong></p>
+
+<p><strong>ServiceNow：从流程协调出发。</strong></p>
+
+<p>ServiceNow 的 AI 叙事围绕 <strong>AI Control Tower</strong> 展开。核心主张：当企业里出现几十上百个 AI agent 时，你需要一个地方来创建、批准、监控、审计、停掉它们。这不是&quot;我们也能做 agent&quot;，而是&quot;我们需要一个地方来管所有 agent&quot;。</p>
+
+<p>对应原生位置：ITSM 和员工服务。工单进来之后，谁处理、谁审批、谁升级、谁关闭，这些都是 ServiceNow 熟悉的流程。</p>
+
+<p>它不拥有核心交易记录，但它理解<strong>一个请求在企业里如何经过各个系统流转</strong>。</p>
+
+<p>在四层地图上，ServiceNow 的主战场是<strong>流程协调</strong>，同时向上去到<strong>治理安全层</strong>。agent 越多，越需要它。</p>
+
+<p><strong>Oracle 也站在核心执行一侧</strong>，但走的是不同路线。它用 <strong>Fusion Agentic Applications</strong> 打通数据库、应用云、OCI，做全栈 AI agent。在战略上，这是 SAP 路线的直接竞争者。</p>
+
+<p>但在德国大企业里，SAP 的 ERP 存量太深。Oracle 的核心执行叙事更多落地在自己的应用云客户群里。因此它在德国市场战略上是平台型玩家，实际影响力受限于存量。</p>
+
+<h3 id="快速定位场景型玩家">快速定位场景型玩家</h3>
+
+<p><strong>Salesforce</strong> 从<strong>部门任务</strong>切入（销售、客服、营销）。核心叙事 <strong>Agentforce</strong> + <strong>Data Cloud</strong>。翻译：在客户前台产生可见 ROI。天花板：连接后场交易（订单、库存、退款）的壁垒高。</p>
+
+<p><strong>Workday</strong> 也从<strong>部门任务</strong>切入（HCM）。核心叙事 <strong>Illuminate</strong> + <strong>Agent System of Record</strong>。翻译：在人和组织数据里做 AI 优化。在德国大企业里被 SAP SuccessFactors 覆盖。</p>
+
+<p>这六个玩家都会出现在最终地图上，各自占据不同的位置。用一张图把它们的分布串起来：</p>
+
+<figure class="article-image-figure">
+  <figcaption>Figure 02 · Player Positioning</figcaption>
+  <img src="../assets/images/enterprise-ai-player-positioning.svg" alt="Where are these six enterprise AI players positioned">
+</figure>
+
+<p>Microsoft 站在入口左侧，Salesforce 和 Workday 站在部门任务层，ServiceNow 卡在流程协调并向上延伸到治理安全，SAP 和 Oracle 站在核心执行右侧。它们不是从一个起点出发，但都试图用 AI 把自己的位置推得更远。</p>
+
+<h2 id="三-怎么判断谁的位置更有价值">三、怎么判断谁的位置更有价值？</h2>
+
+<p>有了地图和玩家的位置，怎么判断它们的价值差异？</p>
+
+<h3 id="需要一个更好的框架">需要一个更好的框架</h3>
+
+<p>按&quot;谁先赚钱&quot;来排会掉进陷阱：入口层最容易扩散，短期收入起得最快；核心执行层起量最慢。按短期 ROI 排，会误判长期格局。</p>
+
+<p>看&quot;谁最不可替代&quot;更接近本质，但忽略了另一个关键因素：<strong>就算你很重要，企业愿意为你付多少钱？</strong></p>
+
+<p>一个位置的价值，最终取决于两件事的乘积：</p>
+
+<h3 id="利润空间-切换成本">利润空间 × 切换成本</h3>
+
+<p><strong>利润空间</strong>：企业愿意为这个位置的 AI 付多少钱？</p>
+
+<ul>
+  <li>和销售业绩直接相关 → 企业愿意付高价</li>
+  <li>提升个人效率但不直接关联业绩 → 愿意付一点，但不多</li>
+  <li>解决&quot;必须解决&quot;的问题（合规、审计）→ 愿意付，但受预算约束</li>
+</ul>
+
+<p><strong>切换成本（替代难度）</strong>：别人替代你有多难？</p>
+
+<ul>
+  <li>数据独占性、集成深度、切换成本、生态锁定、信任积累</li>
+</ul>
+
+<p>所以这张坐标轴要分两层看。</p>
+
+<p>第一步，先把第一张图里的六个场景放进来：个人助手、部门任务、流程协调、核心执行，以及数据智能层和治理安全层，分别落在不同的利润空间和切换成本位置上。</p>
+
+<p>第二步，再把玩家放到同一张坐标轴上：公司不是抽象地&quot;强&quot;或&quot;弱&quot;，而是因为它占据了某个场景，才拥有对应的利润空间和替代壁垒。</p>
+
+<figure class="article-image-figure value-matrix-figure">
+  <figcaption>Figure 03 · Value Matrix</figcaption>
+  <div class="value-matrix-tabs">
+    <input type="radio" name="value-matrix-view" id="value-matrix-scenarios" checked>
+    <input type="radio" name="value-matrix-view" id="value-matrix-players">
+    <div class="value-matrix-stage">
+      <div class="value-matrix-track">
+        <div class="value-matrix-slide">
+          <img src="../assets/images/enterprise-ai-value-scenarios.svg" alt="The value of six enterprise AI scenarios mapped by profit pool and switching cost">
+        </div>
+        <div class="value-matrix-slide">
+          <img src="../assets/images/enterprise-ai-value-players.svg" alt="Enterprise AI players mapped by profit pool and switching cost">
+        </div>
+      </div>
+      <label class="value-matrix-nav value-nav-prev" for="value-matrix-scenarios" aria-label="Show scenario value view">‹</label>
+      <label class="value-matrix-nav value-nav-next" for="value-matrix-players" aria-label="Show player position view">›</label>
+    </div>
+    <div class="value-matrix-tabbar" aria-label="Value matrix views">
+      <label for="value-matrix-scenarios">Step 1 · 场景价值</label>
+      <label for="value-matrix-players">Step 2 · 玩家位置</label>
+    </div>
+  </div>
+</figure>
+
+<p><strong>右上角（利润空间大 × 护城河深）是长期商业价值最高的。</strong></p>
+
+<h3 id="逐个看">逐个看</h3>
+
+<p><strong>SAP（核心执行）</strong></p>
+
+<ul>
+  <li>利润空间：高。企业已为 ERP 付很高费用，AI 执行层可加附加费，但落地成本也高。</li>
+  <li>护城河：极高。ERP 替换成本是天价，业务语义不可复制，信任积累以十年为单位。</li>
+  <li>结论：长期商业价值最高之一，但利润兑现需要时间。</li>
+</ul>
+
+<p><strong>Microsoft（入口层）</strong></p>
+
+<ul>
+  <li>利润空间：存在不确定性。Copilot 定价仍在市场检验期，已有超过一年的商用数据，但企业续约率和溢价能力的可持续性尚未完全透明。入口有规模，但单价可能被压缩。</li>
+  <li>护城河：中高。Office/Teams 有习惯绑定；GitHub + VS Code + Copilot Studio 的开发者生态在入口和部门任务层提供了很强的扩展性，员工和 IT 部门可以快速部署预配置的 agent 模板。但这种生态优势在流程协调和核心执行层会衰减，因为企业不会让社区开发的 agent 触碰付款和库存。</li>
+  <li>结论：扩散最快，但利润空间和护城河都不如执行层。入口的真正优势在于可以向右走。</li>
+</ul>
+
+<p><strong>ServiceNow（流程协调 + 治理）</strong></p>
+
+<ul>
+  <li>利润空间：中高。ITSM/workflow 是企业预算内支出。agent 治理正在变刚需。</li>
+  <li>护城河：中高。workflow 集成深，真正的护城河是 agent 越多越需要一个控制面。需求密度在上升。</li>
+  <li>结论：位置上升最快的玩家。</li>
+</ul>
+
+<p><strong>Salesforce（场景型：客户收入）</strong></p>
+
+<ul>
+  <li>利润空间：极高。销售 AI 直接关联收入，高现金流位置。</li>
+  <li>护城河：高。CRM 数据积累 + 销售流程深度绑定。</li>
+  <li>结论：在自己的战场里价值极高，但要连接后场才能进入更大地图。</li>
+</ul>
+
+<p><strong>Workday（场景型：HCM）</strong></p>
+
+<ul>
+  <li>利润空间：高。HCM 是核心系统，含敏感数据。</li>
+  <li>护城河：高。组织数据敏感，替换成本高。</li>
+  <li>结论：局部高价值玩家，在自己的域里非常稳固。</li>
+</ul>
+
+<h2 id="四-它们的叙事能实现吗-牌局分析">四、它们的叙事能实现吗？牌局分析</h2>
+
+<p>有了地图和位置估值，最后一层：<strong>每家的 AI 叙事放在市场和竞争对手的动作下来看，哪些部分可以实现的，哪些需要特定条件，哪些可能不成立？</strong></p>
+
+<h3 id="sap-想成为-受控的核心执行层">SAP：想成为&quot;受控的核心执行层&quot;</h3>
+
+<p><strong>叙事：</strong> Autonomous Enterprise。让 AI 在受控条件下触碰订单、发票、库存这些核心业务对象。</p>
+
+<p><strong>SAP 手里的牌 / 缺的牌：</strong></p>
+
+<ul>
+  <li>✅ 核心交易数据（订单、发票、库存、供应商）：最稀缺的资产</li>
+  <li>✅ 企业语义层（Knowledge Graph）：理解业务对象之间的关系</li>
+  <li>✅ 治理和审计基础设施、客户信任</li>
+  <li>❌ 员工日常入口：缺在 <strong>Microsoft</strong> 手里</li>
+  <li>❌ 跨系统连接力：前场在 <strong>Salesforce</strong>、workflow 在 <strong>ServiceNow</strong> 手里</li>
+  <li>❌ 快速迭代的文化</li>
+</ul>
+
+<p><strong>可行性：</strong></p>
+
+<ul>
+  <li><strong>可实现的：</strong> &quot;AI 触碰核心业务对象&quot;基本盘非常现实。没有其他公司能替代 SAP 的核心交易数据。</li>
+  <li><strong>需要特定条件的：</strong> &quot;成为企业 AI 的默认执行层&quot;需要补入口和跨系统连接力。可以通过开放 API、深度集成、收购来补，但需要时间。</li>
+  <li><strong>困难的：</strong> 对于非 SAP 强绑定的企业，SAP 需要借 Microsoft 的入口来触达用户。员工不会主动打开 SAP 使用 AI。但在 SAP 存量客户中，尤其是德国大企业，员工通过 Fiori、SAP Start、Joule 使用 AI 是真实场景。入口问题在存量客户中影响较小，在新客获取中是结构性阻力。</li>
+</ul>
+
+<p><strong>判断：基本盘稳固（高），扩张受限于速度和入口依赖（中低）。</strong></p>
+
+<h3 id="microsoft-想成为-默认-ai-入口-横向-agent-平台">Microsoft：想成为&quot;默认 AI 入口 + 横向 agent 平台&quot;</h3>
+
+<p><strong>叙事：</strong> Copilot。让 AI 成为员工的工作界面，并通过 Copilot Studio 成为企业 agent 运行平台。</p>
+
+<p><strong>Microsoft 手里的牌 / 缺的牌：</strong></p>
+
+<ul>
+  <li>✅ 员工使用频率：人每天在 Outlook、Teams、Office 里工作</li>
+  <li>✅ 身份安全（Entra）、云（Azure）、开发者生态（GitHub、VS Code、Copilot Studio）</li>
+  <li>✅ 数据平台（Fabric、Purview）、定价杠杆（Office 365 订阅通道）</li>
+  <li>❌ 核心业务事实：缺在 <strong>SAP</strong> 手里</li>
+  <li>❌ 流程执行治理权限：缺在 <strong>ServiceNow</strong> 手里</li>
+  <li>❌ 特定业务域的深度语义：缺在 <strong>SAP</strong> 手里</li>
+</ul>
+
+<p><strong>需要单独说的是 Microsoft 的 developer ecosystem。</strong></p>
+
+<p>GitHub + VS Code + Copilot Studio 覆盖的不仅是企业 IT 部门，还有全世界的独立开发者。这在入口和部门任务层是其他厂商无法企及的护城河。</p>
+
+<p>这里的优势很具体：员工可以自己找 agent 模板用，IT 部门可以快速部署预配置流程。</p>
+
+<p>但到了流程协调和核心执行层，第三方生态的价值会大幅衰减。企业不会让社区开发的 agent 触碰付款和库存。</p>
+
+<p><strong>可行性：</strong></p>
+
+<ul>
+  <li><strong>可实现的：</strong> &quot;AI 成为默认工作入口&quot;几乎确定能实现。入口层准入成本几乎为零。</li>
+  <li><strong>需要特定条件的：</strong> &quot;成为横向 agent 平台&quot;取决于能否连接到 SAP、ServiceNow 的数据和流程。Microsoft 可以通过 API 和集成&quot;借用&quot;数据，但对方愿不愿意开放是个问题。SAP 没有很强动机让 Microsoft 成为自己的 AI 入口。</li>
+  <li><strong>困难的：</strong> 让 AI 触碰核心交易数据的执行权限。目前还没有公开客户案例证明 Microsoft agent 直接操作了核心财务或供应链流程。这条鸿沟可能通过深度合作逐步缩小，SAP 和 Microsoft 之间也已有 agent-to-agent 互操作的探索。但不能假设它会自动弥合，因为 SAP 缺乏开放执行权限的动机。如果核心事实和权限始终在 SAP 那里，Microsoft 的 agent 平台就是搭在别人地基上的入口。入口有价值，但入口不是控制权。</li>
+</ul>
+
+<p><strong>判断：入口确定能成（高），agent 平台取决于集成深度（中），触碰执行权限当前未验证（低到中，取决于合作深度）。利润空间存疑。</strong></p>
+
+<h3 id="servicenow-想成为-agent-治理的控制塔">ServiceNow：想成为&quot;agent 治理的控制塔&quot;</h3>
+
+<p><strong>叙事：</strong> AI Control Tower。当企业里出现几十上百个 agent，需要人来创建、批准、监控、审计、停掉它们。</p>
+
+<p><strong>ServiceNow 手里的牌 / 缺的牌：</strong></p>
+
+<ul>
+  <li>✅ 请求→审批→审计的完整链路：天然适合&quot;管理 agent&quot;</li>
+  <li>✅ ITSM 和员工服务覆盖、跨系统 workflow 可见性</li>
+  <li>✅ 位置天然会随 agent 增长而增值</li>
+  <li>❌ 核心交易记录：缺在 <strong>SAP</strong> 手里</li>
+  <li>❌ 入口层用户黏性</li>
+  <li>❌ agent&quot;身份/角色/预算&quot;定义：<strong>Workday</strong> 也在争（但 Workday 的公开材料有限，这个判断置信度中等，需持续跟踪）</li>
+</ul>
+
+<p><strong>可行性：</strong></p>
+
+<ul>
+  <li><strong>可实现的：</strong> &quot;管 agent&quot;本身。当企业从 10 个 agent 到 1000 个时，必然有人来管。这是刚需。</li>
+  <li><strong>需要特定条件的：</strong> 跨系统的 agent 治理需要深入连接 SAP 的核心交易数据。这取决于 SAP 是否开放接口。</li>
+  <li><strong>困难的：</strong> 和 Workday 争夺&quot;agent 身份定义权&quot;。Workday 的 Agent System of Record 正在把 HCM 逻辑延伸到 agent。如果成功，两者会直接争夺&quot;谁来决定 agent 能做什么&quot;这个问题。</li>
+</ul>
+
+<p>在所有三家里，ServiceNow 的叙事在短期内（2-3 年）路径最清晰。它不要求从别人手里抢牌，只需要&quot;agent 治理成为刚需&quot;这个趋势变成现实。</p>
+
+<p>但这个趋势的确定性在 5 年以上的时间窗口里会下降，因为 Workday 和 Microsoft 可能平行进入这个市场。</p>
+
+<p>ServiceNow 的核心挑战不是&quot;能不能实现&quot;，而是<strong>能不能在被 Workday 或 Microsoft 吃掉一部分之前，先把治理层标准定义下来</strong>。</p>
+
+<p><strong>判断：短期路径明确（高），长期不确定性上升（中）。依赖 SAP 开放度（中），面临 Workday 同时争夺（中）。位置上升趋势明确。</strong></p>
+
+<h3 id="牌局总结">牌局总结</h3>
+
+<figure class="article-image-figure">
+  <figcaption>Figure 04 · Strategic Card Table</figcaption>
+  <img src="../assets/images/enterprise-ai-card-game-summary.svg" alt="Strategic card table summary for enterprise AI players">
+</figure>
+
+<p>这里有一个贯穿的结构性矛盾：<strong>越有价值的核心执行位置，越难获得执行授权。</strong> 这就是为什么 Microsoft 落地最快但最脆弱，SAP 最慢但最稳固。不要用&quot;谁先跑起来&quot;来判断&quot;谁能跑到最后&quot;。</p>
+
+<p>还有一个德国市场特有的因素：<strong>EU AI Act 将于 2026 年 8 月起逐步执行</strong>，对高风险的 AI 执行场景提出明确的合规要求。</p>
+
+<p>这会进一步抬高执行层的准入门槛。短期有利于 SAP（合规体系最成熟），中期有利于 ServiceNow（合规治理平台的定位），对 Microsoft 的入口层直接影响较小。</p>
+
+<h2 id="五-最终地图">五、最终地图</h2>
+
+<p>收拢所有线索，这张最终地图要按四步读：</p>
+
+<ol>
+  <li>先看企业 AI 不是一个市场，而是多个执行位置叠在一起。</li>
+  <li>再看玩家不是从同一个起点出发，而是从自己的原生优势向外扩张。</li>
+  <li>接着用&quot;利润空间 × 切换成本&quot;判断哪个位置更有长期价值。</li>
+  <li>最后回到牌局：谁手里有牌，谁缺牌，谁需要别人授权，谁会被监管抬高门槛。</li>
+</ol>
+
+<figure class="article-image-figure final-map-deck">
+  <figcaption>Figure 05 · Final Reasoning Map</figcaption>
+  <div class="final-map-tabs">
+    <input type="radio" name="final-map-view" id="final-map-step-1" checked>
+    <input type="radio" name="final-map-view" id="final-map-step-2">
+    <input type="radio" name="final-map-view" id="final-map-step-3">
+    <input type="radio" name="final-map-view" id="final-map-step-4">
+    <div class="final-map-stage">
+      <section class="final-map-slide final-step-1">
+        <img src="../assets/images/enterprise-ai-six-scenarios.png" alt="The six scenarios of enterprise AI">
+        <p><strong>Step 1.</strong> 先拆市场：企业 AI 不是一个入口市场，而是四个执行位置加两个底座。</p>
+      </section>
+      <section class="final-map-slide final-step-2">
+        <img src="../assets/images/enterprise-ai-player-positioning.svg" alt="Enterprise AI player positioning map">
+        <p><strong>Step 2.</strong> 再看玩家：SAP、Microsoft、ServiceNow 不是同赛道起跑，而是从各自系统优势向外推。</p>
+      </section>
+      <section class="final-map-slide final-step-3">
+        <img src="../assets/images/enterprise-ai-value-players.svg" alt="Enterprise AI value matrix by players">
+        <p><strong>Step 3.</strong> 判断价值：长期商业价值取决于利润空间和护城河的乘积，右上角最值得追踪。</p>
+      </section>
+      <section class="final-map-slide final-step-4">
+        <img src="../assets/images/enterprise-ai-card-game-summary.svg" alt="Strategic card table summary for enterprise AI players">
+        <p><strong>Step 4.</strong> 回到牌局：越接近核心执行，越值钱，也越依赖授权、治理、审计和合规。</p>
+      </section>
+    </div>
+    <div class="final-map-tabbar" aria-label="Final reasoning map views">
+      <label for="final-map-step-1">1 市场结构</label>
+      <label for="final-map-step-2">2 玩家位置</label>
+      <label for="final-map-step-3">3 价值判断</label>
+      <label for="final-map-step-4">4 牌局结论</label>
+    </div>
+  </div>
+</figure>
+
+<p>这张地图上还有 Salesforce（客户收入流程）、Workday（HCM）、Oracle（全栈替代路线，但德国市场受限于 SAP 存量）。</p>
+
+<p>它们在各自的场景里有极高价值，但不争全企业控制面。</p>
+
+<h3 id="你带着这张图可以做什么">你带着这张图可以做什么</h3>
+
+<p>以后看到任何一个新的企业 AI 叙事：</p>
+
+<ol>
+  <li><strong>定位</strong>：它在四层的哪一层？</li>
+  <li><strong>评估利润空间</strong>：企业愿意为这个场景付多少钱？</li>
+  <li><strong>评估切换成本</strong>：替换这家公司需要迁移多少数据、流程、权限、集成和组织习惯？</li>
+  <li><strong>判断扩展性</strong>：它能自然延伸到更有价值的地方吗？要注意护城河的优势域。在一个层强，不等于在另一个层也强。</li>
+  <li><strong>检查牌局</strong>：它的叙事要成真，需要什么？已经有了什么？缺的牌在谁手里？哪些部分是可以实现的、哪些需要特定条件、哪些可能不成立？</li>
+</ol>
+
+<p>这张地图不是一个信息合集。它是一个判断工具。</p>
+
+<h2 id="takeaways">Takeaways</h2>
+
+<div class="conclusion-list">
+  <div class="conclusion-item">
+    <div class="conclusion-code">01</div>
+    <div class="conclusion-text"><strong>企业 AI 不是同一个市场。</strong> 个人助手、部门任务、流程协调、核心执行，加上数据智能和治理安全两个底座，每个位置的风险、价值、落地速度和护城河都不同。</div>
+  </div>
+  <div class="conclusion-item">
+    <div class="conclusion-code">02</div>
+    <div class="conclusion-text"><strong>玩家不是从同一个起点出发。</strong> SAP 从核心执行出发，Microsoft 从入口出发，ServiceNow 从流程协调出发。它们的 AI 叙事是用 AI 把自己原有的优势往外推一格。每家的叙事都可以在它们的官方话语里找到源头：Autonomous Enterprise、Copilot、AI Control Tower。</div>
+  </div>
+  <div class="conclusion-item">
+    <div class="conclusion-code">03</div>
+    <div class="conclusion-text"><strong>判断位置价值的标准：利润空间 × 切换成本。</strong> 能赚多少钱 × 替换它有多难。按这个标准，SAP 和 Salesforce 在各自的位置上都有极高的长期价值，只是它们争的东西不同。</div>
+  </div>
+  <div class="conclusion-item">
+    <div class="conclusion-code">04</div>
+    <div class="conclusion-text"><strong>牌局分析的核心发现：</strong> SAP 基本盘最稳，入口问题在存量客户中影响较小但在新客中是结构性阻力。Microsoft 入口能成，但触碰执行权限当前未验证，利润空间仍在检验期，developer ecosystem 的优势域在入口和部门层而非执行层。ServiceNow 短期路径最清晰，但长期不确定性随 Workday 和 Microsoft 的进入而上升。EU AI Act 会进一步抬高执行层的准入门槛。越有价值的执行位置越难获得执行授权。</div>
+  </div>
+  <div class="conclusion-item">
+    <div class="conclusion-code">05</div>
+    <div class="conclusion-text"><strong>几个开放问题值得跟踪：</strong> Workday 和 ServiceNow 在 agent 管理上的边界（目前公开信息有限，这个判断置信度中等）；数据平台公司会不会吃掉&quot;数据智能层&quot;；入口层的定价权到底多大。</div>
+  </div>
+  <div class="conclusion-item">
+    <div class="conclusion-code">06</div>
+    <div class="conclusion-text"><strong>最后要看的不是发布会声量，而是系统位置：</strong> 谁掌握业务事实，谁理解业务语义，企业愿为谁付高价，谁能被企业授权执行，以及谁手里缺的牌在别人那里。这些决定了谁在牌桌上。</div>
+  </div>
+</div>
+
+      </div>
+      <aside class="toc-panel">
+        <div class="toc-inner" id="toc"></div>
+      </aside>
+    </div>
+
+  </div>
+    </div>
+
+  </div>
+
+  <script src="../config.js?v=20260607-map-asset"></script>
+  <script src="../assets/script.js?v=20260607-map-asset"></script>
+</body>
+</html>

@@ -1,3 +1,17 @@
+---
+title: Profit Model & Transformation
+短标题: Profit Model
+description: Drawing on five years of financial data, this report analyzes SAP's revenue structure evolution, growth divergence within Cloud, and the preconditions for the cloud transition value thesis to hold.
+type: ""
+status: published
+category: Profit Model
+tags:
+  - Financials
+  - Cloud Transition
+  - Business Model
+created: 2026-05-14
+---
+
 # SAP 公司研究 · 主题 1：盈利结构、客户迁移与 AI/Data 战略转型
 
 状态：截至 2026-05-14

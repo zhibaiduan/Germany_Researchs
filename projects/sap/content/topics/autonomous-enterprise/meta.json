@@ -1,0 +1,21 @@
+{
+  "id": "P1M5",
+  "slug": "autonomous-enterprise",
+  "canonicalLang": "zh",
+  "status": "published",
+  "content": {
+    "source": {
+      "zh": "zh.md"
+    },
+    "generated": {
+      "zh": "../../../../topics/autonomous-enterprise.html"
+    }
+  },
+  "translation": {},
+  "display": {
+    "template": "article",
+    "toc": true,
+    "showSources": true,
+    "showReadingProgress": false
+  }
+}

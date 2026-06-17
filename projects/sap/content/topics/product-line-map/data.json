@@ -1,0 +1,252 @@
+{
+  "researchWindow": "2025-2026",
+  "mapModel": {
+    "xAxis": "收入贡献 / 商业体量",
+    "yAxis": "战略重要度 / 未来关键性",
+    "cardSize": "收入贡献",
+    "cardColor": "战略重要度光谱",
+    "purpose": "把 SAP 产品线作为收入迁移、客户锁定、平台控制和 AI/Data 增长系统来阅读，而不是作为产品目录来阅读。"
+  },
+  "disclosureRules": {
+    "hardNumber": "SAP 官方直接披露的收入数字，例如 Cloud ERP Suite。",
+    "companyLevelNumber": "SAP 只披露到公司级或大类口径，例如 Cloud、Cloud and software、Services、license/support。",
+    "notSeparatelyDisclosed": "SAP 不按该产品线完整披露收入，只能使用相对体量、战略角色和市场证据标注。",
+    "earlyStage": "新产品或嵌入式能力，当前收入数字不足以代表战略价值，例如 BDC、Joule、Agents。"
+  },
+  "marketTierTaxonomy": [
+    "近似垄断 / 存量极深",
+    "第一梯队 / 明显领先",
+    "第一梯队 / 与第二名差距不大",
+    "第二梯队 / 能追赶第一",
+    "第二梯队 / 短期追赶困难",
+    "弱于第一梯队",
+    "新进入 / 市场地位待验证"
+  ],
+  "coreFrames": [
+    {
+      "name": "逻辑关系框架",
+      "flow": ["业务应用层", "平台层", "数据层", "AI 层"],
+      "meaning": "业务应用产生企业事实，BTP 承接连接和扩展，BDC 统一业务语义，Joule/Agents 进入流程执行。"
+    },
+    {
+      "name": "战略意义框架",
+      "flow": ["Legacy 推力", "云订阅核心", "护城河加深", "ARPU 提升"],
+      "meaning": "SAP 用 ECC/on-prem 存量制造迁移压力，用 Cloud ERP Suite 承接云收入，再用 BTP、BDC 和 Business AI 提高长期客单价。"
+    }
+  ],
+  "strategicRoles": [
+    "现金牛",
+    "护城河",
+    "平台控制点",
+    "增长引擎",
+    "迁移推力",
+    "边缘维持",
+    "法规驱动线"
+  ],
+  "products": [
+    {
+      "id": "cloud-erp",
+      "name": "Cloud ERP Suite",
+      "revenueScore": 96,
+      "strategicScore": 96,
+      "revenueScale": 5,
+      "architectureLayer": "业务应用层",
+      "strategicRole": "现金牛",
+      "revenueLabel": "€18.119B",
+      "revenueDisclosure": "官方披露，2025 Cloud ERP Suite",
+      "marketTier": "第一梯队 / 复杂企业 ERP 领先",
+      "sapPosition": "SAP 的收入和迁移命脉",
+      "revenueContribution": "2025 年 Cloud ERP Suite 收入 EUR 18.119B"
+    },
+    {
+      "id": "ecc",
+      "name": "ECC / On-premise",
+      "revenueScore": 74,
+      "strategicScore": 28,
+      "revenueScale": 4,
+      "architectureLayer": "Legacy 层",
+      "strategicRole": "迁移推力",
+      "revenueLabel": "未单列",
+      "revenueDisclosure": "传统 license/support 为公司级口径，不能直接拆到 ECC",
+      "marketTier": "存量近似垄断 / 新增战略下降",
+      "sapPosition": "短期仍有现金和服务价值，长期战略地位下降",
+      "revenueContribution": "传统 license/support 仍贡献现金流，但不再是未来增长口径"
+    },
+    {
+      "id": "finance",
+      "name": "Financial Management",
+      "revenueScore": 82,
+      "strategicScore": 86,
+      "revenueScale": 4,
+      "architectureLayer": "业务应用层",
+      "strategicRole": "护城河",
+      "revenueLabel": "未单列",
+      "revenueDisclosure": "通常并入 Cloud ERP Suite / S/4HANA 合同",
+      "marketTier": "第一梯队 / 与 Oracle 接近",
+      "sapPosition": "ERP 核心中的核心",
+      "revenueContribution": "通常包含在 Cloud ERP Suite 和 S/4HANA 迁移项目中"
+    },
+    {
+      "id": "spend",
+      "name": "Spend Management",
+      "revenueScore": 72,
+      "strategicScore": 78,
+      "revenueScale": 4,
+      "architectureLayer": "业务应用层",
+      "strategicRole": "护城河",
+      "revenueLabel": "未单列",
+      "revenueDisclosure": "Ariba、Concur、Fieldglass 不再按产品完整披露",
+      "marketTier": "细分第一 / 但第二梯队很强",
+      "sapPosition": "SAP 云应用外围主力之一",
+      "revenueContribution": "未完整单独披露，是 Cloud ERP Suite 周边重要贡献源"
+    },
+    {
+      "id": "hcm",
+      "name": "SuccessFactors / HCM",
+      "revenueScore": 66,
+      "strategicScore": 74,
+      "revenueScale": 3,
+      "architectureLayer": "业务应用层",
+      "strategicRole": "护城河",
+      "revenueLabel": "未单列",
+      "revenueDisclosure": "SuccessFactors 属于核心云应用组合，SAP 不完整拆分收入",
+      "marketTier": "第一梯队 / 常被 Workday 压一头",
+      "sapPosition": "SAP 云收入支柱之一",
+      "revenueContribution": "未完整单独披露，属于核心云应用组合"
+    },
+    {
+      "id": "supply-chain",
+      "name": "Supply Chain Management",
+      "revenueScore": 62,
+      "strategicScore": 80,
+      "revenueScale": 3,
+      "architectureLayer": "业务应用层",
+      "strategicRole": "护城河",
+      "revenueLabel": "未单列",
+      "revenueDisclosure": "SCM 模块通常嵌入行业转型和 S/4HANA 项目",
+      "marketTier": "第一梯队 / 多强竞争",
+      "sapPosition": "对制造业和德国 B2B 语境非常重要",
+      "revenueContribution": "未单独完整披露，常嵌入大型 S/4HANA 与行业转型项目"
+    },
+    {
+      "id": "btp",
+      "name": "Business Technology Platform",
+      "revenueScore": 56,
+      "strategicScore": 92,
+      "revenueScale": 3,
+      "architectureLayer": "平台层",
+      "strategicRole": "平台控制点",
+      "revenueLabel": "未单列",
+      "revenueDisclosure": "BTP 多数能力随 RISE/GROW、Business Suite 和扩展项目销售",
+      "marketTier": "SAP 生态内强势 / 通用平台不领先",
+      "sapPosition": "云时代生态控制层",
+      "revenueContribution": "未作为单独大收入线完整披露，常被打包进迁移和扩展项目"
+    },
+    {
+      "id": "bdc",
+      "name": "Business Data Cloud",
+      "revenueScore": 30,
+      "strategicScore": 90,
+      "revenueScale": 2,
+      "architectureLayer": "数据层",
+      "strategicRole": "增长引擎",
+      "revenueLabel": "早期",
+      "revenueDisclosure": "2025 推出，尚无可用独立收入数字",
+      "marketTier": "新进入 / 追赶 Snowflake、Databricks",
+      "sapPosition": "新战略核心，当前收入小于战略意义",
+      "revenueContribution": "2025 年新推出，当前收入贡献仍低"
+    },
+    {
+      "id": "business-ai",
+      "name": "Business AI / Joule",
+      "revenueScore": 24,
+      "strategicScore": 96,
+      "revenueScale": 2,
+      "architectureLayer": "AI 层",
+      "strategicRole": "增长引擎",
+      "revenueLabel": "早期",
+      "revenueDisclosure": "Joule/Agents 多嵌入套件或按高级能力变现",
+      "marketTier": "新进入 / 追赶 Copilot 等",
+      "sapPosition": "未来差异化赌注",
+      "revenueContribution": "当前直接收入低，很多能力嵌入或绑定在套件里"
+    },
+    {
+      "id": "business-network",
+      "name": "Business Network",
+      "revenueScore": 58,
+      "strategicScore": 82,
+      "revenueScale": 3,
+      "architectureLayer": "网络 / 流程层",
+      "strategicRole": "护城河",
+      "revenueLabel": "未单列",
+      "revenueDisclosure": "网络收入未完整披露，通常支撑 Spend 与供应链云业务",
+      "marketTier": "B2B 网络第一梯队",
+      "sapPosition": "采购和供应链云业务的网络效应支撑",
+      "revenueContribution": "收入未单独完整披露，但对 Spend 与供应链云业务有强支撑"
+    },
+    {
+      "id": "signavio",
+      "name": "SAP Signavio",
+      "revenueScore": 32,
+      "strategicScore": 70,
+      "revenueScale": 2,
+      "architectureLayer": "流程转型层",
+      "strategicRole": "平台控制点",
+      "revenueLabel": "未单列",
+      "revenueDisclosure": "2021 收购后收入不作为主要独立口径披露",
+      "marketTier": "第二梯队 / 追赶 Celonis",
+      "sapPosition": "S/4HANA 迁移和 clean core 的前置诊断层",
+      "revenueContribution": "收入贡献中低，战略价值体现在转型项目前置"
+    },
+    {
+      "id": "sustainability",
+      "name": "Sustainability Management",
+      "revenueScore": 22,
+      "strategicScore": 58,
+      "revenueScale": 1,
+      "architectureLayer": "业务应用层",
+      "strategicRole": "法规驱动线",
+      "revenueLabel": "小",
+      "revenueDisclosure": "未单列，当前收入贡献较低",
+      "marketTier": "分散市场 / 未形成垄断",
+      "sapPosition": "长期法规驱动线",
+      "revenueContribution": "当前收入贡献较低，但法规会持续制造需求"
+    },
+    {
+      "id": "cx",
+      "name": "Customer Experience",
+      "revenueScore": 36,
+      "strategicScore": 38,
+      "revenueScale": 2,
+      "architectureLayer": "业务应用层",
+      "strategicRole": "边缘维持",
+      "revenueLabel": "未单列",
+      "revenueDisclosure": "CX 收入不作为 SAP 核心增长口径突出披露",
+      "marketTier": "弱于第一梯队",
+      "sapPosition": "非核心，更多作为 Business Suite 的业务域补充",
+      "revenueContribution": "未单独披露完整收入，战略权重较弱"
+    },
+    {
+      "id": "sme",
+      "name": "SME Products",
+      "revenueScore": 28,
+      "strategicScore": 30,
+      "revenueScale": 1,
+      "architectureLayer": "SME / 边缘层",
+      "strategicRole": "边缘维持",
+      "revenueLabel": "未单列",
+      "revenueDisclosure": "Business One / ByDesign / GROW 未按这个组合披露",
+      "marketTier": "区域/客群型竞争",
+      "sapPosition": "解释 SAP 的下沉路径，但不是未来主线",
+      "revenueContribution": "收入贡献低到中低，部分产品有稳定客户"
+    }
+  ],
+  "sourceNotes": [
+    "SAP 2025 Integrated Report",
+    "SAP Business Suite product page",
+    "SAP Business AI Q1 2026 release highlights",
+    "SAP Business Data Cloud launch announcement",
+    "SAP maintenance strategy for Business Suite 7",
+    "Wiki-SAP-Autonomous-Enterprise-综述.md Q8 五层战略价值地图"
+  ]
+}
