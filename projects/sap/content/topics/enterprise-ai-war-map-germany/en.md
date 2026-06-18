@@ -1,10 +1,10 @@
 ---
 title: "SAP, Microsoft, and ServiceNow Are All Building Enterprise AI: A Map of What They Are Really Competing For"
-短标题: "AI War Map · Germany"
+短标题: "Enterprise AI Competitive Landscape"
 description: "A Germany-focused map of enterprise AI competition across personal assistants, departmental tasks, process orchestration, core execution, data intelligence, and governance."
 type: ""
 status: published
-category: "AI War Map · Germany"
+category: "Enterprise AI Competitive Landscape"
 tags:
   - Enterprise AI
   - Germany
